@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  first_name: MyString
+  last_name: MyString
+  personal_number: MyString
+  rfid_number: MyString
+  barcode_number: MyString
+  datetime: 
+  boolean: 
+  union_member: false
+
+two:
+  first_name: MyString
+  last_name: MyString
+  personal_number: MyString
+  rfid_number: MyString
+  barcode_number: MyString
+  datetime: 
+  boolean: 
+  union_member: false

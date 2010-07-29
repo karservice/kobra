@@ -15,7 +15,7 @@ class Visitor < ActiveRecord::Base
   def self.sync_from_students
     self.all.each do |visitor|
       if student = Student.where(:personal_number => visitor.personal_number).first
-        visitor.set_attributes_from_student!(student)
+        visitor.set_attributes_from_student(student)
         visitor.save
       end
     end

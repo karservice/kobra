@@ -10,7 +10,47 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100729105313) do
+ActiveRecord::Schema.define(:version => 20100729181650) do
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "events", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "registration_batches", :force => true do |t|
+    t.string   "note"
+    t.text     "data"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "imported_at"
+  end
+
+  create_table "registrations", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "visitor_id"
+    t.integer  "registration_batch_id"
+    t.string   "note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "students", :force => true do |t|
     t.string   "first_name"
@@ -18,9 +58,23 @@ ActiveRecord::Schema.define(:version => 20100729105313) do
     t.string   "personal_number"
     t.string   "rfid_number"
     t.string   "barcode_number"
+    t.string   "email"
     t.datetime "expire_at"
     t.boolean  "blocked"
     t.boolean  "union_member"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "students", ["first_name", "last_name", "personal_number", "rfid_number", "barcode_number", "email"], :name => "search_index", :unique => true
+
+  create_table "visitors", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "personal_number"
+    t.string   "rfid_number"
+    t.string   "barcode_number"
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

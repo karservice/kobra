@@ -2,7 +2,7 @@ class Student < ActiveRecord::Base
   scope :search, lambda { |keyword|
       # Searchable keys
       # These keys should have an index in the database for performance
-      keys = [:first_name, :last_name, :personal_number, :rfid_number, :barcode_number]
+      keys = [:first_name, :last_name, :personal_number, :rfid_number, :barcode_number, :email]
       
       if not keyword.to_s.strip.empty?
         # Handle different personal number styles

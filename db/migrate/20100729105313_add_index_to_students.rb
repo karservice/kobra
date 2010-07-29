@@ -1,7 +1,7 @@
 class AddIndexToStudents < ActiveRecord::Migration
   def self.up
     add_index :students, 
-      [:first_name, :last_name, :personal_number, :rfid_number, :barcode_number],
+      [:first_name, :last_name, :personal_number, :rfid_number, :barcode_number, :email],
       :name => 'search_index',
       :unique => true
   end

@@ -1,3 +1,10 @@
+GIT
+  remote: http://github.com/collectiveidea/delayed_job.git
+  revision: b983b7e
+  specs:
+    delayed_job (2.1.0.pre)
+      daemons
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -31,6 +38,7 @@ GEM
     arel (0.4.0)
       activesupport (>= 3.0.0.beta)
     builder (2.1.2)
+    daemons (1.1.0)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     i18n (0.4.1)
@@ -69,5 +77,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  delayed_job!
   rails (= 3.0.0.rc)
   sqlite3-ruby

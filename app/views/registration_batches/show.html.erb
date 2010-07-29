@@ -1,0 +1,10 @@
+<h1><%= @event %></h1>
+
+<p style="width: 40em;">
+  <%= label :registration_batch, 'Data' %><br />
+  <%= text_area :registration_batch, :data %>
+</p>
+
+<p>
+  <%= link_to 'Tillbaka', event_registration_batches_path(@event) %>
+</p>

@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @event.title %></h1>
+
+<p>
+  <%= @event.description %>
+</p>
+
+
+<%= link_to 'Hantera besökare', event_registration_batches_path(@event) %> |
+<%= link_to 'Ändra', edit_event_path(@event) %> |
+<%= link_to 'Tillbaka', events_path %>

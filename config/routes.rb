@@ -1,4 +1,9 @@
 Linticket::Application.routes.draw do
+  resources :events do
+    resources :attendees
+    resources :registration_batches
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

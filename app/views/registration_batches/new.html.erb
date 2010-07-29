@@ -1,0 +1,25 @@
+<%= form_for([@event, @registration_batch]) do |f| %>
+  <% if @registration_batch.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@registration_batch.errors.count, "error") %> prohibited this registration batch from being saved:</h2>
+
+      <ul>
+      <% @registration_batch.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="field">
+    <%= f.label :note %><br />
+    <%= f.text_field :note %>
+  </div>
+  <div class="field">
+    <%= f.label :data %><br />
+    <%= f.text_area :data %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

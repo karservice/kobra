@@ -1,0 +1,18 @@
+<h1><%= @event %></h1>
+
+<p><%= link_to 'Lägg in besökare', new_event_registration_batch_path(@event)%></p>
+
+<table>
+  <tr>
+    <th>Kommentar</th>
+    <th>Antal registreringar</th>
+  </tr>
+  <% for batch in @registration_batches do %>
+  <tr>
+    <td><%= link_to batch.note, [@event, batch] %></td>
+    <td><%= batch.registrations.count %></td>
+  </tr>
+  <% end %>
+</table>
+
+<p><%= link_to 'Tillbaka', event_path(@event) %></p>

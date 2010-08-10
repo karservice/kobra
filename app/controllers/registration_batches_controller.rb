@@ -8,11 +8,30 @@ class RegistrationBatchesController < ApplicationController
   
   def show
     @registration_batch = @event.registration_batches.find(params[:id])
-    @visitors = @registration_batch.visitors
+  end
+  
+  def data
+    @registration_batch = @event.registration_batches.find(params[:id])
   end
   
   def new
     @registration_batch = RegistrationBatch.new
+  end
+  
+  def generate_tickets
+    @registration_batch = @event.registration_batches.find(params[:id])
+    @registration_batch.ticket_type = TicketType.find(params[:ticket_type][:id])
+    # FIXME Ugly as hell
+    tickets_before = @registration_batch.tickets.count
+    @registration_batch.generate_tickets
+    tickets_after = @registration_batch.tickets.count
+    if tickets_after > tickets_before
+      notice = "Biljetter genererade"
+    else
+      notice = "Gick ej att generera biljetter"
+    end
+    
+    redirect_to(event_registration_batches_path(@event), :notice => "Biljetter genererade")
   end
   
   def create

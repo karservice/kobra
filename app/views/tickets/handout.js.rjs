@@ -1,0 +1,1 @@
+page[@ticket].replace_html :text => "<strong>#{@ticket} utlämnad!</strong>"

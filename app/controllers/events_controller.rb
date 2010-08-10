@@ -68,4 +68,13 @@ class EventsController < ApplicationController
       end
     end
   end
+  
+  def sale
+    @event = Event.find(params[:id])
+    @visitor = Visitor.new
+  end
+  
+  def handout
+    @event = Event.find(params[:id])
+  end
 end

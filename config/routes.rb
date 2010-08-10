@@ -1,7 +1,27 @@
 Linticket::Application.routes.draw do
   resources :events do
-    resources :attendees
-    resources :registration_batches
+    member do
+      get :sale
+      get :handout
+    end
+    resources :registration_batches do
+      member do
+        post :generate_tickets
+        get :data
+      end
+      resources :visitors do
+        post :search
+      end
+    end
+    resources :visitors do
+      post :search
+    end
+    resources :ticket_types
+    resources :tickets do
+      member do
+        put :handout
+      end
+    end
   end
 
   # The priority is based upon order of creation:
@@ -53,7 +73,7 @@ Linticket::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => "events#index"
 
   # See how all your routes lay out with "rake routes"
 

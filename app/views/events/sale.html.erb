@@ -1,0 +1,15 @@
+<%= link_to 'Tillbaka', @event %>
+
+<h1>Försäljning för <%= @event %></h1>
+
+<!-- Sök student -->
+<%= form_for(:visitor, :url => search_event_visitor_path(@event), :remote => true) do |f| %>
+  <%= f.text_field :query %>
+  <%= f.submit "Sök efter student" %>
+<% end %>
+
+<p>eller knappa in manuellt</p>
+
+<%= render :partial => 'visitors/form' %>
+
+<div id="results"></div>

@@ -1,0 +1,19 @@
+<ul>
+  <% for visitor in @visitors %>
+  <li>
+    <%= link_to visitor, [@event, visitor] %>
+    <ul>
+      <% for ticket in visitor.tickets.select {|t| t.registration.event == @event } %>
+        <li id="<%= dom_id(ticket) %>">
+          <% if ticket.handed_out? %>
+            <strong><%= ticket %> redan utlämnad</strong>
+          <% else %>
+            <%= ticket %>
+            <%= link_to "Lämna ut", handout_event_ticket_path(@event, ticket), :method => :put, :remote => true %></li>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+  <% end %>
+</ul>

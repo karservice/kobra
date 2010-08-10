@@ -1,25 +1,17 @@
+<%= link_to 'Tillbaka', event_registration_batches_path(@event) %>
+
 <h1><%= @event %></h1>
 
-<p style="width: 40em;">
-  <%= label :registration_batch, 'Data' %><br />
-  <%= text_area :registration_batch, :data %>
+<p>
+  <%= form_for(@ticket_type, :as => :ticket_type,
+        :url => generate_tickets_event_registration_batch_path(@event, @registration_batch)) do |f| %>
+    <%= f.label :id, 'Biljetttyp' %>
+    <%= f.select :id, @event.ticket_types.collect {|t| [t.name, t.id]} %>
+    <%= f.submit "Generera biljetter" %>
+  <% end %>
 </p>
 
-<h2>Visitors</h2>
-
-<table>
-  <tr>
-    <th>first_name</th>
-    <th>last_name</th>
-    <th>email</th>
-    <th>personal_number</th>
-    <th>barcode_number</th>
-    <th>created_at</th>
-    <th>rfid_number</th>
-  </tr>
-  <%= render :partial => 'visitors/visitor_row', :collection => @visitors %>
-</table>
-
 <p>
-  <%= link_to 'Tillbaka', event_registration_batches_path(@event) %>
+  <%= link_to 'Registreringar', event_registration_batch_visitors_path(@event, @registration_batch)%> |
+  <%= link_to 'Data', data_event_registration_batch_path(@event, @registration_batch) %>
 </p>

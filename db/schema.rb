@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100729181650) do
+ActiveRecord::Schema.define(:version => 20100729194445) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -67,6 +67,29 @@ ActiveRecord::Schema.define(:version => 20100729181650) do
   end
 
   add_index "students", ["first_name", "last_name", "personal_number", "rfid_number", "barcode_number", "email"], :name => "search_index", :unique => true
+
+  create_table "ticket_types", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "price"
+    t.integer  "union_discount"
+    t.integer  "event_id"
+    t.integer  "maximum_number_of_tickets"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tickets", :force => true do |t|
+    t.string   "note"
+    t.integer  "ticket_type_id"
+    t.integer  "registration_id"
+    t.integer  "handed_out_by"
+    t.datetime "handed_out_at"
+    t.string   "handout_location"
+    t.datetime "emailed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "visitors", :force => true do |t|
     t.string   "first_name"

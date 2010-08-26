@@ -31,7 +31,7 @@ class RegistrationBatchesController < ApplicationController
       notice = "Gick ej att generera biljetter"
     end
     
-    redirect_to(event_registration_batches_path(@event), :notice => "Biljetter genererade")
+    redirect_to(event_registration_batches_path(@event), :notice => notice)
   end
   
   def create

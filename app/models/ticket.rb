@@ -11,7 +11,7 @@ class Ticket < ActiveRecord::Base
   
   def validate_maximum_number_of_tickets
     # maximum_number_of_tickets == 0 means infinit
-    if (self.ticket_type.maximum_number_of_tickets != 0) && (self.ticket_type.tickets.count >= self.ticket_type.maximum_number_of_tickets)
+    if (self.ticket_type.maximum_number_of_tickets.to_i != 0) && (self.ticket_type.tickets.count >= self.ticket_type.maximum_number_of_tickets.to_i)
       self.errors.add(:base, "Biljetter slut") 
     end
   end

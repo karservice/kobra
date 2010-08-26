@@ -1,1 +1,2 @@
 page[@ticket].replace_html :text => "<strong>#{@ticket} utlämnad!</strong>"
+page['visitor_query'].select()

@@ -15,7 +15,8 @@
   <div class="field">
     <%= label :ticket_type, :id %><br />
     <%= select :ticket_type, :id, @event.ticket_types.collect {|t| [t.name, t.id]} %>
-  </div>  
+  </div>
+  
   <div class="field">
     <%= f.label :personal_number %><br />
     <%= f.text_field :personal_number %>

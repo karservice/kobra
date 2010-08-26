@@ -1,7 +1,12 @@
+<p>
+  <%= link_to 'Tillbaka', event_registration_batch_path(@event, @registration_batch) %>
+</p>
+
 <h2>Visitors</h2>
 
 <table>
   <tr>
+    <th></th>
     <th>first_name</th>
     <th>last_name</th>
     <th>email</th>
@@ -10,5 +15,5 @@
     <th>created_at</th>
     <th>rfid_number</th>
   </tr>
-  <%= render :partial => 'visitors/visitor_row', :collection => @visitors %>
+  <%= render :partial => 'visitors/visitor_row', :collection => @visitors, :locals => {:event => @event, :registration_batch => @registration_batch} %>
 </table>

@@ -23,6 +23,24 @@ class VisitorsController < ApplicationController
     @ticket = Ticket.create(:registration => @registration, :ticket_type => TicketType.find(params[:ticket_type][:id]))
   end
   
+  def edit
+    @visitor = Visitor.find(params[:id])
+  end
+  
+  def update
+    @visitor = Visitor.find(params[:id])
+
+    respond_to do |format|
+      if @visitor.update_attributes(params[:visitor])
+        format.html { redirect_to([@event, @visitor], :notice => 'Visitor was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @visitor.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+  
 private
   def load_event
     @event = Event.find(params[:event_id])

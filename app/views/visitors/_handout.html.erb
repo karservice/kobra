@@ -1,15 +1,18 @@
 <ul>
   <% for visitor in @visitors %>
   <li>
-    <%= link_to visitor, [@event, visitor] %>
+    <h1><%= link_to visitor, [@event, visitor] %> <%= visitor.personal_number %></h1>
     <ul>
+      <% if visitor.tickets.empty? %>
+        <li>Har inga biljetter till detta evenemang</li>
+      <% end %>
       <% for ticket in visitor.tickets.select {|t| t.registration.event == @event } %>
         <li id="<%= dom_id(ticket) %>">
           <% if ticket.handed_out? %>
-            <strong><%= ticket %> redan utlämnad</strong>
+            <strong><%= ticket %> utlämnad</strong>
           <% else %>
             <%= ticket %>
-            <%= link_to "Lämna ut", handout_event_ticket_path(@event, ticket), :method => :put, :remote => true %></li>
+            <%= link_to "Lämna ut", handout_event_ticket_path(@event, ticket), :method => :put, :remote => true, :id => 'handout' %></li>
           <% end %>
         </li>
       <% end %>
@@ -17,3 +20,9 @@
   </li>
   <% end %>
 </ul>
+
+<% if @visitors.size == 1 %>
+<script type="text/javascript" charset="utf-8">
+  $('handout').focus();
+</script>
+<% end %>

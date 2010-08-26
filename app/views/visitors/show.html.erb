@@ -1,1 +1,50 @@
 <h1><%= @visitor %></h1>
+
+<h3>Biljetter</h3>
+<ul>
+  <% for ticket in @visitor.tickets.select {|t| t.registration.event == @event } %>
+    <li id="<%= dom_id(ticket) %>">
+      <% if ticket.handed_out? %>
+        <strong><%= ticket %> utlämnad</strong>
+      <% else %>
+        <%= ticket %>
+        <%= link_to "Lämna ut", handout_event_ticket_path(@event, ticket), :method => :put, :remote => true %></li>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<h3>Information</h3>
+
+<table>
+<tr>
+  <td>Förnamn</td>
+  <td><%= @visitor.first_name %></td>
+</tr>
+<tr>
+  <td>Efternamn</td>
+  <td><%= @visitor.last_name %></td>
+</tr>
+<tr>
+  <td>E-post</td>
+  <td><%= @visitor.email %></td>
+</tr>
+<tr>
+  <td>Personnummer</td>
+  <td><%= @visitor.personal_number %></td>
+</tr>
+<tr>
+  <td>RFID-nummer</td>
+  <td><%= @visitor.rfid_number %></td>
+</tr>
+<tr>
+  <td>Streckkodsnummer</td>
+  <td><%= @visitor.barcode_number %></td>
+</tr>
+<tr>
+  <td>Skapad den</td>
+  <td><%= @visitor.created_at %></td>
+</tr>
+</table>
+
+<p><%= link_to 'Ändra', edit_event_visitor_path(@event, @visitor) %></p>

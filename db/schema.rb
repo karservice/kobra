@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100729194445) do
+ActiveRecord::Schema.define(:version => 20100729195359) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -73,8 +73,8 @@ ActiveRecord::Schema.define(:version => 20100729194445) do
     t.string   "description"
     t.integer  "price"
     t.integer  "union_discount"
-    t.integer  "event_id"
     t.integer  "maximum_number_of_tickets"
+    t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

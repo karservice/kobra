@@ -27,9 +27,17 @@ class RegistrationBatch < ActiveRecord::Base
     raise "Already imported" if self.imported?
     
     Registration.transaction do
-      # Parse CSV data and flatten rows
-      CSV.parse(self.data).flatten.each do |personal_number|
-        visitor = Visitor.where(:personal_number => personal_number).first || Visitor.new(:personal_number => personal_number)
+      # Parse CSV data
+      # FIXME Handle nils
+      CSV.parse(self.data, :col_sep => ';').each do |row|
+        first_name      = row[0]
+        last_name       = row[1]
+        personal_number = row[2]
+        
+        visitor = Visitor.where(:personal_number => personal_number).first ||
+                  Visitor.new(:personal_number => personal_number,
+                              :first_name => first_name, 
+                              :last_name => last_name)
         
         Registration.create(
           :event => self.event,

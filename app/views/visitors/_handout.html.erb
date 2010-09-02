@@ -7,17 +7,22 @@
         <li>Har inga biljetter till detta evenemang</li>
       <% end %>
       <% for ticket in visitor.tickets.select {|t| t.registration.event == @event } %>
-        <li id="<%= dom_id(ticket) %>">
+        <li id="<%= dom_id(ticket) %>" style="font-size: 150%;">
           <% if ticket.handed_out? %>
             <strong><%= ticket %> utlämnad</strong>
           <% else %>
             <%= ticket %>
-            <%= link_to "Lämna ut", handout_event_ticket_path(@event, ticket), :method => :put, :remote => true, :id => 'handout' %></li>
+            <%= link_to "Lämna ut", handout_event_ticket_path(@event, ticket), :method => :put, :remote => true, :id => 'handout' %>
+              </li>
           <% end %>
         </li>
       <% end %>
     </ul>
   </li>
+  <br />
+  <br />
+  <br />
+  <hr />
   <% end %>
 </ul>
 

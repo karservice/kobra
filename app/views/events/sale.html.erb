@@ -2,15 +2,32 @@
 
 <h1>Försäljning för <%= @event %></h1>
 
+<% if @event.electronic_tickets? %>
+<p>
+  Försäljning med elektroniska biljetter.
+</p>
+<% else %>
+<p>
+  Försäljning utan elektroniska biljetter, registrerar endast antal biljetter och visar rabatter.
+</p>
+<% end %>
+
+<!-- <p>
+  Totalt antal sålda biljetter: <span id="tickets_count"><%= @event.tickets.count %></span>
+</p> -->
+
 <!-- Sök student -->
-<%= form_for(:visitor, :url => search_event_visitor_path(@event), :remote => true) do |f| %>
+<%= form_for(:student, :url => search_event_student_path(@event), :remote => true) do |f| %>
   <%= f.text_field :query %>
   <%= f.submit "Sök efter student" %>
 <% end %>
 
 <div id="results"></div>
 
+<% if @event.electronic_tickets? %>
+
 <p>eller knappa in manuellt</p>
 
 <%= render :partial => 'visitors/form' %>
 
+<% end %>

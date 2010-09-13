@@ -1,8 +1,12 @@
 Linticket::Application.routes.draw do
+  
   resources :events do
     member do
       get :sale
       get :handout
+    end
+    resources :students do
+      post :search
     end
     resources :registration_batches do
       member do

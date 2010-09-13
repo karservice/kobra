@@ -1,0 +1,11 @@
+if @students.empty?
+  page['results'].replace_html :text => "<h3>Ingen träff</h3>"
+elsif @students.size == 1
+  if @event.electronic_tickets?
+    page['results'].replace_html :partial => 'sale'
+  else
+    page['results'].replace_html :partial => 'sale_without_tickets'
+  end
+else
+  page['results'].replace_html :text => "<h3>#{@students.count} träffar, specificera exakt</h3>"
+end

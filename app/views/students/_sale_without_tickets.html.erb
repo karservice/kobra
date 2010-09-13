@@ -1,0 +1,11 @@
+<h3><%= @notice %></h3>
+<p>
+  <%= @student %>
+  <strong>
+    <% if @student_is_union_member %>
+    KÅRMEDLEM
+    <% else %>
+    EJ MEDLEM
+    <% end %>
+  </strong>
+</p>

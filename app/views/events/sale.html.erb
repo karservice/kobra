@@ -12,6 +12,16 @@
 </p>
 <% end %>
 
+<p>
+  Sökning sker via RFID-nummer (blippa på läsaren), eller manuellt via personnummer eller namn.<br />
+  Problem kan uppstå med "specialtecken" i namn, t.ex åäö é osv
+<br /><br />
+  Vid strul kontakta:<br />
+  Erik Thorselius  0704940210<br />
+  Johan Eckerström 0732411798
+</p>
+
+
 <!-- <p>
   Totalt antal sålda biljetter: <span id="tickets_count"><%= @event.tickets.count %></span>
 </p> -->
@@ -31,3 +41,8 @@
 <%= render :partial => 'visitors/form' %>
 
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+  $('student_query').focus();
+</script>
+

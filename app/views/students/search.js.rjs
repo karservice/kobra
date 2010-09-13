@@ -9,3 +9,4 @@ elsif @students.size == 1
 else
   page['results'].replace_html :text => "<h3>#{@students.count} träffar, specificera exakt</h3>"
 end
+page['student_query'].select()

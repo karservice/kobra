@@ -2,18 +2,10 @@
 <p>
   <%= @student %>
   <strong>
-    <% if @student_is_union_member %>
-    KÅRMEDLEM
+    <% if @student.union_member? %>
+	    <span style="background:#d0f0c0;">Kårmedlem i <%= @student.union %></span>
     <% else %>
-    EJ MEDLEM
+	    <span style="background:#FA8072;">Ej medlem</span>
     <% end %>
   </strong>
 </p>
-
-<%= form_for(:student, :url => search_event_student_path(@event), :remote => true) do |f| %>
-  <%= for ticket_type in @event.ticket_types %>
-    <%= f.label :ticket %>
-    <%= f.check_box :ticket, ticket_type.id %>
-  <% end %>
-  <%= f.submit "Spara" %>
-<% end %>

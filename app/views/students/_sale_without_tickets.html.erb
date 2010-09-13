@@ -9,3 +9,11 @@
     <% end %>
   </strong>
 </p>
+
+<%= form_for(:student, :url => search_event_student_path(@event), :remote => true) do |f| %>
+  <%= for ticket_type in @event.ticket_types %>
+    <%= f.label :ticket %>
+    <%= f.check_box :ticket, ticket_type.id %>
+  <% end %>
+  <%= f.submit "Spara" %>
+<% end %>

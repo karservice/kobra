@@ -47,5 +47,14 @@ class Studentkoll < ActiveRecord::Base
     def to_s
       self.name
     end
-
+    
+    def union_member?
+      union
+    end
+    
+    def union
+      if result = StureStudent.where(:personal_number => self.pnr_format).first
+        result.student_union
+      end
+    end
 end

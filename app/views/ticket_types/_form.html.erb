@@ -12,23 +12,31 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :name, 'Namn' %><br />
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
+    <%= f.label :description, 'Beskrivning' %><br />
     <%= f.text_field :description %>
   </div>
   <div class="field">
-    <%= f.label :price %><br />
+    <%= f.label :price, 'Pris' %><br />
     <%= f.text_field :price %>
   </div>
   <div class="field">
-    <%= f.label :union_discount %><br />
+    <%= f.label :union_discount, 'Rabatt för kårmedlemskap' %><br />
     <%= f.text_field :union_discount %>
   </div>
   <div class="field">
-    <%= f.label :maximum_number_of_tickets %><br />
+    <%= f.label :lintek_discount, 'Rabatt för Lintek-medlemmar (begränsat antal)' %><br />
+    <%= f.text_field :lintek_discount %>
+  </div>
+  <div class="field">
+    <%= f.label :number_of_lintek_discount_tickets, 'Antal rabatterade Lintek-biljetter' %><br />
+    <%= f.text_field :number_of_lintek_discount_tickets %>
+  </div>  
+  <div class="field">
+    <%= f.label :maximum_number_of_tickets, 'Maximalt antal biljetter' %><br />
     <%= f.text_field :maximum_number_of_tickets %>
   </div>
   <div class="actions">

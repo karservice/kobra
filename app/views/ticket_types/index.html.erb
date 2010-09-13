@@ -1,15 +1,10 @@
 <%= link_to 'Tillbaka', event_path(@event) %>
 
-<h1>Listing ticket_types</h1>
+<h1>Biljettyper</h1>
 
 <table>
   <tr>
     <th>Name</th>
-    <th>Description</th>
-    <th>Price</th>
-    <th>Union discount</th>
-    <th>Maximum number of tickets</th>
-    <th>Number of tickets</th>
     <th></th>
     <th></th>
   </tr>
@@ -17,11 +12,6 @@
 <% @ticket_types.each do |ticket_type| %>
   <tr>
     <td><%= ticket_type.name %></td>
-    <td><%= ticket_type.description %></td>
-    <td><%= ticket_type.price %></td>
-    <td><%= ticket_type.union_discount %></td>
-    <td><%= ticket_type.maximum_number_of_tickets %></td>
-    <td><%= ticket_type.tickets.count %></td>
     <td><%= link_to 'Edit', edit_event_ticket_type_path(@event, ticket_type) %></td>
     <td>
       <% if ticket_type.safe_for_deletion? %>
@@ -34,4 +24,4 @@
 
 <br />
 
-<%= link_to 'New Ticket type', new_event_ticket_type_path(@event) %>
+<%= link_to 'Ny biljettyp', new_event_ticket_type_path(@event) %>

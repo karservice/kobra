@@ -12,15 +12,6 @@
 </p>
 <% end %>
 
-<p>
-  Sökning sker via RFID-nummer (blippa på läsaren), eller manuellt via personnummer eller namn.<br />
-  Problem kan uppstå med "specialtecken" i namn, t.ex åäö é osv
-<br /><br />
-  Vid strul kontakta:<br />
-  Erik Thorselius  0704940210<br />
-  Johan Eckerström 0732411798
-</p>
-
 
 <!-- <p>
   Totalt antal sålda biljetter: <span id="tickets_count"><%= @event.tickets.count %></span>
@@ -29,10 +20,26 @@
 <!-- Sök student -->
 <%= form_for(:student, :url => search_event_student_path(@event), :remote => true) do |f| %>
   <%= f.text_field :query %>
-  <%= f.submit "Sök efter student" %>
+  <%= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
+  <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
 <% end %>
 
+
 <div id="results"></div>
+
+<%= form_for(:student, :url => search_event_student_path(@event), 
+  :remote => true) do |f| %>
+  <ul>
+  <% @event.ticket_types.each do |ticket_type| %>
+    <li>
+      <%= check_box :ticket_type, ticket_type.id %>
+      <%= label :ticket_type, ticket_type.id, ticket_type %>
+    </li>
+  <% end %>
+  </ul>
+  <p><%= f.submit "Spara" %></p>
+<% end %>
+
 
 <% if @event.electronic_tickets? %>
 
@@ -45,4 +52,16 @@
 <script type="text/javascript" charset="utf-8">
   $('student_query').focus();
 </script>
+
+<hr />
+
+<p>
+  Sökning sker via RFID-nummer (blippa på läsaren), eller manuellt via personnummer eller namn.<br />
+  Problem kan uppstå med "specialtecken" i namn, t.ex åäö é osv
+<br /><br />
+  Vid strul kontakta:<br />
+  Erik Thorselius  0704940210<br />
+  Johan Eckerström 0732411798
+</p>
+
 

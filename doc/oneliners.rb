@@ -41,3 +41,7 @@ RegistrationBatch.all.each {|r| r.visitors.sync_from_students }
 
 # Räkna biljetter
 Ticket.count - Ticket.where(:handed_out_at => nil).count
+
+# Lägga in sture databas
+sture_students.each {|s| StureStudent.create(:personal_number => s[0], :student_union => s[1])}
+

@@ -27,28 +27,6 @@
 
 <div id="results"></div>
 
-<%= form_for(:ticket, :url => search_event_student_path(@event), 
-  :remote => true) do |f| %>
-  <ul>
-  <% @event.ticket_types.each do |ticket_type| %>
-    <li>
-      <%= check_box :ticket_type, ticket_type.id %>
-      <%= label :ticket_type, ticket_type.id, ticket_type %>
-    </li>
-  <% end %>
-  </ul>
-  <p><%= f.submit "Spara" %></p>
-<% end %>
-
-
-<% if @event.electronic_tickets? %>
-
-<p>eller knappa in manuellt</p>
-
-<%= render :partial => 'visitors/form' %>
-
-<% end %>
-
 <script type="text/javascript" charset="utf-8">
   $('ticket_submit').hide();
   $('student_query').focus();
@@ -56,13 +34,36 @@
 
 <hr />
 
+<h3>Sökning</h3>
 <p>
   Sökning sker via RFID-nummer (blippa på läsaren), eller manuellt via personnummer eller namn.<br />
   Problem kan uppstå med "specialtecken" i namn, t.ex åäö é osv
-<br /><br />
+</p>
+
+<h3>Rabatter</h3>
+<p>
+  Kårmedlemskap visas så fort en student hittas via sökning.<br />
+  Rabatter beräknas när en biljett har sparats, för att säkerhetsställa att det maximala antalet rabatterade biljetter inte överskrids.
+</p>
+
+<h3>Problem</h3>
+<p>
   Vid strul kontakta:<br />
   Erik Thorselius  0704940210<br />
   Johan Eckerström 0732411798
 </p>
 
+<!-- <script type="text/javascript" charset="utf-8">
+  Event.observe(document, 'keypress', function(event){
+     numKeyPressed = event.keyCode - 48;
+     if (numKeyPressed) {
+        if ($("ticket_type_" + numKeyPressed).checked == 1) {
+          $("ticket_type_" + numKeyPressed).checked = 0;
+        } else {
+          $("ticket_type_" + numKeyPressed).checked = 1;
+        }
+     }
+  });
+</script>
+ -->
 

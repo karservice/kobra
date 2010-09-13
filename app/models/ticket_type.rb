@@ -15,4 +15,12 @@ class TicketType < ActiveRecord::Base
   def to_s
     self.name
   end
+  
+  def number_of_lintek_discounts
+    self.tickets.where(:lintek_discount => true).count
+  end
+  
+  def number_of_union_discounts
+    self.tickets.where(:union_discount => true).count
+  end
 end

@@ -71,4 +71,14 @@ class Visitor < ActiveRecord::Base
   def to_s
     self.name
   end
+  
+  def union_member?
+    union
+  end
+  
+  def union
+    if result = StureStudent.where(:personal_number => self.personal_number).first
+      result.student_union
+    end
+  end
 end

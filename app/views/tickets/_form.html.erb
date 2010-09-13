@@ -1,0 +1,12 @@
+<%= form_for(:ticket, :url => sale_event_ticket_path(@event), :remote => true) do |f| %>
+  <span id="hidden_field"></span>
+  <ul>
+  <% @event.ticket_types.each do |ticket_type| %>
+    <li style="font-size:150%;">
+      <%= check_box :ticket_type, ticket_type.id %>
+      <%= label :ticket_type, ticket_type.id, ticket_type %>
+    </li>
+  <% end %>
+  </ul>
+  <p><%= f.submit "Spara" %></p>
+<% end %>

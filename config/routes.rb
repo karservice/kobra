@@ -5,9 +5,11 @@ Linticket::Application.routes.draw do
       get :sale
       get :handout
     end
+    
     resources :students do
       post :search
     end
+    
     resources :registration_batches do
       member do
         post :generate_tickets
@@ -17,11 +19,14 @@ Linticket::Application.routes.draw do
         post :search
       end
     end
+    
     resources :visitors do
       post :search
     end
+    
     resources :ticket_types
     resources :tickets do
+      post :sale
       member do
         put :handout
       end

@@ -1,11 +1,6 @@
-<h3><%= @notice %></h3>
-<p>
-  <%= @student %>
-  <strong>
-    <% if @student.union_member? %>
-	    <span style="background:#d0f0c0;">Kårmedlem i <%= @student.union %></span>
-    <% else %>
-	    <span style="background:#FA8072;">Ej medlem</span>
-    <% end %>
-  </strong>
-</p>
+<h3>
+  <%= @student %> är <%=raw @student.union_member? ? "<span style='background:#d0f0c0;'>medlem i #{@student.union}</span>" : "<span style='background:#FA8072;'>inte kårmedlem</span>" %>
+</h3>
+
+
+<%= render 'tickets/form' %>

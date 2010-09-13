@@ -16,6 +16,16 @@ class Ticket < ActiveRecord::Base
     end
   end
   
+  before_create {|ticket|
+    if self.should_have_lintek_discount?
+      ticket.lintek_discount = true
+    end
+    
+    if self.should_have_union_discount?
+      ticket.union_discount = true
+    end
+  }
+    
   def handout!
     self.update_attribute(:handed_out_at, Time.now)
   end
@@ -26,5 +36,25 @@ class Ticket < ActiveRecord::Base
   
   def to_s
     self.ticket_type.to_s
+  end
+  
+  def should_have_union_discount?
+    self.registration.visitor.union_member?
+  end
+  
+  def should_have_lintek_discount?
+    self.registration.visitor.union == "LinTek" && 
+      self.ticket_type.number_of_lintek_discount_tickets.to_i > self.ticket_type.number_of_lintek_discounts
+  end
+  
+  def price
+    amount = self.ticket_type.price.to_i
+    if self.union_discount?
+      amount = amount - self.ticket_type.union_discount.to_i
+      if self.lintek_discount?
+        amount = amount - self.ticket_type.lintek_discount.to_i
+      end
+    end
+    amount
   end
 end

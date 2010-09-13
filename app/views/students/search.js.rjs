@@ -1,15 +1,17 @@
 if @students.empty?
+  page['student_query'].select()
   page['results'].replace_html :text => "<h3>Ingen träff</h3>"
 elsif @students.size == 1
-  page['ticket_submit'].show()
-  
   if @event.electronic_tickets?
     page['results'].replace_html :partial => 'sale'
   else
     page['results'].replace_html :partial => 'sale_without_tickets'
   end
+  page['ticket_submit'].show()
+  page['ticket_submit'].select()
+  page['hidden_field'].replace_html :inline => "<%= hidden_field(:student, :pnr_format) %>"
 else
+  page['student_query'].select()
   page['results'].replace_html :text => "<h3>#{@students.count} träffar, specificera exakt</h3>"
 end
-page['student_query'].select()
 page['spinner'].hide()

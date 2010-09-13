@@ -1,0 +1,23 @@
+<h3>
+  <%= @visitor %> är <%=raw @visitor.union_member? ? "<span style='background:#d0f0c0;'>medlem i #{@visitor.union}</span>" : "<span style='background:#FA8072;'>inte kårmedlem</span>" %>
+</h3>
+
+<ul>
+<% @tickets.each do |ticket|%>
+  <li>
+    <%= ticket.price %> SEK, <%= ticket %>
+    <% if ticket.union_discount? %>
+      <% if ticket.lintek_discount? %>
+        (Rabatt Lintek, biljett nummer <%= ticket.ticket_type.number_of_lintek_discounts %>)
+      <% else %>
+        (Rabatt kår)
+      <% end %>
+    <% else %>
+      (Inga rabatter)
+    <% end %>
+  </li>
+<% end %>
+  <li>
+    <strong>Totalt: <%= @tickets.collect {|t| t.price }.sum %> SEK</strong>
+  </li>
+</ul>

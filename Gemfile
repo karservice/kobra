@@ -9,6 +9,10 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'delayed_job', :git => 'http://github.com/collectiveidea/delayed_job.git'
 
+gem 'ruby-oci8'
+gem 'activerecord-oracle_enhanced-adapter'
+
+
 gem 'mysql2'
 
 # Use unicorn as the web server

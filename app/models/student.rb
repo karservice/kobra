@@ -14,13 +14,19 @@ class Student < ActiveRecord::Base
         # Don't handle numbers without hyphen, don't want to screw with RFID or barcode numbers
         #
         # Personal number recors stored as 860421-0000 in student database
-        if m = keyword.match(/^(\d{2})(\d{6}-\d{4})$/) # 19860421-0000
-          keyword = m[2]
-        elsif m = keyword.match(/^(\d{6}-\d{4})$/) # 860421-0000
+
+        if p = keyword.match(/^(\d{2})(\d{6}-\d{4})$/) # 19860421-0000
+          keyword = p[2]
+        elsif p = keyword.match(/^(\d{6}-\d{4})$/) # 860421-0000
           # Just notice for later performance tweak
+        elsif m = keyword.match(/^0(\d{9})$/)
+	  # Look if number is a RFID number with an extra zero
+          keyword = m[1]
+        end
+
         end
         # If there is a match, we can just look at personal_number column to speed things up a bit
-        keys = [:personal_number] if m
+        keys = [:personal_number] if p
         # Create the SQL query
         sql_keys = keys.collect {|k| "LOWER(#{k}) LIKE ?"}.join(' OR ')
         keyword.gsub!('*', '%')

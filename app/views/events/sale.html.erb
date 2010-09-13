@@ -27,7 +27,7 @@
 
 <div id="results"></div>
 
-<%= form_for(:student, :url => search_event_student_path(@event), 
+<%= form_for(:ticket, :url => search_event_student_path(@event), 
   :remote => true) do |f| %>
   <ul>
   <% @event.ticket_types.each do |ticket_type| %>
@@ -50,6 +50,7 @@
 <% end %>
 
 <script type="text/javascript" charset="utf-8">
+  $('ticket_submit').hide();
   $('student_query').focus();
 </script>
 

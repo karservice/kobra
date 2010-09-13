@@ -2,11 +2,10 @@
 <p>
   <%= @student %>
   <strong>
-    <% if @student_is_union_member %>
-    KÅRMEDLEM
+    <% if @student.union_member? %>
+	    <span style="background:#d0f0c0;">Kårmedlem i <%= @student.union %></span>
     <% else %>
-    EJ MEDLEM
+	    <span style="background:#FA8072;">Ej medlem</span>
     <% end %>
   </strong>
 </p>
-

@@ -9,8 +9,11 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'delayed_job', :git => 'http://github.com/collectiveidea/delayed_job.git'
 
-gem 'ruby-oci8'
-gem 'activerecord-oracle_enhanced-adapter'
+# Enable Oracle gems if we're on a SOF server
+if `hostname -s` == "sof2009.se"
+  gem 'ruby-oci8'
+  gem 'activerecord-oracle_enhanced-adapter'
+end
 
 
 gem 'mysql2'

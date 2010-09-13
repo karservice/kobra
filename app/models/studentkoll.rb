@@ -8,7 +8,7 @@ class Studentkoll < ActiveRecord::Base
       
       # Searchable keys
       # These keys should have an index in the database for performance
-      keys = [:fornamn, :efternamn, :pnr_format, :rfidnr, :streckkodnr]
+      keys = [:epost, :fornamn, :efternamn, :pnr_format, :rfidnr, :streckkodnr]
       
       if not keyword.to_s.strip.empty?
         # Handle different personal number styles

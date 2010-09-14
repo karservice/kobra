@@ -16,6 +16,10 @@ class TicketType < ActiveRecord::Base
     self.name
   end
   
+  def available?
+    (self.maximum_number_of_tickets.to_i == 0) || (self.tickets.count < self.maximum_number_of_tickets.to_i)
+  end
+  
   def number_of_lintek_discounts
     self.tickets.where(:lintek_discount => true).count
   end

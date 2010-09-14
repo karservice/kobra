@@ -9,4 +9,8 @@ class Event < ActiveRecord::Base
     self.title
   end
   
+  def available_ticket_types
+    self.ticket_type.select {|t| t.available? }
+  end
+  
 end

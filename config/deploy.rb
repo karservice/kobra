@@ -35,4 +35,10 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
+  desc "Link in uploaded stuff"
+  task :relink_shared_directories, :roles => :app do
+    run "ln -fs #{shared_path}/db/development.sqlite3 #{current_path}/db/development.sqlite3"
+    run "ln -fs #{shared_path}/config/database.yml #{current_path}/config/database.yml"
+  end
 end
+after "deploy:update", "deploy:relink_shared_directories"

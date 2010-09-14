@@ -37,6 +37,7 @@ namespace :deploy do
   end
   desc "Link in uploaded stuff"
   task :relink_shared_directories, :roles => :app do
+    run "ln -fs #{shared_path}/db/production.sqlite3 #{current_path}/db/production.sqlite3"
     run "ln -fs #{shared_path}/db/development.sqlite3 #{current_path}/db/development.sqlite3"
     run "ln -fs #{shared_path}/config/database.yml #{current_path}/config/database.yml"
   end

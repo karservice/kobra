@@ -1,8 +1,8 @@
 <%= form_for(:ticket, :url => sale_event_ticket_path(@event), :remote => true) do |f| %>
   <span id="hidden_field"></span>
-  <ul>
+  <ul style="">
   <% @event.available_ticket_types.each do |ticket_type| %>
-    <li style="font-size:150%;">
+    <li style="font-size:150%; list-style-type:none;">
       <%= check_box :ticket_type, ticket_type.id %>
       <%= label :ticket_type, ticket_type.id, ticket_type %>
     </li>

@@ -8,5 +8,10 @@
     </li>
   <% end %>
   </ul>
+  
+  <span id="union_override" style="display:none;">
+  <%= check_box :union, :override %>
+  <%= label :union, :override, "Tvinga Lintek-medlemskap (ger rabatter)" %>
+  </span>
   <p><%= f.submit "Registrera" %></p>
 <% end %>

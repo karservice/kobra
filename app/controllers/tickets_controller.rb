@@ -9,11 +9,16 @@ class TicketsController < ApplicationController
   
   def sale
     @student = Studentkoll.where(:pnr_format => params[:student][:pnr_format]).first
+    @union_override = false
+    if params[:union] && params[:union][:override] == "1"
+      @union_override = true
+    end
     
     # FIXME Should be handled as a transaction?
     @visitor = Visitor.create(:personal_number => @student.pnr_format,
       :first_name => @student.fornamn,
-      :last_name => @student.efternamn)
+      :last_name => @student.efternamn,
+      :union_override => @union_override)
     @registration = Registration.create(:event => @event, :visitor => @visitor)
     @tickets = []
     params[:ticket_type].each_pair do |ticket_type, state|

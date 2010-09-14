@@ -2,7 +2,7 @@
   <span id="hidden_field"></span>
   <ul style="">
   <% @event.available_ticket_types.each do |ticket_type| %>
-    <li style="font-size:150%; list-style-type:none;">
+    <li style="font-size:150%; margin-bottom: 0.5em; list-style-type:none;">
       <%= check_box :ticket_type, ticket_type.id %>
       <%= label :ticket_type, ticket_type.id, ticket_type %>
     </li>

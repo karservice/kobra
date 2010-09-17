@@ -10,8 +10,8 @@ class TicketsController < ApplicationController
   def sale
     @student = Studentkoll.where(:pnr_format => params[:student][:pnr_format]).first
     @union_override = false
-    if params[:union] && params[:union][:override] == "1"
-      @union_override = true
+    if params[:union]
+      @union_override = params[:union]
     end
     
     # FIXME Should be handled as a transaction?

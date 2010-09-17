@@ -3,15 +3,24 @@
   <ul style="">
   <% @event.available_ticket_types.each do |ticket_type| %>
     <li style="font-size:150%; margin-bottom: 0.5em; list-style-type:none;">
-      <%= check_box :ticket_type, ticket_type.id %>
-      <%= label :ticket_type, ticket_type.id, ticket_type %>
+      <%= check_box_tag "ticket_type[#{ticket_type.id}]", "1", @event.available_ticket_types.size == 1 %>
+      <%= label_tag "ticket_type[#{ticket_type.id}]", ticket_type %>
     </li>
   <% end %>
   </ul>
   
-  <span id="union_override" style="display:none;">
-  <%= check_box :union, :override %>
-  <%= label :union, :override, "Tvinga Lintek-medlemskap (ger rabatter)" %>
-  </span>
+  <div id="union_override">
+  <%= link_to_function "Tvinga kårmedlemskap" do |page|
+        page[:union_override_form].toggle();
+      end %>
+  </div>
+     
+  <div id="union_override_form" style="display:none; margin-top: 1em;">
+    <%= select :student, :union, Student.unions, { :include_blank => true } %>
+    
+    <%#= check_box :union, :override %>
+    <%#= label :union, :override, "Tvinga Lintek-medlemskap (ger rabatter)" %>
+  </div>
+  
   <p><%= f.submit "Registrera" %></p>
 <% end %>

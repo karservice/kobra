@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100729195359) do
+ActiveRecord::Schema.define(:version => 20100917151434) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20100729195359) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "electronic_tickets"
   end
 
   create_table "registration_batches", :force => true do |t|
@@ -68,6 +69,13 @@ ActiveRecord::Schema.define(:version => 20100729195359) do
 
   add_index "students", ["first_name", "last_name", "personal_number", "rfid_number", "barcode_number", "email"], :name => "search_index", :unique => true
 
+  create_table "sture_students", :force => true do |t|
+    t.string   "personal_number"
+    t.string   "student_union"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "ticket_types", :force => true do |t|
     t.string   "name"
     t.string   "description"
@@ -77,6 +85,9 @@ ActiveRecord::Schema.define(:version => 20100729195359) do
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "number_of_lintek_discount_tickets"
+    t.integer  "lintek_discount_count"
+    t.integer  "lintek_discount"
   end
 
   create_table "tickets", :force => true do |t|
@@ -89,6 +100,8 @@ ActiveRecord::Schema.define(:version => 20100729195359) do
     t.datetime "emailed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "lintek_discount"
+    t.boolean  "union_discount"
   end
 
   create_table "visitors", :force => true do |t|
@@ -100,6 +113,7 @@ ActiveRecord::Schema.define(:version => 20100729195359) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "union_override"
   end
 
 end

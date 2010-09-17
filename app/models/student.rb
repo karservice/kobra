@@ -54,4 +54,13 @@ class Student < ActiveRecord::Base
         result.student_union
       end
     end
+    
+    # Compatible with StudentKoll (Oracle)
+    def pnr_format
+      self.personal_number
+    end
+    
+    def self.unions
+      %w(LinTek Consensus StuFF)
+    end
 end

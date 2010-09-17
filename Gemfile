@@ -5,17 +5,17 @@ gem 'rails', '3.0.0.rc'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3-ruby', :require => 'sqlite3'
+
 
 gem 'delayed_job', :git => 'http://github.com/collectiveidea/delayed_job.git'
 
 # Enable Oracle gems if we're on a SOF server
-if `hostname -d`.strip == "sof2009.se"
+group :production do
   gem 'ruby-oci8'
   gem 'activerecord-oracle_enhanced-adapter'
 end
 
-
+gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'mysql2'
 
 # Use unicorn as the web server

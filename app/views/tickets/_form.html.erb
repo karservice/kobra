@@ -9,7 +9,7 @@
   <% end %>
   </ul>
   
-  <div id="union_override">
+  <div id="union_override" style="display:none;">
   <%= link_to_function "Tvinga kårmedlemskap" do |page|
         page[:union_override_form].toggle();
       end %>
@@ -17,9 +17,6 @@
      
   <div id="union_override_form" style="display:none; margin-top: 1em;">
     <%= select :student, :union, Student.unions, { :include_blank => true } %>
-    
-    <%#= check_box :union, :override %>
-    <%#= label :union, :override, "Tvinga Lintek-medlemskap (ger rabatter)" %>
   </div>
   
   <p><%= f.submit "Registrera" %></p>

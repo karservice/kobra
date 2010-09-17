@@ -9,7 +9,7 @@ class TicketsController < ApplicationController
   
   def sale
     @student = Studentkoll.where(:pnr_format => params[:student][:pnr_format]).first
-    if params[:student] && params[:student][:union]
+    if params[:student] && !params[:student][:union].empty?
       @union_override = params[:student][:union]
     end
     

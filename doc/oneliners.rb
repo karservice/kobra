@@ -43,5 +43,14 @@ RegistrationBatch.all.each {|r| r.visitors.sync_from_students }
 Ticket.count - Ticket.where(:handed_out_at => nil).count
 
 # Lägga in sture databas
-sture_students.each {|s| StureStudent.create(:personal_number => s[0], :student_union => s[1])}
+sture_students = []
+File.read("/tmp/medlem_20100917.txt").each_line {|l| m = /(\d{2})(\d{6})(\w{4}) \| (\w*)/.match(l); sture_students << [ "#{m[2]}-#{m[3]}", m[4] ] }.nil?
+sture_students.each {|s|
+  unless StureStudent.where(:personal_number => s[0]).first
+    StureStudent.create(:personal_number => s[0], :student_union => s[1])
+  end
+}
 
+new_students.each {|s| 
+  StureStudent.create(:personal_number => s.pnr_format, :student_union => "LinTek")
+}

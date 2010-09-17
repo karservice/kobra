@@ -79,8 +79,8 @@ class Visitor < ActiveRecord::Base
   def union
     if result = StureStudent.where(:personal_number => self.personal_number).first
       result.student_union
-    elsif union_override
-      "LinTek"
+    else
+      self.union_override
     end
   end
 end

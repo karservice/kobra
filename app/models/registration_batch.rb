@@ -23,6 +23,12 @@ class RegistrationBatch < ActiveRecord::Base
     self.import
   end
   
+  # Parses CSV data, creates:
+  # * Visitor with  Visitor#personal_number, Visitor#first_name and Visitor#last_name. 
+  # * Registration with Registration#event (Event), Registration#visitor (Visitor) and Registration#registration_batch (RegistrationBatch)
+  # 
+  # After the CSV data is parsed, it will start syncing the visitors 
+  # from the student database, in order to get RFID number etc
   def import
     raise "Already imported" if self.imported?
     

@@ -2,11 +2,16 @@ class TicketsController < ApplicationController
   
   before_filter :load_event
   
+  # Hand out a ticket
   def handout
     @ticket = @event.tickets.find(params[:id])
     @ticket.handout!
   end
   
+  # Sales an arbitrary amount of tickets to a Visitor
+  # 
+  # If the personal number is found in a student database, the Visitor
+  # gets attributes such as Visitor#first_name, Visitor#last_name and Visitor#union_override
   def sale
     @student = Studentkoll.where(:pnr_format => params[:student][:pnr_format]).first
     if params[:student] && !params[:student][:union].empty?
@@ -14,6 +19,7 @@ class TicketsController < ApplicationController
     end
     
     # FIXME Should be handled as a transaction?
+    # FIXME Should be handled in a model?
     @visitor = Visitor.create(:personal_number => @student.pnr_format,
       :first_name => @student.fornamn,
       :last_name => @student.efternamn,

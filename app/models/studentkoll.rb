@@ -2,14 +2,71 @@ class Studentkoll < ActiveRecord::Base
   set_table_name "STUDENTKOLL"
   establish_connection :sektionskoll
 
+  Consensus = [
+   "At",
+   "BMA",
+   "Cons",
+   "Domf",
+   "Fri",
+   "Log",
+   "Läk",
+   "MedB",
+   "SG",
+   "SskL",
+   "SskN",
+   "Stöd"
+  ]
+
+  LinTek = [
+   "C",
+   "CTD ",
+   "D",
+   "DokL",
+   "ED",
+   "FriL",
+   "GDK",
+   "I",
+   "KTS",
+   "Ling",
+   "LinT",
+   "M",
+   "MatN",
+   "MT",
+   "N",
+   "StöL",
+   "TBI",
+   "Y"
+  ]
+
+  StuFF = [
+   "AJF",
+   "Dokt",
+   "flin",
+   "FriS",
+   "Gans",
+   "KogV",
+   "MiP",
+   "PULS",
+   "SAKS",
+   "SKA",
+   "SKUM",
+   "Soci",
+   "SSHF",
+   "Stal",
+   "STiL",
+   "Stim",
+   "StuF"
+  ]
+
+
     scope :search, lambda { |keyword|
       # Convert to string
       keyword = keyword.to_s
-      
+
       # Searchable keys
       # These keys should have an index in the database for performance
       keys = [:epost, :fornamn, :efternamn, :pnr_format, :rfidnr, :streckkodnr]
-      
+
       if not keyword.to_s.strip.empty?
         # Handle different personal number styles
         #  19860421-0000
@@ -47,14 +104,25 @@ class Studentkoll < ActiveRecord::Base
     def to_s
       self.name
     end
-    
+
     def union_member?
       union
     end
-    
+
     def union
-      if result = StureStudent.where(:personal_number => self.pnr_format).first
-        result.student_union
+      sektion = self.kar
+      if sektion
+        sektion.strip!
+        if LinTek.include?(sektion)
+          "LinTek"
+        elsif StuFF.include?(sektion)
+          "StuFF"
+        elsif Consensus.include?(sektion)
+          "Consensus"
+        else # Look in old STURE data
+          sture_student = StureStudent.where(:personal_number => self.pnr_format).first
+          sture_student.union if sture_student
+        end
       end
     end
 end

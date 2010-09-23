@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddUnionOverrideToVisitor < ActiveRecord::Migration
   def self.up
     add_column :visitors, :union_override, :boolean

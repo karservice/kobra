@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Registration < ActiveRecord::Base
   belongs_to :event
   belongs_to :visitor

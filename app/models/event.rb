@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Event < ActiveRecord::Base
   has_many :registrations
   has_many :visitors, :through => :registrations

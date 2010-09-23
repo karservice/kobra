@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Liukort < ActiveRecord::Base
   set_table_name "SEKTIONSKOLL"
   establish_connection :sektionskoll

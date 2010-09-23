@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Studentkoll < ActiveRecord::Base
   set_table_name "STUDENTKOLL"
   establish_connection :sektionskoll

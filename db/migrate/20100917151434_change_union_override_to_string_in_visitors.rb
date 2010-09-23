@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class ChangeUnionOverrideToStringInVisitors < ActiveRecord::Migration
   def self.up
     change_column :visitors, :union_override, :string

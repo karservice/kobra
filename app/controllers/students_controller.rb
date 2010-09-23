@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class StudentsController < ApplicationController
   def search
     @event    = Event.find(params[:event_id])

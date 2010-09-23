@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Visitor < ActiveRecord::Base
   has_many :registrations, :dependent => :destroy # FIXME visitor should never be deleted
   has_many :tickets, :through => :registrations

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Student < ActiveRecord::Base
   scope :search, lambda { |keyword|
       # Convert to string

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddElectronicTicketsToEvents < ActiveRecord::Migration
   def self.up
     add_column :events, :electronic_tickets, :boolean

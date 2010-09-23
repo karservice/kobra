@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class VisitorsController < ApplicationController  
   
   before_filter :load_event

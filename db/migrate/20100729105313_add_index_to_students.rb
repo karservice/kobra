@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddIndexToStudents < ActiveRecord::Migration
   def self.up
     add_index :students, 

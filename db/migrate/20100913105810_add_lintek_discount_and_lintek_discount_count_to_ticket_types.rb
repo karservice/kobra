@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddLintekDiscountAndLintekDiscountCountToTicketTypes < ActiveRecord::Migration
   def self.up
     add_column :ticket_types, :number_of_lintek_discount_tickets, :integer

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class AddLintekDiscountAndUnionDiscountToTickets < ActiveRecord::Migration
   def self.up
     add_column :tickets, :lintek_discount, :boolean

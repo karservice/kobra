@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class CreateVisitors < ActiveRecord::Migration
   def self.up
     create_table :visitors do |t|

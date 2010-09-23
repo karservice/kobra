@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
-set :application, "Linticket"
-set :repository,  "Linticket"
+set :application, "Cobra"
+set :repository,  "Cobra"
 
 set :user, "linweb"
 
@@ -11,11 +11,11 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 set :use_sudo, false
 set :scm_verbose, false
-set :rails_env, "production" 
+set :rails_env, "production"
 
 
 set :branch, "live"
-set :repository, "git@github.com:jage/linticket.git"
+set :repository, "git@github.com:jage/cobra.git"
 set :deploy_via, :remote_cache
 set :git_shallow_clone, 1
 set :git_enable_submodules, 1

@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-Linticket::Application.routes.draw do
+Cobra::Application.routes.draw do
   
   resources :events do
     member do

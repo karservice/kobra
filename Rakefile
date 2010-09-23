@@ -4,4 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-Linticket::Application.load_tasks
+Cobra::Application.load_tasks

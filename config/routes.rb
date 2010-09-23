@@ -1,33 +1,33 @@
 # -*- encoding : utf-8 -*-
 Cobra::Application.routes.draw do
-  
+
   resources :events do
     member do
       get :sale
       get :handout
     end
-    
+
     resources :students do
-      post :search
+      post :search, :on => :collection
     end
-    
+
     resources :registration_batches do
       member do
         post :generate_tickets
         get :data
       end
       resources :visitors do
-        post :search
+        post :search, :on => :collection
       end
     end
-    
+
     resources :visitors do
-      post :search
+      post :search, :on => :collection
     end
-    
+
     resources :ticket_types
     resources :tickets do
-      post :sale
+      post :sale, :on => :collection
       member do
         put :handout
       end

@@ -3,8 +3,8 @@
 <h1>Inpassering för <%= @event %></h1>
 
 <!-- Sök student -->
-<%= form_for(:visitor, :url => search_event_visitor_path(@event),
-  :remote => true, 
+<%= form_for(:visitor, :url => search_event_visitors_path(@event),
+  :remote => true,
   :loading => "Element.show('spinner')",
   :complete => "Element.hide('spinner')") do |f| %>
   <%= f.text_field :query %>

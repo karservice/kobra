@@ -18,7 +18,7 @@
 </p> -->
 
 <!-- Sök student -->
-<%= form_for(:student, :url => search_event_student_path(@event), :remote => true) do |f| %>
+<%= form_for(:student, :url => search_event_students_path(@event), :remote => true) do |f| %>
   <%= f.text_field :query %>
   <%= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
   <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />

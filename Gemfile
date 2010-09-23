@@ -9,12 +9,8 @@ gem 'rails', '3.0.0.rc'
 
 gem 'delayed_job', :git => 'http://github.com/collectiveidea/delayed_job.git'
 
-# Enable Oracle gems if we're on a SOF server
-group :production do
-  gem 'ruby-oci8'
-  gem 'activerecord-oracle_enhanced-adapter'
-end
-
+gem 'ruby-oci8'
+gem 'activerecord-oracle_enhanced-adapter'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'mysql2'
 

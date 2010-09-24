@@ -5,6 +5,7 @@ Cobra::Application.routes.draw do
     member do
       get :sale
       get :handout
+      get :statistics
     end
 
     resources :students do

@@ -1,0 +1,52 @@
+<h1>Statistik för <%= @event %></h1>
+
+
+
+<table>
+  <tr>
+    <th>Biljetttyp</th>
+    <th>Kårbiljetter</th>
+    <th>varav LinTek-biljetter</th>
+    <th>Alla biljetter</th>
+  </tr>
+  <% @ticket_types.each do |ticket_type| %>
+    <tr>
+      <td>
+        <%= ticket_type %>
+      </td>
+      <td>
+        <%= ticket_type.tickets.any_union.count %>
+      </td>
+      <td>
+        <%= ticket_type.tickets.union(:lintek).count %>
+      </td>
+      <td>
+        <%= ticket_type.tickets.count %>
+      </td>
+    </tr>
+    <% total_per_day = ticket_type.tickets.group("DATE(created_at)").size %>
+    <% union_per_day = ticket_type.tickets.any_union.group("DATE(created_at)").size %>
+    <% lintek_per_day = ticket_type.tickets.union(:lintek).group("DATE(created_at)").size %>
+
+    <style type="text/css" media="screen">
+      tr.sub_table td { font-size: 90%; }
+    </style>
+
+    <% total_per_day.each do |total| %>
+    <tr class="sub_table" style="color: #777;">
+      <td>
+        <%= total[0] %>
+      </td>
+      <td>
+        <%= union_per_day[total[0]].to_i %>
+      </td>
+      <td>
+        <%= lintek_per_day[total[0]].to_i %>
+      </td>
+      <td>
+        <%= total[1].to_i %>
+      </td>
+    </tr>
+    <% end %>
+  <% end %>
+</table>

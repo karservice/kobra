@@ -34,11 +34,17 @@
   <div class="field">
     <%= f.label :number_of_lintek_discount_tickets, 'Antal rabatterade Lintek-biljetter' %><br />
     <%= f.text_field :number_of_lintek_discount_tickets %>
-  </div>  
+  </div>
   <div class="field">
     <%= f.label :maximum_number_of_tickets, 'Maximalt antal biljetter' %><br />
     <%= f.text_field :maximum_number_of_tickets %>
   </div>
+  <hr />
+  <div class="field">
+    <%= f.check_box :always_save %>
+    <%= f.label :always_save, 'Spara alltid biljetterna för statistik (inaktiverar val)' %><br />
+  </div>
+  <hr />
   <div class="actions">
     <%= f.submit %>
   </div>

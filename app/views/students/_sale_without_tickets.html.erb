@@ -1,6 +1,10 @@
 <h3>
   <%= @student %> är <%=raw @student.union_member? ? "<span style='background:#d0f0c0;'>medlem i #{@student.union}</span>" : "<span style='background:#FA8072;'>inte kårmedlem</span>" %>
+  <% if @event.ticket_types.size == 1 && @event.ticket_types.first.always_save? %>
+    och har registrerats
+  <% end %>
 </h3>
 
-
+<% unless @event.ticket_types.size == 1 && @event.ticket_types.first.always_save? %>
 <%= render 'tickets/form' %>
+<% end %>

@@ -12,6 +12,16 @@ class StudentsController < ApplicationController
     if @students.size == 1
       @student = @students.first
 
+      if @event.ticket_types.size == 1 && @event.ticket_types.first.always_save?
+        # FIXME Should be handled as a transaction?
+        # FIXME Should be handled in a model?
+        @visitor = Visitor.create(:personal_number => @student.pnr_format,
+          :first_name => @student.fornamn,
+          :last_name => @student.efternamn)
+        @registration = Registration.create(:event => @event, :visitor => @visitor)
+        Ticket.create(:registration => @registration, :ticket_type => @event.ticket_types.first)
+      end
+
       unless @event.visitors.where(:personal_number => @student.pnr_format).empty?
         @notice = 'Redan registrerad'
       end

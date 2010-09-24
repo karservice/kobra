@@ -6,11 +6,13 @@ elsif @students.size == 1
   else
     page['results'].replace_html :partial => 'sale_without_tickets'
   end
-  page['ticket_submit'].show()
-  page['ticket_submit'].select()
-  page['hidden_field'].replace_html :inline => "<%= hidden_field(:student, :pnr_format) %>"
-  unless @student.union_member?
-    page['union_override'].show()
+  unless @event.ticket_types.size == 1 && @event.ticket_types.first.always_save?
+    page['ticket_submit'].show()
+    page['ticket_submit'].select()
+    page['hidden_field'].replace_html :inline => "<%= hidden_field(:student, :pnr_format) %>"
+    unless @student.union_member?
+      page['union_override'].show()
+    end
   end
 else
   page['results'].replace_html :text => "<h3>#{@students.count} träffar, specificera exakt</h3>"

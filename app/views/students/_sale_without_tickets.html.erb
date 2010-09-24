@@ -5,6 +5,13 @@
   <% end %>
 </h3>
 
+<%# "Funny" easter egg hack %>
+<% if @student.rfidnr == '3479871166' %>
+  <p>
+    <img src="/images/beer.jpg" height="425px" width="283px" />
+  </p>
+<% end %>
+
 <% unless @event.ticket_types.size == 1 && @event.ticket_types.first.always_save? %>
 <%= render 'tickets/form' %>
 <% end %>

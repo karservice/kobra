@@ -1,23 +1,12 @@
-<h1>Listing events</h1>
+<h1>Evenemang</h1>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-  </tr>
+<p>
+  <%= link_to 'Skapa nytt evenemang', new_event_path %>
+</p>
 
+<ul>
 <% @events.each do |event| %>
-  <tr>
-    <td><%= event.title %></td>
-    <td><%= event.description %></td>
-    <td><%= link_to 'Show', event %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
-  </tr>
+  <li><%= link_to event, event %></li>
 <% end %>
-</table>
+</ul>
 
-<br />
-
-<%= link_to 'New Event', new_event_path %>

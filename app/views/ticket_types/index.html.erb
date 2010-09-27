@@ -12,10 +12,10 @@
 <% @ticket_types.each do |ticket_type| %>
   <tr>
     <td><%= ticket_type.name %></td>
-    <td><%= link_to 'Edit', edit_event_ticket_type_path(@event, ticket_type) %></td>
+    <td><%= link_to 'Ändra', edit_event_ticket_type_path(@event, ticket_type) %></td>
     <td>
       <% if ticket_type.safe_for_deletion? %>
-        <%= link_to 'Destroy', event_ticket_type_path(@event, ticket_type), :confirm => 'Are you sure?', :method => :delete %>
+        <%= link_to 'Ta bort', event_ticket_type_path(@event, ticket_type), :confirm => 'Are you sure?', :method => :delete %>
       <% end %>
     </td>
   </tr>

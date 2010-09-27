@@ -12,18 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br />
+    <%= f.label :title, 'Namn' %><br />
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
+    <%= f.label :description, 'Beskrivning' %><br />
     <%= f.text_field :description %>
   </div>
   <div class="field">
-    <%= f.label :electronic_tickets %>
     <%= f.check_box :electronic_tickets %>
+    <%= f.label :electronic_tickets, 'Elektroniska biljetter' %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Spara' %>
   </div>
 <% end %>

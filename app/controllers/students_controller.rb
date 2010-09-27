@@ -2,7 +2,7 @@
 class StudentsController < ApplicationController
   def search
     @event    = Event.find(params[:event_id], :include => :ticket_types)
-    @students = Studentkoll.search(params[:student][:query]).all
+    @students = Studentkoll.search(params[:student][:query])
 
     # Check in StureStudent if Studentkoll couldn't be found
     if @students.empty?

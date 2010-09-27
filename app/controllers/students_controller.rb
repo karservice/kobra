@@ -1,8 +1,8 @@
 # -*- encoding : utf-8 -*-
 class StudentsController < ApplicationController
   def search
-    @event    = Event.find(params[:event_id])
-    @students = Studentkoll.search(params[:student][:query])
+    @event    = Event.find(params[:event_id], :include => :ticket_types)
+    @students = Studentkoll.search(params[:student][:query]).all
 
     # Check in StureStudent if Studentkoll couldn't be found
     if @students.empty?
@@ -21,11 +21,6 @@ class StudentsController < ApplicationController
         @registration = Registration.create(:event => @event, :visitor => @visitor)
         Ticket.create(:registration => @registration, :ticket_type => @event.ticket_types.first)
       end
-
-      unless @event.visitors.where(:personal_number => @student.pnr_format).empty?
-        @notice = 'Redan registrerad'
-      end
-
     end
   end
 end

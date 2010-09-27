@@ -1,6 +1,4 @@
-if @students.empty?
-  page['results'].replace_html :text => "<h3>Ingen träff</h3>"
-elsif @students.size == 1
+if @student
   if @event.electronic_tickets?
     page['results'].replace_html :partial => 'sale'
   else
@@ -14,8 +12,10 @@ elsif @students.size == 1
       page['union_override'].show()
     end
   end
+elsif @studens_count == 0
+  page['results'].replace_html :text => "<h3>Ingen träff</h3>"
 else
-  page['results'].replace_html :text => "<h3>#{@students.count} träffar, specificera exakt</h3>"
+  page['results'].replace_html :text => "<h3>#{@students_count} träffar, förfina sökningen</h3>"
 end
 page['student_query'].select()
 page['spinner'].hide()

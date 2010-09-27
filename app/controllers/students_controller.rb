@@ -3,13 +3,15 @@ class StudentsController < ApplicationController
   def search
     @event    = Event.find(params[:event_id], :include => :ticket_types)
     @students = Studentkoll.search(params[:student][:query])
+    @students_count = @students.count
 
     # Check in StureStudent if Studentkoll couldn't be found
-    if @students.empty?
+    if @students_count == 0
       @students = StureStudent.search(params[:student][:query])
+      @students_count = @students.count
     end
 
-    if @students.size == 1
+    if @students_count == 1
       @student = @students.first
 
       if @event.ticket_types.size == 1 && @event.ticket_types.first.always_save?

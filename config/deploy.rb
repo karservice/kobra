@@ -34,7 +34,8 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    # Respawn Unicorn
+    run "kill -USR2 `cat #{File.join(current_path, 'tmp', 'pids', 'unicorn.pid')}`"
   end
   desc "Link in uploaded stuff"
   task :relink_shared_directories, :roles => :app do

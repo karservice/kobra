@@ -123,4 +123,9 @@ class Studentkoll < ActiveRecord::Base
       @sture_student.union if @sture_student
     end
   end
+
+  # Unions at LiU
+  def self.unions
+    %w(LinTek Consensus StuFF)
+  end
 end

@@ -89,57 +89,61 @@ sture_diff.each {|sd|
 
 # Kårer
 Consensus = ["At  ",
- "BMA ",      
- "Cons",      
- "Domf",      
- "Fri ",      
- "Log ",      
- "Läk ",      
- "MedB",      
- "SG  ",      
- "SskL",      
- "SskN",      
- "Stöd"]      
-              
-LinTek = ["C   ",      
- "CTD ",      
- "D   ",      
- "DokL",      
- "ED  ",      
- "FriL",      
- "GDK ",      
- "I   ",      
- "KTS ",      
- "Ling",      
- "LinT",      
- "M   ",      
- "MatN",      
- "MT  ",      
- "N   ",      
- "StöL",      
- "TBI ",      
- "Y   ",      
-              
-StuFF = ["AJF ",      
- "Dokt",      
- "flin",      
- "FriS",      
- "Gans",      
- "KogV",      
- "MiP ",      
- "PULS",      
- "SAKS",      
- "SKA ",      
- "SKUM",      
- "Soci",      
- "SSHF",      
- "Stal",      
- "STiL",      
- "Stim",      
- "StuF"]     
-              
+ "BMA ",
+ "Cons",
+ "Domf",
+ "Fri ",
+ "Log ",
+ "Läk ",
+ "MedB",
+ "SG  ",
+ "SskL",
+ "SskN",
+ "Stöd"]
+
+LinTek = ["C   ",
+ "CTD ",
+ "D   ",
+ "DokL",
+ "ED  ",
+ "FriL",
+ "GDK ",
+ "I   ",
+ "KTS ",
+ "Ling",
+ "LinT",
+ "M   ",
+ "MatN",
+ "MT  ",
+ "N   ",
+ "StöL",
+ "TBI ",
+ "Y   ",
+
+StuFF = ["AJF ",
+ "Dokt",
+ "flin",
+ "FriS",
+ "Gans",
+ "KogV",
+ "MiP ",
+ "PULS",
+ "SAKS",
+ "SKA ",
+ "SKUM",
+ "Soci",
+ "SSHF",
+ "Stal",
+ "STiL",
+ "Stim",
+ "StuF"]
 
 
+# Hur många av varje sektionssträng finns det?
+Studentkoll.select(:kar).group_by(&:kar).collect {|k| {k[0] => k[1].size} }
+
+# Hur många saknar kår?
+Studentkoll.where(:kar => nil).count
 
 
 

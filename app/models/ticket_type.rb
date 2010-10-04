@@ -26,6 +26,6 @@ class TicketType < ActiveRecord::Base
   end
 
   def number_of_union_discounts
-    self.tickets.where(:union_discount => true).count
+    self.tickets.where("union_discount NOT LIKE ?", nil).count
   end
 end

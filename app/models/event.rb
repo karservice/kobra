@@ -25,11 +25,13 @@ class Event < ActiveRecord::Base
     # Unless, create a new Visitor
     visitor ||= Visitor.create(:personal_number => student.pnr_format,
       :first_name => student.fornamn,
-      :last_name => student.efternamn,
-      :union_override => union_override)
+      :last_name => student.efternamn)
     registration = Registration.create!(:event => self, :visitor => visitor)
     tickets.each do |ticket|
-      Ticket.create!(:registration => registration, :ticket_type => ticket)
+      # Create the ticket, add union_override if it's available
+      # FIXME a bit ugly
+      Ticket.create!(:registration => registration, :ticket_type => ticket,
+        :union_override => !union_override.nil?, :union_discount => union_override)
     end
     # Return registration
     registration

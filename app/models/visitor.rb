@@ -71,14 +71,12 @@ class Visitor < ActiveRecord::Base
   end
 
   def union_member?
-    union || union_override
+    union
   end
 
   def union
     if result = StureStudent.where(:personal_number => self.personal_number).first
       result.student_union
-    else
-      self.union_override
     end
   end
 end

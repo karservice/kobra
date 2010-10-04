@@ -10,10 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101004130103) do
+ActiveRecord::Schema.define(:version => 20101004162213) do
 
 # Could not dump table "delayed_jobs" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102407380>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102ad9cf8>
 
   create_table "events", :force => true do |t|
     t.string   "title"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20101004130103) do
   end
 
 # Could not dump table "students" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102274590>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102a73e58>
 
   create_table "sture_students", :force => true do |t|
     t.string   "personal_number"
@@ -77,8 +77,9 @@ ActiveRecord::Schema.define(:version => 20101004130103) do
     t.datetime "emailed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "union_discount"
     t.boolean  "lintek_discount"
-    t.boolean  "union_discount"
+    t.boolean  "union_override"
   end
 
   create_table "visitors", :force => true do |t|
@@ -90,7 +91,6 @@ ActiveRecord::Schema.define(:version => 20101004130103) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "union_override"
   end
 
 end

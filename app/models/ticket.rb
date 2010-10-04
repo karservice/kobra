@@ -12,11 +12,7 @@ class Ticket < ActiveRecord::Base
   validate :validate_maximum_number_of_tickets, :on => :create
 
   scope :any_union, where('union_discount IS NOT ?', nil)
-  scope :union, lambda { |union_name|
-      where('lintek_discount LIKE ?', true) if union_name.to_s.downcase == "lintek"
-      # Should be something like this
-      #where('union_discount LIKE ?', union_name.to_s)
-  }
+  scope :union, lambda {|u| where('union_discount LIKE ?', u.to_s) }
 
   def validate_maximum_number_of_tickets
     # maximum_number_of_tickets == 0 means infinit
@@ -25,15 +21,18 @@ class Ticket < ActiveRecord::Base
     end
   end
 
+  # Save ticket union, unless union_override. Then it has already been done
   before_create {|ticket|
-    if self.should_have_lintek_discount?
-      ticket.lintek_discount = true
+    unless ticket.union_override
+      ticket.union_discount = self.registration.visitor.union
     end
 
-    # Save the union
-    if self.should_have_union_discount?
-      ticket.union_discount = true
-    end
+    # Save if this was a LinTek-discount ticket
+    ticket.lintek_discount = ticket.union_discount == "LinTek" &&
+      self.ticket_type.number_of_lintek_discount_tickets.to_i > self.ticket_type.number_of_lintek_discounts
+
+    # Return true, we don't want to stop the creation
+    true
   }
 
   def handout!
@@ -46,15 +45,6 @@ class Ticket < ActiveRecord::Base
 
   def to_s
     self.ticket_type.to_s
-  end
-
-  def should_have_union_discount?
-    self.registration.visitor.union_member?
-  end
-
-  def should_have_lintek_discount?
-    self.registration.visitor.union == "LinTek" &&
-      self.ticket_type.number_of_lintek_discount_tickets.to_i > self.ticket_type.number_of_lintek_discounts
   end
 
   def price

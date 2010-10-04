@@ -14,15 +14,28 @@ class StudentsController < ApplicationController
     if @students_count == 1
       @student = @students.first
 
-      if @event.ticket_types.size == 1 && @event.ticket_types.first.always_save?
-        # FIXME Should be handled as a transaction?
-        # FIXME Should be handled in a model?
-        @visitor = Visitor.create(:personal_number => @student.pnr_format,
-          :first_name => @student.fornamn,
-          :last_name => @student.efternamn)
-        @registration = Registration.create(:event => @event, :visitor => @visitor)
-        Ticket.create(:registration => @registration, :ticket_type => @event.ticket_types.first)
+      if @student.union_member?
+        @message = "#{@student} är medlem i #{@student.union}"
+      else
+        @message = "#{@student} är inte kårmedlem"
       end
+
+      # Should we autosave the student?
+      if @event.autosave?
+        @registration  = @event.register_student(@student, self.available_ticket_types)
+        @visitor = @registration.visitor
+        @message += ' och har registrerats'
+      end
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    errors = e.record.errors
+
+    @message  = "Kunde registrera på grund av: "
+    @message += errors.keys.collect {|k| errors[k] }.flatten.collect {|k| k.capitalize }.join(', ')
+  ensure
+    # If we're using autosave, render tickets/sale right away
+    if @event.autosave?
+      render 'tickets/sale'
     end
   end
 end

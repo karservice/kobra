@@ -20,7 +20,7 @@ class Studentkoll < ActiveRecord::Base
 
   LinTek = [
    "C",
-   "CTD ",
+   "CTD",
    "D",
    "DokL",
    "ED",
@@ -118,9 +118,9 @@ class Studentkoll < ActiveRecord::Base
       "StuFF"
     elsif Consensus.include?(sektion)
       "Consensus"
-    else # Look in old STURE data
-      @sture_student ||= StureStudent.where(:personal_number => self.pnr_format).first
-      @sture_student.union if @sture_student
+    #else # Look in old STURE data
+      #@sture_student ||= StureStudent.where(:personal_number => self.pnr_format).first
+      #@sture_student.union if @sture_student
     end
   end
 

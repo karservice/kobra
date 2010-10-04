@@ -10,10 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100924142234) do
+ActiveRecord::Schema.define(:version => 20101004130103) do
 
 # Could not dump table "delayed_jobs" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102b4f048>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102407380>
 
   create_table "events", :force => true do |t|
     t.string   "title"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20100924142234) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "electronic_tickets"
+    t.boolean  "permanent"
   end
 
   create_table "registration_batches", :force => true do |t|
@@ -42,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20100924142234) do
   end
 
 # Could not dump table "students" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102ab6078>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102274590>
 
   create_table "sture_students", :force => true do |t|
     t.string   "personal_number"

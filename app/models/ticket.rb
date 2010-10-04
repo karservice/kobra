@@ -25,7 +25,6 @@ class Ticket < ActiveRecord::Base
     end
   end
 
-
   before_create {|ticket|
     if self.should_have_lintek_discount?
       ticket.lintek_discount = true

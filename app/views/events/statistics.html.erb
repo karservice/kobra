@@ -1,12 +1,13 @@
+<p>
+  <%= link_to 'Tillbaka', @event %>
+</p>
+
 <h1>Statistik för <%= @event %></h1>
-
-
 
 <table>
   <tr>
     <th>Biljetttyp</th>
     <th>Kårbiljetter</th>
-    <th>varav LinTek-biljetter</th>
     <th>Alla biljetter</th>
   </tr>
   <% @ticket_types.each do |ticket_type| %>
@@ -16,9 +17,6 @@
       </td>
       <td>
         <%= ticket_type.tickets.any_union.count %>
-      </td>
-      <td>
-        <%= ticket_type.tickets.union(:lintek).count %>
       </td>
       <td>
         <%= ticket_type.tickets.count %>
@@ -39,9 +37,6 @@
       </td>
       <td>
         <%= union_per_day[total[0]].to_i %>
-      </td>
-      <td>
-        <%= lintek_per_day[total[0]].to_i %>
       </td>
       <td>
         <%= total[1].to_i %>

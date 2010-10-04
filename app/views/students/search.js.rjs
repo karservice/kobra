@@ -1,9 +1,5 @@
 if @student
-  if @event.electronic_tickets?
-    page['results'].replace_html :partial => 'sale'
-  else
-    page['results'].replace_html :partial => 'sale_without_tickets'
-  end
+  page['results'].replace_html :partial => 'tickets/form'
   unless @event.ticket_types.size == 1 && @event.ticket_types.first.always_save?
     page['ticket_submit'].show()
     page['ticket_submit'].select()
@@ -12,7 +8,7 @@ if @student
       page['union_override'].show()
     end
   end
-elsif @studens_count == 0
+elsif @students_count == 0
   page['results'].replace_html :text => "<h3>Ingen träff</h3>"
 else
   page['results'].replace_html :text => "<h3>#{@students_count} träffar, förfina sökningen</h3>"

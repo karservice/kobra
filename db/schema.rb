@@ -10,13 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101006125209) do
+ActiveRecord::Schema.define(:version => 20101006130758) do
 
 # Could not dump table "admins" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x0000010a9a8f98>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x0000010b00a120>
 
 # Could not dump table "delayed_jobs" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x0000010a9af5a0>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x000001011e4f40>
 
   create_table "events", :force => true do |t|
     t.string   "title"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20101006125209) do
   end
 
 # Could not dump table "students" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x0000010a9d31d0>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000103569768>
 
   create_table "sture_students", :force => true do |t|
     t.string   "personal_number"
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(:version => 20101006125209) do
   end
 
 # Could not dump table "users" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x0000010b01aed0>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x0000010120cf90>
 
   create_table "visitors", :force => true do |t|
     t.string   "first_name"

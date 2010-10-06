@@ -8,7 +8,13 @@
 </head>
 <body>
 
-<p id="notice"><%= notice %></p>
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+<p>
+  <% if user_signed_in? %>
+  Inloggad som <%= current_user %> (<%= link_to 'Logga ut', destroy_user_session_path %>)
+  <% end %>
+</p>
 
 <%= yield %>
 

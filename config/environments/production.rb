@@ -47,4 +47,7 @@ Cobra::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # Default URL for mail
+  config.action_mailer.default_url_options = { :host => 'linticket.sof2009.se:3000' }
 end

@@ -10,10 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101004162213) do
+ActiveRecord::Schema.define(:version => 20101004172216) do
 
 # Could not dump table "delayed_jobs" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102ad9cf8>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x0000010b031770>
 
   create_table "events", :force => true do |t|
     t.string   "title"
@@ -22,6 +22,11 @@ ActiveRecord::Schema.define(:version => 20101004162213) do
     t.datetime "updated_at"
     t.boolean  "electronic_tickets"
     t.boolean  "permanent"
+  end
+
+  create_table "events_users", :id => false, :force => true do |t|
+    t.integer "event_id"
+    t.integer "user_id"
   end
 
   create_table "registration_batches", :force => true do |t|
@@ -43,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20101004162213) do
   end
 
 # Could not dump table "students" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000102a73e58>
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x000001019b8fa0>
 
   create_table "sture_students", :force => true do |t|
     t.string   "personal_number"
@@ -81,6 +86,9 @@ ActiveRecord::Schema.define(:version => 20101004162213) do
     t.boolean  "lintek_discount"
     t.boolean  "union_override"
   end
+
+# Could not dump table "users" because of following NoMethodError
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x000001021c9910>
 
   create_table "visitors", :force => true do |t|
     t.string   "first_name"

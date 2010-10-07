@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :admin, :username
 
   # Both email and username must be unique, since both can be used as a login key
   validates_presence_of :email, :on => :create, :message => "måste anges"
@@ -23,6 +23,6 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    self.email
+    self.username || self.email
   end
 end

@@ -144,7 +144,3 @@ Studentkoll.select(:kar).group_by(&:kar).collect {|k| {k[0] => k[1].size} }
 
 # Hur många saknar kår?
 Studentkoll.where(:kar => nil).count
-
-
-
-

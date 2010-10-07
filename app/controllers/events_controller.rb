@@ -1,5 +1,8 @@
 # -*- encoding : utf-8 -*-
 class EventsController < ApplicationController
+
+  before_filter :require_admin, :only => [:new, :create, :edit, :update]
+
   # GET /events
   # GET /events.xml
   def index

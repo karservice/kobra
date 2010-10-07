@@ -2,6 +2,10 @@
   <%= link_to 'Tillbaka', @event %>
 </p>
 
+<style type="text/css" media="screen">
+  tr.sub_table td { font-size: 90%; }
+</style>
+
 <h1>Statistik för <%= @event %></h1>
 
 <table>
@@ -25,11 +29,6 @@
     <% total_per_day = ticket_type.tickets.group("DATE(created_at)").size %>
     <% union_per_day = ticket_type.tickets.any_union.group("DATE(created_at)").size %>
     <% lintek_per_day = ticket_type.tickets.union(:lintek).group("DATE(created_at)").size %>
-
-    <style type="text/css" media="screen">
-      tr.sub_table td { font-size: 90%; }
-    </style>
-
     <% total_per_day.each do |total| %>
     <tr class="sub_table" style="color: #777;">
       <td>

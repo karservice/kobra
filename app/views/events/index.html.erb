@@ -1,8 +1,10 @@
 <h1>Evenemang</h1>
 
+<% if current_user.admin? %>
 <p>
   <%= link_to 'Skapa nytt evenemang', new_event_path %>
 </p>
+<% end %>
 
 <ul>
 <% @events.each do |event| %>

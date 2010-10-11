@@ -3,44 +3,98 @@
 </p>
 
 <style type="text/css" media="screen">
-  tr.sub_table td { font-size: 90%; }
+  tr.sub_table td { font-size: 90%; color: #777; }
+  td, th { text-align: right; }
+  tr.total, tr.total td, td.total { font-weight: bold; }
 </style>
 
 <h1>Statistik för <%= @event %></h1>
 
-<table>
-  <tr>
-    <th>Biljetttyp</th>
-    <th>Kårbiljetter</th>
-    <th>Alla biljetter</th>
-  </tr>
-  <% @ticket_types.each do |ticket_type| %>
+<div class="span-16">
+  <table>
     <tr>
-      <td>
-        <%= ticket_type %>
-      </td>
-      <td>
-        <%= ticket_type.tickets.any_union.count %>
-      </td>
-      <td>
-        <%= ticket_type.tickets.count %>
-      </td>
+      <th></th>
+      <th style="padding-right: 0;">
+        <div style="border-bottom: 1px solid #ccc;">
+          Kårbiljetter
+        </div>
+      </th>
+
+      <% @union_stats.each do |union| %>
+        <th style="padding: 2.9em 0 0 0; font-weight: normal;">
+          <div style="border-top: 1px solid #ccc;">
+          <%= union[0] %>
+          </div>
+        </th>
+      <% end %>
+
+      <th>Icke kår</th>
+
+      <th>Totalt</th>
     </tr>
-    <% total_per_day = ticket_type.tickets.group("DATE(created_at)").size %>
-    <% union_per_day = ticket_type.tickets.any_union.group("DATE(created_at)").size %>
-    <% lintek_per_day = ticket_type.tickets.union(:lintek).group("DATE(created_at)").size %>
-    <% total_per_day.each do |total| %>
-    <tr class="sub_table" style="color: #777;">
-      <td>
-        <%= total[0] %>
-      </td>
-      <td>
-        <%= union_per_day[total[0]].to_i %>
-      </td>
-      <td>
-        <%= total[1].to_i %>
-      </td>
-    </tr>
+    <% @ticket_types.each do |ticket_type| %>
+      <tr class="total">
+        <th>
+          <%= ticket_type %>
+        </th>
+        <td>
+          <%= ticket_type.tickets.any_union.count %>
+        </td>
+        <% ticket_type.tickets.select(:union_discount).group_by(&:union_discount).select {|u| !u.nil?}.collect {|u| [u[0], u[1].size] }.each do |u| %>
+          <td>
+            <%= u[1] %>
+          </td>
+        <% end %>
+
+        <td>
+          <%= ticket_type.tickets.where(:union_discount => nil).count %>
+        </td>
+
+        <td class="total">
+          <%= ticket_type.tickets.count %>
+        </td>
+      </tr>
+      <% total_per_day = ticket_type.tickets.group("DATE(created_at)").size %>
+      <% union_per_day = ticket_type.tickets.any_union.group("DATE(created_at)").size %>
+      <% total_per_day.each do |total| %>
+      <tr class="sub_table">
+        <td>
+          <%= total[0] %>
+        </td>
+        <td>
+          <%= union_per_day[total[0]].to_i %>
+        </td>
+        <% per_union_count = ticket_type.tickets.where("DATE(created_at) LIKE :date", :date => total[0]).select(:union_discount).group_by(&:union_discount).collect {|u| [u[0], u[1].size] } %>
+        <% for i in 0..(@event.tickets.select(:union_discount).collect {|t| t.union_discount }.uniq.compact.count - 1) %>
+          <td>
+            <%= per_union_count[i] ? per_union_count[i][1] : 0 %>
+          </td>
+        <% end %>
+        <td>
+          <%= ticket_type.tickets.where("DATE(created_at) LIKE :date", :date => total[0]).where(:union_discount => nil).count %>
+        </td>
+        <td>
+          <%= total[1].to_i %>
+        </td>
+      </tr>
+      <% end %>
     <% end %>
-  <% end %>
-</table>
+    <tr class="total">
+      <th>Totalt</th>
+      <td>
+        <%= @event.tickets.any_union.count %>
+      </td>
+      <% @union_stats.each do |union| %>
+      <td>
+        <%= @event.tickets.where(:union_discount => union).count %>
+      </td>
+      <% end %>
+      <td>
+        <%= @event.tickets.where(:union_discount => nil).count %>
+      </td>
+      <td>
+        <%= @event.tickets.count %>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,59 +1,50 @@
-<%= link_to 'Tillbaka', @event %>
-
-<h1>Försäljning för <%= @event %></h1>
-
-<% if @event.electronic_tickets? %>
 <p>
-  Försäljning med elektroniska biljetter.
-</p>
-<% else %>
-<p>
-  Försäljning utan elektroniska biljetter som endast registrerar antal biljetter och visar rabatter.
-</p>
-<% end %>
-
-
-<!-- <p>
-  Totalt antal sålda biljetter: <span id="tickets_count"><%= @event.tickets.count %></span>
-</p> -->
-
-<!-- Sök student -->
-<%= form_for(:student, :url => search_event_students_path(@event), :remote => true) do |f| %>
-  <%= f.text_field :query %>
-  <%= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
-  <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
-<% end %>
-
-
-<div id="results"></div>
-
-<script type="text/javascript" charset="utf-8">
-  $('student_query').focus();
-</script>
-
-<hr />
-
-<h3>Rabatter</h3>
-<p>
-  Kårmedlemskap visas så fort en student hittas via sökning.<br />
-  Rabatter beräknas när en biljett har sparats, för att säkerhetsställa att det maximala antalet rabatterade biljetter inte överskrids.
+  <%= link_to 'Tillbaka', @event %>
 </p>
 
-<p>
-  <strong>DET ÄR VIKTIGT ATT ALLA BILJETTER SOM SÄLJS TILL KÅRMEDLEMMAR REGISTRERAS.</strong>
-</p>
+<div class="span-12">
 
-<h3>Sökning</h3>
-<p>
-  Sökning sker via RFID-nummer (blippa på läsaren), eller manuellt via personnummer eller namn.<br />
-</p>
+  <h1>Försäljning för <%= @event %></h1>
 
-<h3>Problem</h3>
-<p>
-  Vid strul kontakta:<br />
-  Erik Thorselius  0704940210<br />
-  Johan Eckerström 0732411798
-</p>
+  <!-- Sök student -->
+  <%= form_for(:student, :url => search_event_students_path(@event), :remote => true) do |f| %>
+    <%= f.text_field :query %>
+    <%= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
+    <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
+  <% end %>
+
+
+  <div id="results"></div>
+
+  <script type="text/javascript" charset="utf-8">
+    $('student_query').focus();
+  </script>
+
+</div>
+
+<div class="span-8 last">
+  <h3>Sökning</h3>
+  <p>
+    Sökbara termer är RFID-nummer, streckkodsnummer, personnummer (ÅÅMMDD-XXXX) samt namn.
+  </p>
+
+  <h3>Rabatter</h3>
+  <p>
+    Kårmedlemskap visas då en student hittas via sökning.<br />
+    Rabatter beräknas när en biljett har sparats, för att säkerhetsställa att det maximala antalet rabatterade biljetter inte överskrids.
+  </p>
+
+  <p class="highlight">
+    DET ÄR VIKTIGT ATT ALLA BILJETTER SOM SÄLJS TILL KÅRMEDLEMMAR REGISTRERAS.
+  </p>
+
+  <h3>Vid problem</h3>
+  <p>
+    Vid strul kontakta:<br />
+    <a herf="mailto:erik.thorselius@gmail.com">Erik Thorselius</a>  0704940210<br />
+    <a href="mailto:johan@duh.se">Johan Eckerström</a> 0732411798
+  </p>
+</div>
 
 <!-- <script type="text/javascript" charset="utf-8">
   Event.observe(document, 'keypress', function(event){

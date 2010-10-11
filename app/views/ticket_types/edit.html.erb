@@ -1,6 +1,7 @@
+<p>
+  <%= link_to 'Tillbaka', event_ticket_types_path(@event) %>
+</p>
+
 <h1>Ändrar <%= @ticket_type %> för <%= @event %></h1>
 
 <%= render 'form' %>
-
-<%= link_to 'Visa', [@event, @ticket_type] %> |
-<%= link_to 'Tillbaka', event_ticket_types_path(@event) %>

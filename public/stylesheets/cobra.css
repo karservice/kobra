@@ -1,0 +1,3 @@
+body { font-size: 90%; }
+.highlight { background:#ffc; }
+input[type=text], input[type=password], input.text, input.title, textarea, select { font-size: 110%; padding: 0.5em; }

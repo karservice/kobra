@@ -1,14 +1,20 @@
 rails_env = ENV['RAILS_ENV'] || production
-
-listen 8090 # by default Unicorn listens on port 8080
 worker_processes 2 # this should be >= nr_cpus
 
 if rails_env == 'production'
+  listen 8090
   user 'linweb'
   pid "/var/www/linticket.sof2009.se/shared/pids/unicorn.pid"
   stderr_path "/var/www/linticket.sof2009.se/current/log/unicorn.log"
   stdout_path "/var/www/linticket.sof2009.se/current/log/unicorn.log"
   working_directory "/var/www/linticket.sof2009.se/current"
+elsif rails_env == 'staging'
+  listen 8091
+  user 'linweb'
+  pid "/var/www/staging.linticket.sof2009.se/shared/pids/unicorn.pid"
+  stderr_path "/var/www/staging.linticket.sof2009.se/current/log/unicorn.log"
+  stdout_path "/var/www/staging.linticket.sof2009.se/current/log/unicorn.log"
+  working_directory "/var/www/staging.linticket.sof2009.se/current"
 end
 
 

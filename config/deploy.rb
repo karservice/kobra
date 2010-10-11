@@ -1,4 +1,9 @@
 # -*- encoding : utf-8 -*-
+set :stages, %w(staging production)
+set :default_stage, "staging"
+require 'capistrano/ext/multistage'
+
+# Production deployment
 set :application, "Cobra"
 set :repository,  "Cobra"
 
@@ -14,7 +19,7 @@ set :scm_verbose, false
 set :rails_env, "production"
 
 
-set :branch, "live"
+set :branch, "master"
 set :repository, "git@github.com:jage/cobra.git"
 set :deploy_via, :remote_cache
 set :git_shallow_clone, 1

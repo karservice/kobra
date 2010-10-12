@@ -1,7 +1,7 @@
 <h2>Logga in</h2>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <p><%= f.label :email, 'E-post' %><br />
+  <p><%= f.label :email, 'Användarnamn eller e-post' %><br />
   <%= f.text_field :email %></p>
 
   <p><%= f.label :password, 'Lösenord' %><br />

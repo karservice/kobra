@@ -16,7 +16,15 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :events
 
-  # Override method to allow both usernam and email login
+  # scope :events, lambda {|u|
+  #   if u.admin?
+  #     Event.all
+  #   else
+  #     joins(:events)
+  #   end
+  # }
+
+  # Override Devise method to allow both usernam and email login
   def self.find_for_database_authentication(conditions)
     value = conditions[authentication_keys.first]
     where(["username = :value OR email = :value", { :value => value }]).first
@@ -24,5 +32,11 @@ class User < ActiveRecord::Base
 
   def to_s
     self.username || self.email
+  end
+
+  def default_event
+    if self.events.size == 1
+      self.events.first
+    end
   end
 end

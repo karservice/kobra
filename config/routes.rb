@@ -3,6 +3,8 @@ Cobra::Application.routes.draw do
 
   devise_for :users
 
+  post "become" => "admin#become"
+
   resources :events do
     member do
       get :sale

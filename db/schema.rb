@@ -10,7 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101006130758) do
+ActiveRecord::Schema.define(:version => 20101018084751) do
+
+# Could not dump table "admins" because of following NoMethodError
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000104ec2ac0>
+
+# Could not dump table "delayed_jobs" because of following NoMethodError
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000104d8c1d8>
 
   create_table "events", :force => true do |t|
     t.string   "title"
@@ -44,6 +50,9 @@ ActiveRecord::Schema.define(:version => 20101006130758) do
     t.datetime "updated_at"
   end
 
+# Could not dump table "students" because of following NoMethodError
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000104d22d78>
+
   create_table "sture_students", :force => true do |t|
     t.string   "personal_number"
     t.string   "student_union"
@@ -60,10 +69,11 @@ ActiveRecord::Schema.define(:version => 20101006130758) do
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "number_of_lintek_discount_tickets"
-    t.integer  "lintek_discount_count"
-    t.integer  "lintek_discount"
+    t.integer  "number_of_extra_discount_tickets"
+    t.integer  "extra_discount_count"
+    t.integer  "extra_discount"
     t.boolean  "always_save"
+    t.string   "extra_discount_for_union"
   end
 
   create_table "tickets", :force => true do |t|
@@ -77,9 +87,12 @@ ActiveRecord::Schema.define(:version => 20101006130758) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "union_discount"
-    t.boolean  "lintek_discount"
+    t.boolean  "extra_discount"
     t.boolean  "union_override"
   end
+
+# Could not dump table "users" because of following NoMethodError
+#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000104c86f18>
 
   create_table "visitors", :force => true do |t|
     t.string   "first_name"

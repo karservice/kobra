@@ -8,8 +8,8 @@
     <li>
       <%= ticket.price %> SEK, <%= ticket %>
       <% if ticket.union_discount? %>
-        <% if ticket.lintek_discount? %>
-          (Rabatt Lintek, biljett nummer <%= ticket.ticket_type.number_of_lintek_discounts %>)
+        <% if ticket.extra_discount? %>
+          (Rabatt för <%= ticket.union_discount %>, biljett nummer <%= ticket.ticket_type.number_of_extra_discounts %>)
         <% else %>
           (Rabatt kår)
         <% end %>

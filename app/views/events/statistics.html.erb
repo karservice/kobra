@@ -4,13 +4,38 @@
 
 <style type="text/css" media="screen">
   tr.sub_table td { font-size: 90%; color: #777; }
-  td, th { text-align: right; }
-  tr.total, tr.total td, td.total { font-weight: bold; }
+  div.right-align td, div.right-align th { text-align: right; }
+/*  tr.total, tr.total td, td.total, tr:nth-child(even) td.total, tr:nth-child(odd) td.total  { background: #000; color: #fff; }*/
 </style>
 
 <h1>Statistik för <%= @event %></h1>
 
-<div class="span-16">
+
+<div class="span-10">
+  <% @ticket_types.each do |ticket_type| %>
+  <h2>Sålda biljetter för <%= ticket_type %></h2>
+  <table>
+    <% ticket_type.tickets.select(:union_discount).group_by(&:union_discount).select {|u| !u.nil?}.collect {|u| [u[0], u[1].size] }.each do |u| %>
+      <tr>
+        <td>Antal biljetter för <%= u[0] %></td>
+        <td><%= u[1] %></td>
+      </tr>
+    <% end %>
+
+    <% if ticket_type.extra_discount_for_union? %>
+    <tr>
+      <td>Varav biljetter med extra rabatt (<%= ticket_type.extra_discount_for_union %>)</td>
+      <td><%= ticket_type.number_of_extra_discounts.to_i %></td>
+    </tr>
+    <% end %>
+  </table>
+  <% end %>
+</div>
+
+
+<div class="span-16 right-align">
+  <h2>Försäljningsstatistik</h2>
+
   <table>
     <tr>
       <th></th>
@@ -33,7 +58,7 @@
       <th>Totalt</th>
     </tr>
     <% @ticket_types.each do |ticket_type| %>
-      <tr class="total">
+      <tr>
         <th>
           <%= ticket_type %>
         </th>
@@ -73,7 +98,7 @@
         <td>
           <%= ticket_type.tickets.where("DATE(created_at) LIKE :date", :date => total[0]).where(:union_discount => nil).count %>
         </td>
-        <td>
+        <td class="total">
           <%= total[1].to_i %>
         </td>
       </tr>

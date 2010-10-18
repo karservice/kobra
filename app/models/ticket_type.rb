@@ -21,11 +21,11 @@ class TicketType < ActiveRecord::Base
     (self.maximum_number_of_tickets.to_i == 0) || (self.tickets.count < self.maximum_number_of_tickets.to_i)
   end
 
-  def number_of_lintek_discounts
-    self.tickets.where(:lintek_discount => true).count
+  def number_of_extra_discounts
+    self.tickets.where(:extra_discount => true).count
   end
 
   def number_of_union_discounts
-    self.tickets.where("union_discount NOT LIKE ?", nil).count
+    self.tickets.where("union_discount NOT LIKE ?", false).count
   end
 end

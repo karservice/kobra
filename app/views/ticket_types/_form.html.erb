@@ -24,28 +24,37 @@
     <%= f.text_field :price %>
   </div>
   <div class="field">
-    <%= f.label :union_discount, 'Rabatt för kårmedlemskap' %><br />
-    <%= f.text_field :union_discount %>
-  </div>
-  <div class="field">
-    <%= f.label :lintek_discount, 'Rabatt för Lintek-medlemmar (begränsat antal)' %><br />
-    <%= f.text_field :lintek_discount %>
-  </div>
-  <div class="field">
-    <%= f.label :number_of_lintek_discount_tickets, 'Antal rabatterade Lintek-biljetter' %><br />
-    <%= f.text_field :number_of_lintek_discount_tickets %>
-  </div>
-  <div class="field">
-    <%= f.label :maximum_number_of_tickets, 'Maximalt antal biljetter' %><br />
+    <%= f.label :maximum_number_of_tickets, 'Maximalt antal biljetter' %> (0 == oändligt)<br />
     <%= f.text_field :maximum_number_of_tickets %>
   </div>
   <hr />
+  <h3>Rabatt för alla kårer</h3>
+  <div class="field">
+    <%= f.label :union_discount, 'Rabatt för alla kårmedlemskap' %> (oavsett kår)<br />
+    <%= f.text_field :union_discount %>
+  </div>
+  <hr />
+  <h3>Rabatt per kår</h3>
+  <div class="field">
+    <%= f.label :extra_discount_for_union, 'Kår' %>
+    <%= f.select :extra_discount_for_union, Studentkoll.unions, { :include_blank => true } %>
+  </div>
+  <div class="field">
+    <%= f.label :extra_discount, 'Rabatt för vald kår' %><br />
+    <%= f.text_field :extra_discount %>
+  </div>
+  <div class="field">
+    <%= f.label :number_of_extra_discount_tickets, 'Begränsa antal biljetter för vald kår' %> (0 == oändligt)<br />
+    <%= f.text_field :number_of_extra_discount_tickets %>
+  </div>
+  <hr />
+  <h3>Försäljning</h3>
   <div class="field">
     <%= f.check_box :always_save %>
     <%= f.label :always_save, 'Spara alltid biljetterna för statistik (inaktiverar val)' %><br />
   </div>
-  <hr />
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Spara' %>
   </div>
 <% end %>

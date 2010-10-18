@@ -27,9 +27,9 @@ class Ticket < ActiveRecord::Base
       ticket.union_discount = self.registration.visitor.union
     end
 
-    # Save if this was a LinTek-discount ticket
-    ticket.lintek_discount = ticket.union_discount == "LinTek" &&
-      self.ticket_type.number_of_lintek_discount_tickets.to_i > self.ticket_type.number_of_lintek_discounts
+    # Note if its an extra discount
+    ticket.extra_discount = ticket.union_discount == self.ticket_type.extra_discount_for_union &&
+      (self.ticket_type.number_of_extra_discount_tickets.to_i == 0 || self.ticket_type.number_of_extra_discount_tickets.to_i > self.ticket_type.number_of_extra_discounts)
 
     # Return true, we don't want to stop the creation
     true
@@ -51,8 +51,8 @@ class Ticket < ActiveRecord::Base
     amount = self.ticket_type.price.to_i
     if self.union_discount?
       amount = amount - self.ticket_type.union_discount.to_i
-      if self.lintek_discount?
-        amount = amount - self.ticket_type.lintek_discount.to_i
+      if self.extra_discount?
+        amount = amount - self.ticket_type.extra_discount.to_i
       end
     end
     amount

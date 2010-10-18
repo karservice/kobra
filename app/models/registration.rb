@@ -11,6 +11,7 @@ class Registration < ActiveRecord::Base
   validates_associated :visitor, :on => :create
 
   # Only one registration per event, unless permanent event
+  # FIXME Should be per Event AND TicketType
   validates_uniqueness_of :visitor_id, :on => :create, :scope => :event_id,
     :unless => Proc.new {|r| r.event.permanent? },
     :message => "en rabatt per student"

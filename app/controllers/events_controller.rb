@@ -1,17 +1,18 @@
 # -*- encoding : utf-8 -*-
 class EventsController < ApplicationController
-  before_filter :require_admin, :only => [:new, :create, :edit, :update]
   before_filter :preload_event, :except => [:index, :new, :create]
 
   # GET /events
   # GET /events.xml
   def index
     # FIXME Should be handled in the model
-    if current_user.admin?
-      @events = Event.all
-    else
-      @events = current_user.events.all
-    end
+    # FIXME Should require user
+    #if user_signed_in? && current_user.admin?
+    #  @events = Event.all
+    #else
+    #  @events = current_user.events.all
+    #end
+    @events = Event.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -102,10 +103,6 @@ class EventsController < ApplicationController
 private
   # Preload event, admin gets all events
   def preload_event
-    if current_user.admin?
-      @event = Event.find(params[:id])
-    else
-      @event = current_user.events.find(params[:id])
-    end
+    @event = Event.find(params[:id])
   end
 end

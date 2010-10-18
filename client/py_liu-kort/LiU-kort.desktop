@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=/home/bluecommand/liu-kort/rfid.png
+Name[en_US]=LiU-kort
+Exec=/home/bluecommand/liu-kort/main.py
+Name=LiU-kort
+Icon=/home/bluecommand/liu-kort/rfid.png

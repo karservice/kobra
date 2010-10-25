@@ -1,7 +1,10 @@
 # -*- encoding : utf-8 -*-
 set :stages, %w(staging production)
 set :default_stage, "staging"
-require 'capistrano/ext/multistage'
+
+# Set the correct RVM environment
+set :rvm_ruby_string, 'ruby-1.9.2-p0'
+set :rvm_type, :user
 
 # Production deployment
 set :application, "Cobra"

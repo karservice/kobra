@@ -5,11 +5,13 @@ class Visitor < ActiveRecord::Base
   has_many :events, :through => :registrations
 
   scope :search, lambda { |keyword|
+      keyword = keyword.to_s.strip
+
       # Searchable keys
       # These keys should have an index in the database for performance
       keys = [:first_name, :last_name, :personal_number, :rfid_number, :barcode_number, :email]
 
-      if not keyword.to_s.strip.empty?
+      unless keyword.empty?
         # Handle different personal number styles
         #  19860421-0000
         #  198604210000

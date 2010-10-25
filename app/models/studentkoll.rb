@@ -61,13 +61,13 @@ class Studentkoll < ActiveRecord::Base
 
   scope :search, lambda { |keyword|
     # Convert to string
-    keyword = keyword.to_s
+    keyword = keyword.to_s.strip
 
     # Searchable keys
     # These keys should have an index in the database for performance
     keys = [:epost, :fornamn, :efternamn, :pnr_format, :rfidnr, :streckkodnr]
 
-    if not keyword.to_s.strip.empty?
+    unless keyword.empty?
       # Handle different personal number styles
       #  19860421-0000
       #  860421-0000 (don't do anything, just notice)

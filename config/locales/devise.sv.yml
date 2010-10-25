@@ -37,3 +37,5 @@ sv:
         subject: 'Reset password instructions'
       unlock_instructions:
         subject: 'Unlock Instructions'
+      welcome_instructions:
+        subject: 'Välkommen till KOBRA'

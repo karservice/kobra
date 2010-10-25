@@ -9,6 +9,9 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :title, :on => :create, :message => "can't be blank"
 
+  # Latest event first
+  default_scope order("created_at DESC")
+
   def to_s
     self.title
   end

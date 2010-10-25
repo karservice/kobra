@@ -1,0 +1,31 @@
+<p>
+  <%= link_to 'Tillbaka', root_path %>
+</p>
+
+<h1>Användare</h1>
+
+<p>
+  <%= link_to 'Skapa användare', new_user_path %>
+</p>
+
+<table>
+  <tr>
+    <th>Användarnamn</th>
+    <th>E-post</th>
+    <th>Arrangemang</th>
+  </tr>
+<% @users.each do |user| %>
+  <tr>
+    <td>
+      <%= user.username %>
+      <small>(<%= link_to 'logga in som', become_path(:user => {:id => user.id }), :method => :post %>)</small>
+    </td>
+    <td><%= mail_to user.email %></td>
+    <td>
+      <% user.events.each do |event| %>
+        <%= link_to event, event %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>

@@ -6,13 +6,11 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
     # FIXME Should be handled in the model
-    # FIXME Should require user
-    #if user_signed_in? && current_user.admin?
-    #  @events = Event.all
-    #else
-    #  @events = current_user.events.all
-    #end
-    @events = Event.all
+    if current_user.admin?
+      @events = Event.all
+    else
+      @events = current_user.events.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -48,6 +46,8 @@ class EventsController < ApplicationController
   # POST /events.xml
   def create
     @event = Event.new(params[:event])
+    # Add the user creating this event
+    @event.users << current_user
 
     respond_to do |format|
       if @event.save

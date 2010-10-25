@@ -2,6 +2,7 @@
 Cobra::Application.routes.draw do
 
   devise_for :users
+  resources :users
 
   post "become" => "admin#become"
 

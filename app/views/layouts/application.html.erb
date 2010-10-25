@@ -23,12 +23,9 @@
   <% if user_signed_in? %>
     Inloggad som <%= current_user %> (<%= link_to 'Logga ut', destroy_user_session_path %>)
     <% if current_user.admin? %>
-      <%= form_for(:user, :url => become_path) do |f| %>
-        <%= f.label :id, 'Växla användare' %>
-        <%= f.select :id, User.all.reject {|u| u == current_user }.collect {|u| [u.username, u.id] } %>
-        <%= f.submit "Skicka" %>
-      <% end %>
-    <% end%>
+      <br />
+      <%= link_to 'Hantera användare', users_path %><br />
+    <% end %>
   <% end %>
 </p>
 </div>

@@ -18,7 +18,9 @@
   <tr>
     <td>
       <%= user.username %>
-      <small>(<%= link_to 'logga in som', become_path(:user => {:id => user.id }), :method => :post %>)</small>
+      <% unless user == current_user %>
+        <small>(<%= link_to 'logga in som', become_path(:user => {:id => user.id }), :method => :post %>)</small>
+      <% end %>
     </td>
     <td><%= mail_to user.email %></td>
     <td>

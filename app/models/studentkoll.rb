@@ -3,6 +3,8 @@ class Studentkoll < ActiveRecord::Base
   unless Rails.env == "development"
     set_table_name "STUDENTKOLL"
     establish_connection :sektionskoll
+  else
+    set_table_name "studentkoll"
   end
 
   Consensus = [

@@ -1,7 +1,9 @@
 # -*- encoding : utf-8 -*-
 class Studentkoll < ActiveRecord::Base
-  set_table_name "STUDENTKOLL"
-  establish_connection :sektionskoll
+  unless Rails.env == "development"
+    set_table_name "STUDENTKOLL"
+    establish_connection :sektionskoll
+  end
 
   Consensus = [
    "At",
@@ -103,6 +105,10 @@ class Studentkoll < ActiveRecord::Base
 
   def to_s
     self.name
+  end
+
+  def liu_id
+    self.epost.split('@').first
   end
 
   def union_member?

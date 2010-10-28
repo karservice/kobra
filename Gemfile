@@ -5,10 +5,7 @@ gem 'rails', '3.0.1'
 gem 'delayed_job', :git => 'http://github.com/collectiveidea/delayed_job.git'
 gem 'devise'
 
-gem 'ruby-oci8'
-gem 'activerecord-oracle_enhanced-adapter'
 gem 'sqlite3-ruby', :require => 'sqlite3'
-gem 'mysql2'
 
 # Use unicorn as the web server
 gem 'unicorn'
@@ -20,6 +17,12 @@ gem 'capistrano-ext'
 group :development do
   # Debugger
   gem 'ruby-debug19', :require => 'ruby-debug'
+end
+
+group :production do
+  gem 'ruby-oci8' # Needs oracle-instantclient
+  gem 'activerecord-oracle_enhanced-adapter'
+  gem 'mysql2'
 end
 
 # Bundle the extra gems:

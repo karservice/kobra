@@ -1,31 +1,13 @@
-<h3>
-  <%= @message %>
-</h3>
-
-<%= form_for(:ticket, :url => sale_event_tickets_path(@event), :remote => true) do |f| %>
-  <span id="hidden_field"></span>
-  <% unless @event.available_ticket_types.empty? %>
-    <ul style="">
-    <% @event.available_ticket_types.each do |ticket_type| %>
-      <li style="font-size:150%; margin-bottom: 0.5em; list-style-type:none;">
-        <%= check_box_tag "ticket_type[#{ticket_type.id}]", "1", @event.available_ticket_types.size == 1 %>
-        <%= label_tag "ticket_type[#{ticket_type.id}]", ticket_type %>
-      </li>
-    <% end %>
-    </ul>
-  <% else %>
-    <p>Finns inga tillgängliga biljetter.</p>
-  <% end %>
-
-  <div id="union_override" style="display:none;">
-  <%= link_to_function "Tvinga kårmedlemskap" do |page|
-        page[:union_override_form].toggle();
-      end %>
-  </div>
-
-  <div id="union_override_form" style="display:none; margin-top: 1em;">
-    <%= select :student, :union, Studentkoll.unions, { :include_blank => true } %>
-  </div>
-
-  <p><%= f.submit "Registrera" %></p>
-<% end %>
+<tr id="<%= @student.liu_id %>">
+  <td class="<%= @student.union_member? ? 'green' : 'gray' %>">
+    <%= @student%>
+  </td>
+  <td class="<%= @student.union_member? ? 'green' : 'gray' %>">
+    <%= @student.union %>
+  </td>
+  <td>
+    <%= link_to_function image_tag('icons/delete.png', :alt => 'Ta bort') do |page|
+          page.remove @student.liu_id
+        end %>
+  </td>
+</tr>

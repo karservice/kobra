@@ -1,4 +1,33 @@
 body { font-size: 90%; }
 .highlight { background:#ffc; }
+.green { background-color: #C0EAC6; }
+.red   { background-color: #EAC0C0; }
+.gray  { background-color: #EEE; }
 .indent { padding-left: 1.5em; }
 input[type=text], input[type=password], input.text, input.title, textarea, select { font-size: 110%; padding: 0.5em; }
+.shadow {
+  -moz-box-shadow: 3px 3px 4px #999;
+  -webkit-box-shadow: 3px 3px 4px #999;
+  box-shadow: 3px 3px 4px #999;
+  /* For IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#999999')";
+  /* For IE 5.5 - 7 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#999999');
+}
+form.search input, form.search input:focus {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background: #eee url(/images/search-icon.png) no-repeat scroll 6px 4px;
+    border: 1px #ccc solid;
+    color: #444;
+    height: 14px;
+    width: 174px;
+    padding-left: 23px;
+    padding-top: 4px;
+    padding-right: 5px;
+    padding-bottom: 4px;
+    font-size: 8pt;
+}
+form.search input:focus {
+    background-color: #fff;
+}

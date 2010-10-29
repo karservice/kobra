@@ -6,15 +6,31 @@
 
   <h1>Försäljning för <%= @event %></h1>
 
-  <!-- Sök student -->
-  <%= form_for(:student, :url => search_event_students_path(@event), :remote => true) do |f| %>
-    <%= f.text_field :query %>
-    <%= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
-    <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
+  <div id="status" class="highlight shadow" style="padding: 0.5em;">
+    Väntar på kortläsare ...
+  </div>
+
+  <div class="span-5 prepend-top right">
+    <!-- Sök student -->
+    <%= form_for(:student, :url => search_event_students_path(@event), :remote => true, :html => { :class => :search }) do |f| %>
+      <%= f.text_field :query, :value => 'Sök student' %>
+      <%#= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
+      <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
+    <% end %>
+    <script type="text/javascript">
+      $('student_query').onclick = function(e) { if ($('student_query').value == 'Sök student') { $('student_query').value = ''; } };
+    </script>
+  </div>
+
+  <%= form_for(:student, :url => search_card_event_students_path(@event), :remote => true, :html => { :id => :search_card_form}) do |f| %>
+    <%= f.hidden_field :atr %>
+    <%#= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
   <% end %>
 
 
-  <div id="results"></div>
+  <table class="span-12 prepend-top" id="results">
+
+  </table>
 
   <script type="text/javascript" charset="utf-8">
     $('student_query').focus();
@@ -23,43 +39,5 @@
 </div>
 
 <div class="span-8 last">
-  <h3>Sökning</h3>
-  <p>
-    När RFID-läsare används måste sökfältet vara markerat. Data som inläses av läsaren skrivs in där markören står.
-  </p>
-  <p>
-    Sökbara termer är RFID-nummer, streckkodsnummer, personnummer (ÅÅMMDD-XXXX) samt namn.
-  </p>
-
-  <h3>Rabatter</h3>
-  <p>
-    Kårmedlemskap visas då en student hittas via sökning.<br />
-    Rabatter beräknas när en biljett har sparats, för att säkerhetsställa att det maximala antalet rabatterade biljetter inte överskrids.
-  </p>
-
-  <p class="highlight">
-    DET ÄR VIKTIGT ATT ALLA BILJETTER SOM SÄLJS TILL KÅRMEDLEMMAR REGISTRERAS.
-  </p>
-
-  <h3>Vid problem</h3>
-  <p>
-    Vid strul kontakta:<br />
-    <a herf="mailto:erik.thorselius@gmail.com">Erik Thorselius</a>  0704940210<br />
-    <a href="mailto:johan@duh.se">Johan Eckerström</a> 0732411798
-  </p>
+  <h2>Statistik</h2>
 </div>
-
-<!-- <script type="text/javascript" charset="utf-8">
-  Event.observe(document, 'keypress', function(event){
-     numKeyPressed = event.keyCode - 48;
-     if (numKeyPressed) {
-        if ($("ticket_type_" + numKeyPressed).checked == 1) {
-          $("ticket_type_" + numKeyPressed).checked = 0;
-        } else {
-          $("ticket_type_" + numKeyPressed).checked = 1;
-        }
-     }
-  });
-</script>
- -->
-

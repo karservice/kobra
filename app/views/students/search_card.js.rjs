@@ -1,0 +1,7 @@
+if @student
+  page.insert_html :top, 'results', :partial => 'tickets/form'
+else
+  page['status'].replace_html :text => "Ingen träff på LiU-kort"
+end
+
+page['spinner'].hide()

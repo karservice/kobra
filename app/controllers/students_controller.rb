@@ -1,5 +1,9 @@
 # -*- encoding : utf-8 -*-
 class StudentsController < ApplicationController
+
+  skip_before_filter :authenticate_user!, :only => :api
+  skip_before_filter :verify_authenticity_token, :only => :api
+
   def search
     @event    = Event.find(params[:event_id], :include => :ticket_types)
     @students = Studentkoll.search(params[:student][:query])
@@ -36,6 +40,26 @@ class StudentsController < ApplicationController
     # If we're using autosave, render tickets/sale right away
     if @event.autosave?
       render 'tickets/sale'
+    end
+  end
+
+  def search_card
+    @event = Event.find(params[:event_id], :include => :ticket_types)
+    @student = Studentkoll.where(:rfidnr => params[:student][:atr]).first
+  end
+
+  # FIXME Should be a better name
+  def api
+    if params[:liu_id]
+      epost = "#{params[:liu_id]}@student.liu.se"
+      student = Studentkoll.where(:epost => epost).first
+      if student
+        render :text => student.union
+      else
+        render :text => "Not found", :status => 404
+      end
+    else
+      render :text => "No parameter", :status => 400
     end
   end
 end

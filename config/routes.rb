@@ -5,6 +5,7 @@ Cobra::Application.routes.draw do
   resources :users
 
   post "become" => "admin#become"
+  post "students/api" => "students#api"
 
   resources :events do
     member do
@@ -15,6 +16,7 @@ Cobra::Application.routes.draw do
 
     resources :students do
       post :search, :on => :collection
+      post :search_card, :on => :collection
     end
 
     resources :registration_batches do

@@ -7,7 +7,7 @@ sv:
 
   devise:
     failure:
-      unauthenticated: 'Du måste logga in eller registrera dig för att fortsätta.'
+      unauthenticated: 'Du måste logga in för att fortsätta.'
       unconfirmed: 'Du måste bekräfta ditt konto för att fortsätta.'
       locked: 'Ditt konto är låst.'
       invalid: 'Felaktigt inloggningsnamn eller lösenord.'

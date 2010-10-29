@@ -3,6 +3,7 @@ class StudentsController < ApplicationController
 
   skip_before_filter :authenticate_user!, :only => :api
   skip_before_filter :verify_authenticity_token, :only => :api
+  before_filter :verify_api_key, :only => :api
 
   def search
     @event    = Event.find(params[:event_id], :include => :ticket_types)
@@ -60,6 +61,14 @@ class StudentsController < ApplicationController
       end
     else
       render :text => "No parameter", :status => 400
+    end
+  end
+
+private
+  def verify_api_key
+    authenticate_or_request_with_http_basic do |id, password|
+      # FIXME Hardcoded hack!
+      id == 'klimatveckan' && password == 'lintek'
     end
   end
 end

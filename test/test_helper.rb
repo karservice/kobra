@@ -11,4 +11,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def encode_credentials(username, password)
+    "Basic " + Base64::encode64("#{username}:#{password}")
+  end
 end

@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+lintek:
+  epost: "johec890@student.liu.se"
+  fornamn: "JOHAN"
+  efternamn: "ECKERSTRÖM"
+  pnr_format: "860421-0000"
+  rfidnr: "3479871166"
+  streckkodnr: "975226854847805"
+  giltig_till: "2011-02-28 00:00:00"
+  kar: "Y   "
+  blockerat: nil
+
+no_union:
+  epost: "nouni890@student.liu.se"
+  fornamn: "No"
+  efternamn: "UNION"
+  pnr_format: "111111-0000"
+  rfidnr: "3479871167"
+  streckkodnr: "975226854847806"
+  giltig_till: "2011-02-28 00:00:00"
+  kar: nil
+  blockerat: nil

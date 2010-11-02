@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Studentkoll < ActiveRecord::Base
-  unless Rails.env == "development"
+  # FIXME, use Oracle if it exists, fallback to sqlite3
+  if Rails.env == "production"
     set_table_name "STUDENTKOLL"
     establish_connection :sektionskoll
   else
@@ -126,9 +127,8 @@ class Studentkoll < ActiveRecord::Base
       "StuFF"
     elsif Consensus.include?(sektion)
       "Consensus"
-    #else # Look in old STURE data
-      #@sture_student ||= StureStudent.where(:personal_number => self.pnr_format).first
-      #@sture_student.union if @sture_student
+    else
+      nil
     end
   end
 

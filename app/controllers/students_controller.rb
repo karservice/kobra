@@ -50,12 +50,17 @@ class StudentsController < ApplicationController
   end
 
   # FIXME Should be a better name
+  # FIXME Should return better codes if student is found but not a union
+  # FIXME Documentation
+  #
+  #
+  #
   def api
     if params[:liu_id]
       epost = "#{params[:liu_id]}@student.liu.se"
       student = Studentkoll.where(:epost => epost).first
       if student
-        render :text => student.union
+        render :text => student.union.to_s
       else
         render :text => "Not found", :status => 404
       end

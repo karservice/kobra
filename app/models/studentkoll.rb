@@ -1,10 +1,11 @@
 # -*- encoding : utf-8 -*-
 class Studentkoll < ActiveRecord::Base
-  # FIXME, use Oracle if it exists, fallback to sqlite3
-  if Rails.env == "production"
+  begin
+    # Try to use Oracle STUDENTKOLL
     set_table_name "STUDENTKOLL"
     establish_connection :sektionskoll
-  else
+  rescue ActiveRecord::AdapterNotSpecified
+    # If not specified, fall back on standard database
     set_table_name "studentkoll"
   end
 

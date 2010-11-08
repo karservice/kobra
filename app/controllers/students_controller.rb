@@ -27,7 +27,7 @@ class StudentsController < ApplicationController
 
       # Should we autosave the student?
       if @event.autosave?
-        @registration  = @event.register_student(@student, @event.available_ticket_types)
+        @registration  = @event.register_student(@student, @event.available_ticket_types, current_user)
         @visitor = @registration.visitor
         @message += ' och har registrerats'
       end

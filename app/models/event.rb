@@ -25,7 +25,8 @@ class Event < ActiveRecord::Base
   end
 
   # FIXME Should be handled as a transaction?
-  def register_student(student, tickets, union_override = nil)
+  # FIXME Better parameter handling
+  def register_student(student, tickets, current_user, union_override = nil)
     # Look if Student already is a Visitor
     visitor = Visitor.where(:personal_number => student.pnr_format).first
     # Unless, create a new Visitor
@@ -37,7 +38,7 @@ class Event < ActiveRecord::Base
       # Create the ticket, add union_override if it's available
       # FIXME a bit ugly
       Ticket.create!(:registration => registration, :ticket_type => ticket,
-        :union_override => !union_override.nil?, :union_discount => union_override)
+        :union_override => !union_override.nil?, :union_discount => union_override, :seller => current_user)
     end
     # Return registration
     registration

@@ -26,7 +26,7 @@ class TicketsController < ApplicationController
       end
     end
 
-    @registration = @event.register_student(@student, ticket_types, @union_override)
+    @registration = @event.register_student(@student, ticket_types, current_user, @union_override)
     @tickets = @registration.tickets
 
     @tickets_count = @event.tickets.count

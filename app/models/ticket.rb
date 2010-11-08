@@ -3,6 +3,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :ticket_type
   belongs_to :registration
   has_one :visitor, :through => :registration
+  belongs_to :seller, :foreign_key => "created_by", :class_name => "User"
 
   validates_presence_of :ticket_type, :on => :create, :message => "can't be blank"
   validates_presence_of :registration, :on => :create, :message => "can't be blank"

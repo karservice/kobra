@@ -101,14 +101,19 @@ class EventsController < ApplicationController
     @union_stats  = @event.tickets.select(:union_discount).group_by(&:union_discount).select {|u| !u.nil?}.collect {|u| [u[0], u[1].size] }
   end
 
+  # FIXME error handling
   def add_user
     @user = User.find(params[:user][:id])
     @event.users << @user
   end
 
+  # FIXME error handling
   def remove_user
     @user = @event.users.find(params[:user][:id])
-    @event.users.delete(@user)
+    # Only remove if not myself, or if admin
+    if @user != current_user || current_user.admin?
+      @event.users.delete(@user)
+    end
   end
 private
   # Preload event, admin gets all events

@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
   end
 
   def to_s
+    self.name
+  end
+
+  def name
     self.username || self.email
   end
 

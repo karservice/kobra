@@ -1,4 +1,4 @@
-<div class="span-12">
+<div class="span-12 left">
 <%= form_for(@event) do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
@@ -48,4 +48,19 @@
     <%= f.submit 'Spara' %>
   </div>
 <% end %>
+</div>
+
+<div class="span-8 right">
+  <h3>Användare</h3>
+  <p class="quiet">
+    Vilka som får hantera evenemanget.
+  </p>
+
+  <div id="users_form">
+    <%= render :partial => 'users_form'%>
+  </div>
+
+  <ul id="<%= dom_id(@event, :users) %>">
+    <%= render :partial => 'user', :collection => @event.users %>
+  </ul>
 </div>

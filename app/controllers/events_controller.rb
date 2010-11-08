@@ -100,6 +100,16 @@ class EventsController < ApplicationController
     @ticket_dates = @event.tickets.select(:created_at).group("DATE(created_at)")
     @union_stats  = @event.tickets.select(:union_discount).group_by(&:union_discount).select {|u| !u.nil?}.collect {|u| [u[0], u[1].size] }
   end
+
+  def add_user
+    @user = User.find(params[:user][:id])
+    @event.users << @user
+  end
+
+  def remove_user
+    @user = @event.users.find(params[:user][:id])
+    @event.users.delete(@user)
+  end
 private
   # Preload event, admin gets all events
   def preload_event

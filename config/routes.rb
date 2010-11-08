@@ -12,6 +12,8 @@ Cobra::Application.routes.draw do
       get :sale
       get :handout
       get :statistics
+      post :add_user
+      post :remove_user
     end
 
     resources :students do

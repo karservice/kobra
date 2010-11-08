@@ -1,0 +1,4 @@
+<li id="<%= dom_id(user) %>">
+  <%= user %>
+  <%= link_to 'Ta bort', remove_user_event_path(@event, :user => { :id => user.id }), :remote => true, :method => :post %>
+</li>

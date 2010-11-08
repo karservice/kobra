@@ -21,6 +21,10 @@ class TicketType < ActiveRecord::Base
     (self.maximum_number_of_tickets.to_i == 0) || (self.tickets.count < self.maximum_number_of_tickets.to_i)
   end
 
+  def extra_discount_enabled?
+    self.enable_extra_discount_at <= Time.now && self.disable_extra_discount_at >= Time.now
+  end
+
   def number_of_extra_discounts
     self.tickets.where(:extra_discount => true).count
   end

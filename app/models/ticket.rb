@@ -29,7 +29,7 @@ class Ticket < ActiveRecord::Base
     end
 
     # Note if its an extra discount
-    ticket.extra_discount = ticket.union_discount == self.ticket_type.extra_discount_for_union &&
+    ticket.extra_discount = self.ticket_type.extra_discount_enabled? && ticket.union_discount == self.ticket_type.extra_discount_for_union &&
       (self.ticket_type.number_of_extra_discount_tickets.to_i == 0 || self.ticket_type.number_of_extra_discount_tickets.to_i > self.ticket_type.number_of_extra_discounts)
 
     # Return true, we don't want to stop the creation

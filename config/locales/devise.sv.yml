@@ -18,8 +18,8 @@ sv:
       signed_in: 'Inloggad.'
       signed_out: 'Utloggad.'
     passwords:
-      send_instructions: 'You will receive an email with instructions about how to reset your password in a few minutes.'
-      updated: 'Your password was changed successfully. You are now signed in.'
+      send_instructions: 'Du kommer få ett e-brev med instruktioner hur du byter lösenord inom någon minut'
+      updated: 'Du lyckades byta lösenordet. Välkommen in.'
     confirmations:
       send_instructions: 'You will receive an email with instructions about how to confirm your account in a few minutes.'
       confirmed: 'Your account was successfully confirmed. You are now signed in.'
@@ -32,10 +32,10 @@ sv:
       unlocked: 'Your account was successfully unlocked. You are now signed in.'
     mailer:
       confirmation_instructions:
-        subject: 'Confirmation instructions'
+        subject: '[KOBRA] Konfirmera konto'
       reset_password_instructions:
-        subject: 'Reset password instructions'
+        subject: '[KOBRA] Instruktioner för att byta lösenord'
       unlock_instructions:
-        subject: 'Unlock Instructions'
+        subject: '[KOBRA] Lås upp kontot'
       welcome_instructions:
-        subject: 'Välkommen till KOBRA'
+        subject: '[KOBRA] Välkommen!'

@@ -11,6 +11,7 @@ class StudentsController < ApplicationController
     @students_count = @students.count
 
     # Check in StureStudent if Studentkoll couldn't be found
+    # FIXME Should check Sture
     if @students_count == 0
       @students = StureStudent.search(params[:student][:query])
       @students_count = @students.count
@@ -52,7 +53,7 @@ class StudentsController < ApplicationController
   # FIXME Should be a better name
   # FIXME Should return better codes if student is found but not a union
   # FIXME Documentation
-  #
+  # FIXME Should check Studentkoll AND Sture if the person isn't a student
   #
   #
   def api

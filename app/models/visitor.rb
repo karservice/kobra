@@ -76,12 +76,9 @@ class Visitor < ActiveRecord::Base
     union
   end
 
-  # Check union, ask through Studentkol
+  # Returns the union for the student
   def union
-    if student = Studentkoll.where(:pnr_format => self.personal_number).first
-      student.union
-    else
-      nil
-    end
+    # Ask Sture for the union
+    @union ||= Sture.union_for(self)
   end
 end

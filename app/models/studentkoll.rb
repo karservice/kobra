@@ -1,69 +1,33 @@
 # -*- encoding : utf-8 -*-
+#
+# Mapping to LiUs Oracle cluster, contains a register over
+# all students on LiU.
+#
+# WARNING; Contains a field "kar" which could be used to match
+# studient union, but isn't reliable. Use Sture instead.
 class Studentkoll < ActiveRecord::Base
   begin
-    # Try to use Oracle STUDENTKOLL
-    set_table_name "STUDENTKOLL"
-    establish_connection :sektionskoll
+    if Rails.env == "test"
+      # No Oracle for tests
+      set_table_name "studentkoll"
+    else
+      # Try to use Oracle STUDENTKOLL
+      set_table_name "STUDENTKOLL"
+      establish_connection :sektionskoll
+    end
   rescue ActiveRecord::AdapterNotSpecified
     # If not specified, fall back on standard database
     set_table_name "studentkoll"
   end
 
-  Consensus = [
-   "At",
-   "BMA",
-   "Cons",
-   "Domf",
-   "Fri",
-   "Log",
-   "Läk",
-   "MedB",
-   "SG",
-   "SskL",
-   "SskN",
-   "Stöd"
-  ]
-
-  LinTek = [
-   "C",
-   "CTD",
-   "D",
-   "DokL",
-   "ED",
-   "FriL",
-   "GDK",
-   "I",
-   "KTS",
-   "Ling",
-   "LinT",
-   "M",
-   "MatN",
-   "MT",
-   "N",
-   "StöL",
-   "TBI",
-   "Y"
-  ]
-
-  StuFF = [
-   "AJF",
-   "Dokt",
-   "flin",
-   "FriS",
-   "Gans",
-   "KogV",
-   "MiP",
-   "PULS",
-   "SAKS",
-   "SKA",
-   "SKUM",
-   "Soci",
-   "SSHF",
-   "Stal",
-   "STiL",
-   "Stim",
-   "StuF"
-  ]
+  # We prefer english names for attributes
+  # Watch out when using the attributes in queries though, only the real field names works then
+  alias_attribute :personal_number, :pnr_format
+  alias_attribute :email, :epost
+  alias_attribute :first_name, :fornamn
+  alias_attribute :last_name, :efternamn
+  alias_attribute :rfid_number, :rfidnr
+  alias_attribute :barcode_number, :streckkodnr
 
   scope :search, lambda { |keyword|
     # Convert to string
@@ -74,6 +38,7 @@ class Studentkoll < ActiveRecord::Base
     keys = [:epost, :fornamn, :efternamn, :pnr_format, :rfidnr, :streckkodnr]
 
     unless keyword.empty?
+      # FIXME Extract personal number handling to own class, used everywere now
       # Handle different personal number styles
       #  19860421-0000
       #  860421-0000 (don't do anything, just notice)
@@ -102,7 +67,6 @@ class Studentkoll < ActiveRecord::Base
     end
   }
 
-
   def name
     "#{self.fornamn} #{self.efternamn}"
   end
@@ -119,18 +83,10 @@ class Studentkoll < ActiveRecord::Base
     union
   end
 
+  # Returns the union for the student
   def union
-    sektion = self.kar && self.kar.strip
-
-    if LinTek.include?(sektion)
-      "LinTek"
-    elsif StuFF.include?(sektion)
-      "StuFF"
-    elsif Consensus.include?(sektion)
-      "Consensus"
-    else
-      nil
-    end
+    # Ask Sture for the union
+    @union ||= Sture.union_for(self)
   end
 
   # Unions at LiU

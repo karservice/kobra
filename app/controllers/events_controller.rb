@@ -92,10 +92,6 @@ class EventsController < ApplicationController
     #   }
     # end
 
-
-
-
-
     @ticket_types = @event.ticket_types
     @ticket_dates = @event.tickets.select(:created_at).group("DATE(created_at)")
     @union_stats  = @event.tickets.select(:union_discount).group_by(&:union_discount).select {|u| !u.nil?}.collect {|u| [u[0], u[1].size] }

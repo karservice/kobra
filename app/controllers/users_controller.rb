@@ -1,8 +1,17 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
-  before_filter :require_admin
+  before_filter :require_admin, :except => :show
   def index
     @users = User.all
+  end
+
+  # Show myself, admin can look at everyone
+  def show
+    if current_user.admin? && params[:id]
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
   end
 
   def new

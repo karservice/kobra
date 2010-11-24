@@ -1,9 +1,14 @@
 #
-one: 
+one:
   username: one
   email: one@one.com
 
 #
-two: 
+two:
   username: two
   email: two@two.com
+
+api:
+  username: lintek
+  email: lintek@duh.se
+  api_key: 579032442c91bbab6594

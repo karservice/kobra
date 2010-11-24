@@ -22,6 +22,11 @@ class User < ActiveRecord::Base
     where(["username = :value OR email = :value", { :value => value }]).first
   end
 
+  # Verify id and api_key
+  def self.verify_api_key(id, api_key)
+    User.where(:username => id, :api_key => api_key).first
+  end
+
   def to_s
     self.name
   end

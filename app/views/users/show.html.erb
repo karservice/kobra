@@ -1,0 +1,25 @@
+<div class="span-10">
+  <h1><%= @user %></h1>
+
+  <h3>API</h3>
+  <table>
+    <tr>
+      <td>Användarnamn:</td> <td><code><%= @user.username %></code></td>
+    </tr>
+    <tr>
+      <td>API-nyckel:</td> <td><code><%= @user.api_key %></code></td>
+    </tr>
+  </table>
+  <p>
+    API-nyckeln används i kombination med ditt användarnamn för att jobba mot KOBRAs API.
+    <em>Låt aldrig någon annan ta del av din API-nyckel.</em>
+  </p>
+</div>
+
+<div class="span-10">
+  <h3>Dokumentation</h3>
+  <pre><code>
+curl -v -u '<%= @user.username %>:<%= @user.api_key %>' -F \
+'liu_id=johec890' https://kobra.ks.liu.se/students/api
+  </code></pre>
+</div>

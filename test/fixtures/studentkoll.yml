@@ -11,7 +11,7 @@ lintek:
   kar: "Y   "
   blockerat: nil
 
-no_union:
+nounion:
   epost: "nouni890@student.liu.se"
   fornamn: "No"
   efternamn: "UNION"

@@ -3,7 +3,7 @@ require 'test_helper'
 
 class StudentsControllerTest < ActionController::TestCase
   setup do
-    @request.env["HTTP_AUTHORIZATION"] = encode_credentials('klimatveckan', 'lintek')
+    @request.env["HTTP_AUTHORIZATION"] = encode_credentials('lintek', '579032442c91bbab6594')
   end
 
   test "should login with correct password" do
@@ -12,7 +12,7 @@ class StudentsControllerTest < ActionController::TestCase
   end
 
   test "should not login with wrong password" do
-    @request.env["HTTP_AUTHORIZATION"] = encode_credentials('klimatveckan', '9999')
+    @request.env["HTTP_AUTHORIZATION"] = encode_credentials('lintek', '9999')
     post :api, {:liu_id => "johec890"}
     assert_response 401
   end
@@ -28,18 +28,20 @@ class StudentsControllerTest < ActionController::TestCase
     assert_response 200
   end
 
-  test "should not find student " do
+  test "should not find student" do
     post :api, {:liu_id => "johec990"}
     assert_response 404
   end
 
   test "should find student with lintek membership" do
     post :api, {:liu_id => "johec890"}
+    assert_response 200
     assert_equal "LinTek", @response.body
   end
 
-  test "should find student with no membership" do
+  test "should find student but with no membership" do
     post :api, {:liu_id => "nouni890"}
+    assert_response 200
     assert_equal "", @response.body
   end
 end

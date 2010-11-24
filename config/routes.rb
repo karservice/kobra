@@ -4,6 +4,8 @@ Cobra::Application.routes.draw do
   devise_for :users
   resources :users
 
+  resource :user
+
   post "become" => "admin#become"
   post "students/api" => "students#api"
 

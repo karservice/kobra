@@ -71,9 +71,8 @@ class StudentsController < ApplicationController
 
 private
   def verify_api_key
-    authenticate_or_request_with_http_basic do |id, password|
-      # FIXME Hardcoded hack!
-      id == 'klimatveckan' && password == 'lintek'
+    authenticate_or_request_with_http_basic do |id, api_key|
+      User.verify_api_key(id, api_key)
     end
   end
 end

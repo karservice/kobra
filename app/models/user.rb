@@ -44,6 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def save_and_send_password_instructions
+    # FIXME Should probably not be done here
     self.generate_reset_password_token
     if status = self.save
       UserMailer.welcome_instructions(self).deliver

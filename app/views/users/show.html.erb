@@ -6,6 +6,32 @@
 <div class="span-10">
   <h1><%= @user %></h1>
 
+  <% if current_user.admin? %>
+  <p>
+    <%= link_to 'Ändra användaren', edit_user_path(@user) %>
+  </p>
+  <% end %>
+
+  <table>
+    <tr>
+      <td>Användarnamn:</td> <td><%= @user.username %></td>
+    </tr>
+    <tr>
+      <td>E-post:</td> <td><%= mail_to @user.email %></td>
+    </tr>
+    <tr>
+      <td>Senast inloggad: </td> <td><%= @user.current_sign_in_at %></td>
+    </tr>
+    <tr>
+      <td>Evenemang:</td>
+      <td>
+        <% @user.events.each do |event| %>
+          <%= link_to event, event %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+
   <h3>API</h3>
   <table>
     <tr>

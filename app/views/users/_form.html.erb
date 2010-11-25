@@ -1,0 +1,33 @@
+<div class="span-12">
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :username, 'Användarnamn' %><br />
+    <%= f.text_field :username %>
+  </div>
+  <p class="quiet">
+    Både användarnamn och e-post kan användas för att logga in.
+  </p>
+  <div class="field">
+    <%= f.label :email, 'E-post' %><br />
+    <%= f.text_field :email %>
+  </div>
+  <p class="quiet">
+    Det är viktigt att e-post-adressen är rätt, annars kommer användaren inte kunna logga in, då instruktionerna skickas via e-post.
+  </p>
+  <div class="actions">
+    <%= f.submit 'Spara' %>
+  </div>
+<% end %>
+</div>

@@ -1,3 +1,4 @@
+<div class="span-12 left">
 <%= form_for(@event) do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
@@ -16,19 +17,54 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :description, 'Beskrivning' %><br />
+    <%= f.label :description, 'Beskrivning' %> (<span class="quiet">frivilligt</span>)<br />
     <%= f.text_field :description %>
   </div>
-  <div class="field">
-    <%= f.check_box :electronic_tickets %>
-    <%= f.label :electronic_tickets, 'Elektroniska biljetter' %>
-  </div>
-  <div class="field">
-    <%= f.check_box :permanent %>
-    <%= f.label :permanent, 'Permanent' %>
+
+  <p>
+  <%= link_to_function "avancerat" do |page|
+        page[:advanced].toggle();
+      end %>
+  </p>
+  <div id="advanced" style="display:none;">
+    <div class="field">
+      <%= f.check_box :electronic_tickets %>
+      <%= f.label :electronic_tickets, 'Elektroniska biljetter' %>
+      <p class="quiet indent">
+        Om KOBRA ska hantera biljetterna även vid inträde.
+      </p>
+    </div>
+    <div class="field">
+      <%= f.check_box :permanent %>
+      <%= f.label :permanent, 'Permanent evenemang' %>
+      <p class="quiet indent">
+        Är detta ett evenemang till ett permanent evenemang? (HG, NH etc)<br />
+        I sådant fall <em class="highlight">kommer samma LiU-kort kunna användas flera gånger</em>, annars blockerar systemet om en biljett redan registrerats.
+      </p>
+    </div>
   </div>
 
   <div class="actions">
     <%= f.submit 'Spara' %>
   </div>
 <% end %>
+</div>
+
+<div class="span-8 right">
+  <h3>Användare</h3>
+  <p class="quiet">
+    Vilka som får hantera evenemanget.
+  </p>
+  <% unless @event.new_record? %>
+
+  <div id="users_form">
+    <%= render :partial => 'users_form'%>
+  </div>
+
+  <ul id="<%= dom_id(@event, :users) %>">
+    <%= render :partial => 'user', :collection => @event.users %>
+  </ul>
+  <% else %>
+  <p>Efter att evenamenget skapats kan man ställa in vilka fler användare som ska få tillgång till det via den här sidan.</p>
+  <% end %>
+</div>

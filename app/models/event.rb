@@ -9,6 +9,9 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :title, :on => :create, :message => "can't be blank"
 
+  # Latest event first
+  default_scope order("created_at DESC")
+
   def to_s
     self.title
   end
@@ -22,19 +25,22 @@ class Event < ActiveRecord::Base
   end
 
   # FIXME Should be handled as a transaction?
-  def register_student(student, tickets, union_override = nil)
+  # FIXME Better parameter handling
+  # Student might not be a real student
+  # FIXME Could use less code when getting the attributes from student
+  def register_student(student, tickets, current_user, union_override = nil)
     # Look if Student already is a Visitor
-    visitor = Visitor.where(:personal_number => student.pnr_format).first
+    visitor = Visitor.where(:personal_number => student.personal_number).first
     # Unless, create a new Visitor
-    visitor ||= Visitor.create(:personal_number => student.pnr_format,
-      :first_name => student.fornamn,
-      :last_name => student.efternamn)
+    visitor ||= Visitor.create(:personal_number => student.personal_number,
+      :first_name => student.first_name,
+      :last_name => student.last_name)
     registration = Registration.create!(:event => self, :visitor => visitor)
     tickets.each do |ticket|
       # Create the ticket, add union_override if it's available
       # FIXME a bit ugly
       Ticket.create!(:registration => registration, :ticket_type => ticket,
-        :union_override => !union_override.nil?, :union_discount => union_override)
+        :union_override => !union_override.nil?, :union_discount => union_override, :seller => current_user)
     end
     # Return registration
     registration

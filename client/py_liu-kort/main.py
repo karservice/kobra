@@ -53,8 +53,9 @@ class LiUCardObserver (CardObserver):
     self.cards = {}
 
     # LiU card
-    self.cards["3B 8F 80 01 80 4F 0C A0 00 00 03 06 03 FF 88 00 00 00 00 1C"] \
-      = "LiU card"
+    self.cards["3B 8F 80 01 80 4F 0C A0 00 00 03 06 03 FF 88 00 00 00 00 1C"] = "LiU card"
+    self.cards["3B 8F 80 01 80 4F 0C A0 00 00 03 06 03 00 01 00 00 00 00 6A"] = "LiU card"
+
 
   def press (self, char):
     keysym = string_to_keysym (char)

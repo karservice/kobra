@@ -4,3 +4,4 @@ log/*.log
 tmp/**/*
 dbdump
 config/database.yml
+config/initializers/gmail.rb

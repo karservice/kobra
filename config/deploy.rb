@@ -1,7 +1,10 @@
 # -*- encoding : utf-8 -*-
 set :stages, %w(staging production)
 set :default_stage, "staging"
-require 'capistrano/ext/multistage'
+
+# Set the correct RVM environment
+set :rvm_ruby_string, 'ruby-1.9.2-p0'
+set :rvm_type, :user
 
 # Production deployment
 set :application, "Cobra"
@@ -47,6 +50,22 @@ namespace :deploy do
     run "ln -fs #{shared_path}/db/production.sqlite3 #{current_path}/db/production.sqlite3"
     run "ln -fs #{shared_path}/db/development.sqlite3 #{current_path}/db/development.sqlite3"
     run "ln -fs #{shared_path}/config/database.yml #{current_path}/config/database.yml"
+    run "ln -fs #{shared_path}/config/initializers/gmail.rb #{current_path}/config/initializers/gmail.rb"
   end
 end
 after "deploy:update", "deploy:relink_shared_directories"
+
+namespace :bundler do
+  task :create_symlink, :roles => :app do
+    shared_dir = File.join(shared_path, 'bundle')
+    release_dir = File.join(current_release, '.bundle')
+    run("mkdir -p #{shared_dir} && ln -s #{shared_dir} #{release_dir}")
+  end
+
+  task :bundle_new_release, :roles => :app do
+    bundler.create_symlink
+    run "cd #{release_path} && bundle install --without test"
+  end
+end
+
+after 'deploy:update_code', 'bundler:bundle_new_release'

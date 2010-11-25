@@ -1,11 +1,14 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+#
+one:
+  username: one
+  email: one@one.com
 
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+two:
+  username: two
+  email: two@two.com
+
+api:
+  username: lintek
+  email: lintek@duh.se
+  api_key: 579032442c91bbab6594

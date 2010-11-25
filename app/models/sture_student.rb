@@ -2,13 +2,13 @@
 class StureStudent < ActiveRecord::Base
   scope :search, lambda { |keyword|
     # Convert to string
-    keyword = keyword.to_s
+    keyword = keyword.to_s.strip
 
     # Searchable keys
     # These keys should have an index in the database for performance
     keys = [:personal_number]
 
-    if not keyword.to_s.strip.empty?
+    unless keyword.empty?
       # Create the SQL query
       sql_keys = keys.collect {|k| "LOWER(#{k}) LIKE ?"}.join(' OR ')
       keyword.gsub!('*', '%')

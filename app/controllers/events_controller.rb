@@ -6,13 +6,11 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
     # FIXME Should be handled in the model
-    # FIXME Should require user
-    #if user_signed_in? && current_user.admin?
-    #  @events = Event.all
-    #else
-    #  @events = current_user.events.all
-    #end
-    @events = Event.all
+    if current_user.admin?
+      @events = Event.all
+    else
+      @events = current_user.events.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -48,6 +46,8 @@ class EventsController < ApplicationController
   # POST /events.xml
   def create
     @event = Event.new(params[:event])
+    # Add the user creating this event
+    @event.users << current_user
 
     respond_to do |format|
       if @event.save
@@ -92,13 +92,24 @@ class EventsController < ApplicationController
     #   }
     # end
 
-
-
-
-
     @ticket_types = @event.ticket_types
     @ticket_dates = @event.tickets.select(:created_at).group("DATE(created_at)")
     @union_stats  = @event.tickets.select(:union_discount).group_by(&:union_discount).select {|u| !u.nil?}.collect {|u| [u[0], u[1].size] }
+  end
+
+  # FIXME error handling
+  def add_user
+    @user = User.find(params[:user][:id])
+    @event.users << @user
+  end
+
+  # FIXME error handling
+  def remove_user
+    @user = @event.users.find(params[:user][:id])
+    # Only remove if not myself, or if admin
+    if @user != current_user || current_user.admin?
+      @event.users.delete(@user)
+    end
   end
 private
   # Preload event, admin gets all events

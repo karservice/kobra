@@ -3,8 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   # All pages need login
-  # FIXME Should be enabled
-  #before_filter :authenticate_user!
+  before_filter :authenticate_user!
 
 private
   # Check if user is an admin

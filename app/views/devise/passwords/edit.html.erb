@@ -1,16 +1,21 @@
-<h2>Change your password</h2>
-
+<h2>
+<% if resource.sign_in_count > 0%>
+Ändra ditt lösenord
+<% else %>
+Välj ditt lösenord
+<% end%>
+</h2>
 <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
   <%= f.hidden_field :reset_password_token %>
 
-  <p><%= f.label :password %><br />
+  <p><%= f.label :password, 'Lösenord' %><br />
   <%= f.password_field :password %></p>
 
-  <p><%= f.label :password_confirmation %><br />
+  <p><%= f.label :password_confirmation, 'Konfirmera ditt lösenord' %><br />
   <%= f.password_field :password_confirmation %></p>
 
-  <p><%= f.submit "Change my password" %></p>
+  <p><%= f.submit "Spara" %></p>
 <% end %>
 
 <%= render :partial => "devise/shared/links" %>

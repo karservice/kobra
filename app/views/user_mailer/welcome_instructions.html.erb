@@ -1,0 +1,9 @@
+<p>Välkommen <%= @user %>!</p>
+
+<p>Ett konto har skapats till denna e-post-adress i KOBRA, systemet för kontroll av kårmedlemskap.</p>
+
+<p>För att logga in i KOBRA måste ett lösenord väljas, vilket görs via länken nedan.</p>
+
+<p><%= link_to 'Sätt lösenord', edit_password_url(@resource, :reset_password_token => @resource.reset_password_token) %></p>
+
+<p>Ni kommer inte kunna logga in förrän ett lösenord sätts.</p>

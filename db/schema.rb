@@ -10,13 +10,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101018084751) do
+ActiveRecord::Schema.define(:version => 20101123084846) do
 
-# Could not dump table "admins" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000104ec2ac0>
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
-# Could not dump table "delayed_jobs" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000104d8c1d8>
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "events", :force => true do |t|
     t.string   "title"
@@ -50,8 +59,33 @@ ActiveRecord::Schema.define(:version => 20101018084751) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "students" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000104d22d78>
+  create_table "studentkoll", :id => false, :force => true do |t|
+    t.string   "epost"
+    t.string   "fornamn"
+    t.string   "efternamn"
+    t.string   "pnr_format"
+    t.string   "rfidnr"
+    t.string   "streckkodnr"
+    t.datetime "giltig_till"
+    t.string   "kar"
+    t.string   "blockerat"
+  end
+
+  create_table "students", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "personal_number"
+    t.string   "rfid_number"
+    t.string   "barcode_number"
+    t.string   "email"
+    t.datetime "expire_at"
+    t.boolean  "blocked"
+    t.boolean  "union_member"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "students", ["first_name", "last_name", "personal_number", "rfid_number", "barcode_number", "email"], :name => "search_index", :unique => true
 
   create_table "sture_students", :force => true do |t|
     t.string   "personal_number"
@@ -74,6 +108,9 @@ ActiveRecord::Schema.define(:version => 20101018084751) do
     t.integer  "extra_discount"
     t.boolean  "always_save"
     t.string   "extra_discount_for_union"
+    t.datetime "enable_extra_discount_at"
+    t.datetime "disable_extra_discount_at"
+    t.boolean  "use_time_to_enable_extra_discount"
   end
 
   create_table "tickets", :force => true do |t|
@@ -86,13 +123,33 @@ ActiveRecord::Schema.define(:version => 20101018084751) do
     t.datetime "emailed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "union_discount"
     t.boolean  "extra_discount"
+    t.string   "union_discount"
     t.boolean  "union_override"
+    t.integer  "created_by"
   end
 
-# Could not dump table "users" because of following NoMethodError
-#   undefined method `type' for #<ActiveRecord::ConnectionAdapters::IndexDefinition:0x00000104c86f18>
+  create_table "users", :force => true do |t|
+    t.string   "email",                               :default => "",    :null => false
+    t.string   "encrypted_password",   :limit => 128, :default => "",    :null => false
+    t.string   "password_salt",                       :default => "",    :null => false
+    t.string   "reset_password_token"
+    t.string   "remember_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                       :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "admin",                               :default => false
+    t.string   "username"
+    t.string   "api_key"
+  end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "visitors", :force => true do |t|
     t.string   "first_name"

@@ -28,13 +28,13 @@
     <%= f.text_field :maximum_number_of_tickets %>
   </div>
   <hr />
-  <h3>Rabatt för alla kårer</h3>
+  <h3>Kårrabatt</h3>
   <div class="field">
-    <%= f.label :union_discount, 'Rabatt för alla kårmedlemskap' %> (oavsett kår)<br />
+    <%= f.label :union_discount, 'Rabatt för kårmedlemskap' %> (oavsett kår)<br />
     <%= f.text_field :union_discount %>
   </div>
   <hr />
-  <h3>Rabatt per kår</h3>
+  <h3>Extra kårrabatt</h3>
   <div class="field">
     <%= f.label :extra_discount_for_union, 'Kår' %>
     <%= f.select :extra_discount_for_union, Studentkoll.unions, { :include_blank => true } %>
@@ -46,6 +46,19 @@
   <div class="field">
     <%= f.label :number_of_extra_discount_tickets, 'Begränsa antal biljetter för vald kår' %> (0 == oändligt)<br />
     <%= f.text_field :number_of_extra_discount_tickets %>
+  </div>
+  <div class="field">
+    <%= f.label :use_time_to_enable_extra_discount, 'Aktivera extra kårrabatt vid viss tid' %>
+    <%= f.check_box :use_time_to_enable_extra_discount, {
+          :onChange => '$(time_enabled_extra_discount).toggle();'
+        } %>
+  </div>
+  <div class="field" id="time_enabled_extra_discount" <%= @ticket_type.use_time_to_enable_extra_discount? ? "" : "style='display:none;'" %>>
+    <%= f.label :enable_extra_discount_at, 'Extra kårrabatt från:' %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.datetime_select :enable_extra_discount_at, :default => 3.days.from_now.midnight %>
+    <br />
+    <%= f.label :disable_extra_discount_at, 'Extra kårrabatt fram till:' %>
+    <%= f.datetime_select :disable_extra_discount_at, :default => 9.days.from_now.midnight %>
   </div>
   <hr />
   <h3>Försäljning</h3>

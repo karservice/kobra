@@ -45,7 +45,7 @@ Ticket.count - Ticket.where(:handed_out_at => nil).count
 
 # Lägga in sture databas
 sture_students = []
-File.read("/Users/jage/Desktop/medlem_20100922.txt").each_line {|l| m = /(\d{2})(\d{6})(\w{4}) \| (\w*)/.match(l); sture_students << [ "#{m[2]}-#{m[3]}", m[4] ] }.nil?
+File.read("/home/jage/medlem_20101116.txt").each_line {|l| m = /(\d{2})(\d{6})(\w{4}) \| (\w*)/.match(l); sture_students << [ "#{m[2]}-#{m[3]}", m[4] ] }.nil?
 sture_students.each {|s|
   unless StureStudent.where(:personal_number => s[0]).first
     StureStudent.create(:personal_number => s[0], :student_union => s[1])

@@ -13,6 +13,7 @@
     <th>Användarnamn</th>
     <th>E-post</th>
     <th>Arrangemang</th>
+    <th></th>
   </tr>
 <% @users.each do |user| %>
   <tr>
@@ -26,6 +27,11 @@
     <td>
       <% user.events.each do |event| %>
         <%= link_to event, event %>
+      <% end %>
+    </td>
+    <td>
+      <% if user.admin? %>
+        Administratör
       <% end %>
     </td>
   </tr>

@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :events
 
+  before_create :generate_api_key
+
   # Override Devise method to allow both usernam and email login
   def self.find_for_database_authentication(conditions)
     value = conditions[authentication_keys.first]
@@ -51,6 +53,10 @@ class User < ActiveRecord::Base
   end
 
   protected
+
+  def generate_api_key
+    self.api_key = SecureRandom.hex(10)
+  end
 
   # Override password_required? Since we don't need password for new users
   # with recover tokens

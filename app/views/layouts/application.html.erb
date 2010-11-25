@@ -21,7 +21,7 @@
 <div style="position:absolute; top: 1em; right: 1em;">
 <p>
   <% if user_signed_in? %>
-    Inloggad som <%= current_user %> (<%= link_to 'Logga ut', destroy_user_session_path %>)
+    Inloggad som <%= link_to current_user, '/user' %> (<%= link_to 'Logga ut', destroy_user_session_path %>)
     <% if current_user.admin? %>
       <br />
       <%= link_to 'Hantera användare', users_path %><br />

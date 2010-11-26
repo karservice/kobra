@@ -50,24 +50,24 @@ class StudentsController < ApplicationController
     @student = Studentkoll.where(:rfidnr => params[:student][:atr]).first
   end
 
-  # FIXME Should be a better name
-  # FIXME Should return better codes if student is found but not a union
-  # FIXME Documentation
-  # FIXME Should check Studentkoll AND Sture if the person isn't a student
-  #
-  #
   def api
     if params[:liu_id]
-      epost = "#{params[:liu_id]}@student.liu.se"
-      student = Studentkoll.where(:epost => epost).first
-      if student
-        render :text => student.union.to_s
-      else
-        render :text => "Not found", :status => 404
-      end
-    else
-      render :text => "No parameter", :status => 400
+      @student = Student.where(:email => "#{params[:liu_id]}@student.liu.se").first
+    elsif params[:rfid_number]
+      @student = Student.where(:rfid_number => params[:rfid_number]).first
+    elsif params[:barcode_number]
+      @student = Student.where(:barcode_number => params[:barcode_number]).first
+    elsif params[:personal_number]
+      @student = Student.where(:personal_number => params[:personal_number]).first
     end
+
+    respond_to do |format|
+      format.json { render :json => @student.to_json }
+      format.xml  { render :xml => @student.to_xml }
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    render :text => nil, :status => 404
   end
 
 private

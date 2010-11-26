@@ -58,6 +58,7 @@ class Student
 
   # Union from Sture
   attribute :union
+  attribute :liu_id
 
   # Simple where conditions
   def self.where(conditions)
@@ -90,6 +91,9 @@ class Student
 
     # Get the union from Sture
     new_student.__send__(:attribute=, :union, Sture.union_for(new_student.personal_number))
+
+    # Set LiU ID
+    new_student.__send__(:attribute=, :liu_id, new_student.email.split('@').first)
 
     # Return the object
     new_student

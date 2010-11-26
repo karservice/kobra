@@ -53,6 +53,8 @@ class StudentsController < ApplicationController
   def api
     if params[:liu_id]
       @student = Student.where(:email => "#{params[:liu_id]}@student.liu.se").first
+    elsif params[:email]
+      @student = Student.where(:email => params[:email]).first
     elsif params[:rfid_number]
       @student = Student.where(:rfid_number => params[:rfid_number]).first
     elsif params[:barcode_number]
@@ -61,13 +63,14 @@ class StudentsController < ApplicationController
       @student = Student.where(:personal_number => params[:personal_number]).first
     end
 
-    respond_to do |format|
-      format.json { render :json => @student.to_json }
-      format.xml  { render :xml => @student.to_xml }
+    if @student
+      respond_to do |format|
+        format.json { render :json => @student.to_json }
+        format.xml  { render :xml => @student.to_xml }
+      end
+    else
+      render :text => nil, :status => 404
     end
-
-  rescue ActiveRecord::RecordNotFound
-    render :text => nil, :status => 404
   end
 
 private

@@ -4,17 +4,23 @@ Cobra::Application.routes.draw do
   devise_for :users
   resources :users
 
+  resource :user
+
   post "become" => "admin#become"
+  post "students/api" => "students#api"
 
   resources :events do
     member do
       get :sale
       get :handout
       get :statistics
+      post :add_user
+      post :remove_user
     end
 
     resources :students do
       post :search, :on => :collection
+      post :search_card, :on => :collection
     end
 
     resources :registration_batches do

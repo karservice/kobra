@@ -3,6 +3,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :ticket_type
   belongs_to :registration
   has_one :visitor, :through => :registration
+  belongs_to :seller, :foreign_key => "created_by", :class_name => "User"
 
   validates_presence_of :ticket_type, :on => :create, :message => "can't be blank"
   validates_presence_of :registration, :on => :create, :message => "can't be blank"
@@ -28,8 +29,7 @@ class Ticket < ActiveRecord::Base
     end
 
     # Note if its an extra discount
-    ticket.extra_discount = ticket.union_discount == self.ticket_type.extra_discount_for_union &&
-      (self.ticket_type.number_of_extra_discount_tickets.to_i == 0 || self.ticket_type.number_of_extra_discount_tickets.to_i > self.ticket_type.number_of_extra_discounts)
+    ticket.extra_discount = self.ticket_type.extra_discount_enabled? && ticket.union_discount == self.ticket_type.extra_discount_for_union
 
     # Return true, we don't want to stop the creation
     true

@@ -13,11 +13,12 @@
     <th>Användarnamn</th>
     <th>E-post</th>
     <th>Arrangemang</th>
+    <th></th>
   </tr>
 <% @users.each do |user| %>
   <tr>
     <td>
-      <%= user.username %>
+      <%= link_to user.username, user_path(user) %>
       <% unless user == current_user %>
         <small>(<%= link_to 'logga in som', become_path(:user => {:id => user.id }), :method => :post %>)</small>
       <% end %>
@@ -26,6 +27,11 @@
     <td>
       <% user.events.each do |event| %>
         <%= link_to event, event %>
+      <% end %>
+    </td>
+    <td>
+      <% if user.admin? %>
+        Administratör
       <% end %>
     </td>
   </tr>

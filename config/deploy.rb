@@ -50,6 +50,7 @@ namespace :deploy do
     run "ln -fs #{shared_path}/db/production.sqlite3 #{current_path}/db/production.sqlite3"
     run "ln -fs #{shared_path}/db/development.sqlite3 #{current_path}/db/development.sqlite3"
     run "ln -fs #{shared_path}/config/database.yml #{current_path}/config/database.yml"
+    run "ln -fs #{shared_path}/config/initializers/gmail.rb #{current_path}/config/initializers/gmail.rb"
   end
 end
 after "deploy:update", "deploy:relink_shared_directories"

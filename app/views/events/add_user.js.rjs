@@ -1,0 +1,3 @@
+page.insert_html :top, dom_id(@event, :users), :partial => 'user', :locals => { :user => @user }
+page.replace_html 'users_form', :partial => 'users_form'
+page.hide 'spinner'

@@ -8,7 +8,7 @@
   <!--[if lt IE 8]>
   <%= stylesheet_link_tag 'blueprint/ie', :media => 'screen, projection'%>
   <![endif]-->
-  <%= stylesheet_link_tag 'cobra' %>
+  <%= stylesheet_link_tag 'kobra' %>
   <%= csrf_meta_tag %>
 </head>
 <body>
@@ -21,7 +21,7 @@
 <div style="position:absolute; top: 1em; right: 1em;">
 <p>
   <% if user_signed_in? %>
-    Inloggad som <%= current_user %> (<%= link_to 'Logga ut', destroy_user_session_path %>)
+    Inloggad som <%= link_to current_user, '/user' %> (<%= link_to 'Logga ut', destroy_user_session_path %>)
     <% if current_user.admin? %>
       <br />
       <%= link_to 'Hantera användare', users_path %><br />
@@ -30,7 +30,7 @@
 </p>
 </div>
 
-<div class="span-24 prepend-1 prepend-top">
+<div class="span-24 prepend-1 prepend-top clear">
   <%= yield %>
 </div>
 

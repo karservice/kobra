@@ -26,6 +26,20 @@
   <p class="quiet">
     Det är viktigt att e-post-adressen är rätt, annars kommer användaren inte kunna logga in, då instruktionerna skickas via e-post.
   </p>
+
+  <% if current_user.admin? %>
+    <div class="field">
+      <%= f.check_box :admin, :onChange => "if ($(user_admin).checked) { alert('Säker på att ge ut dessa rättigheter?') }", :disabled => @user == current_user %>
+      <%= f.label :admin, 'Administratör' %>
+      <% if @user == current_user %>
+        (Du kan inte ändra din egen status)
+      <% end %>
+    </div>
+    <p class="quiet">
+      En administratör får hantera allas evenemang, lägga till och ta bort användare samt logga in som andra. Ge endast denna rättighet till folk du litar på.
+    </p>
+  <% end %>
+
   <div class="actions">
     <%= f.submit 'Spara' %>
   </div>

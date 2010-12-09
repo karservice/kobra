@@ -16,13 +16,24 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :events
 
+  before_create :generate_api_key
+
   # Override Devise method to allow both usernam and email login
   def self.find_for_database_authentication(conditions)
     value = conditions[authentication_keys.first]
     where(["username = :value OR email = :value", { :value => value }]).first
   end
 
+  # Verify id and api_key
+  def self.verify_api_key(id, api_key)
+    User.where(:username => id, :api_key => api_key).first
+  end
+
   def to_s
+    self.name
+  end
+
+  def name
     self.username || self.email
   end
 
@@ -33,6 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def save_and_send_password_instructions
+    # FIXME Should probably not be done here
     self.generate_reset_password_token
     if status = self.save
       UserMailer.welcome_instructions(self).deliver
@@ -42,6 +54,10 @@ class User < ActiveRecord::Base
   end
 
   protected
+
+  def generate_api_key
+    self.api_key = SecureRandom.hex(10)
+  end
 
   # Override password_required? Since we don't need password for new users
   # with recover tokens

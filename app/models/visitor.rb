@@ -76,9 +76,9 @@ class Visitor < ActiveRecord::Base
     union
   end
 
+  # Returns the union for the student
   def union
-    if result = StureStudent.where(:personal_number => self.personal_number).first
-      result.student_union
-    end
+    # Ask Sture for the union
+    @union ||= Sture.union_for(self)
   end
 end

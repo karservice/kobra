@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.1'
+gem 'rails', '3.0.3'
 
 gem 'delayed_job', :git => 'http://github.com/collectiveidea/delayed_job.git'
 gem 'devise'
@@ -23,6 +23,8 @@ group :production do
   gem 'ruby-oci8' # Needs oracle-instantclient
   gem 'activerecord-oracle_enhanced-adapter'
   gem 'mysql2'
+  # env ARCHFLAGS="-arch x86_64" gem install pg
+  gem 'pg'
 end
 
 # Bundle the extra gems:

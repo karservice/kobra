@@ -1,8 +1,21 @@
 # -*- encoding : utf-8 -*-
 class UsersController < ApplicationController
-  before_filter :require_admin
+  before_filter :require_admin, :except => :show
   def index
     @users = User.all
+  end
+
+  # Show myself, admin can look at everyone
+  def show
+    if current_user.admin? && params[:id]
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
   end
 
   def new
@@ -11,6 +24,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+
+    @user.admin = params[:user][:admin]
 
     respond_to do |format|
       if @user.save_and_send_password_instructions
@@ -22,9 +37,13 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user = User.find(params[:id])
+
+    @user.admin = params[:user][:admin]
+
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        redirect_to(users_path, :notice => 'Användare uppdaterad.')
+        format.html { redirect_to(user_path(@user), :notice => 'Användare uppdaterad.') }
       else
         render :action => "edit"
       end

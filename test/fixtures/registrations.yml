@@ -2,12 +2,12 @@
 
 one:
   event_id: 1
-  student_id: 1
+  visitor_id: 1
   registration_batch_id: 1
   note: MyString
 
 two:
   event_id: 1
-  student_id: 1
+  visitor_id: 1
   registration_batch_id: 1
   note: MyString

@@ -47,8 +47,58 @@
   </p>
 </div>
 
-<div class="span-10">
-  <H3>Dokumentation</h3>
+<div class="span-14 clear">
+  <h2>Dokumentation</h2>
+    <h3>Alternativ</h3>
+    <ul>
+      <li>JSON: <code>http://kobra.ks.liu.se/students/api.json</code></li>
+      <li>XML: <code>http://kobra.ks.liu.se/students/api.xml</code></li>
+    </ul>
+    <h3>Inparametrar</h3>
+    <table>
+      <tr>
+        <th>Parameter</th>
+        <th>Exempelvärde</th>
+      </tr>
+      <tr>
+        <td><code>liu_id</code></td>
+        <td><code>johec890</code></td>
+      </tr>
+      <tr>
+        <td><code>email</code></td>
+        <td><code>johec890@student.liu.se</code></td>
+      </tr>
+      <tr>
+        <td><code>personal_number</code></td>
+        <td><code>860421-0000</code></td>
+      </tr>
+      <tr>
+        <td><code>rfid_number</code></td>
+        <td><code>3479871166</code></td>
+      </tr>
+      <tr>
+        <td><code>barcode_number</code></td>
+        <td><code>975226854847805</code></td>
+      </tr>
+
+    </table>
+
+    <h3>Svar:</h3>
+    <p>JSON</p>
+<pre><code>{
+    "barcode_number": "975226854847805",
+    "blocked": null,
+    "email": "johec890@student.liu.se",
+    "first_name": "JOHAN",
+    "last_name": "ECKERSTRÖM",
+    "liu_id": "johec890",
+    "personal_number": "860421-0000",
+    "rfid_number": "3479871166",
+    "union": "LinTek"
+}</code></pre>
+    <p>XML</p>
+
+
   <p>Testa med curl: </p>
   <pre><code>curl -u '<%= @user.username %>:<%= @user.api_key %>' -F \
 'liu_id=johec890' https://kobra.ks.liu.se/students/api</code></pre>

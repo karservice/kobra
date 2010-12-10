@@ -1,5 +1,5 @@
 if @student
-  page.insert_html :top, 'results', :partial => 'tickets/form'
+  page.insert_html :top, '#results', :partial => 'tickets/form'
   unless @event.ticket_types.size == 1 && @event.ticket_types.first.always_save?
     #page['ticket_submit'].show()
     #page['ticket_submit'].select()
@@ -9,10 +9,7 @@ if @student
     #end
   end
 elsif @students_count == 0
-  page['status'].replace_html :text => "Ingen träff"
+  page['#status'].replace_html :text => "Ingen träff"
 else
-  page['status'].replace_html :text => "#{@students_count} träffar, förfina sökningen"
+  page['#status'].replace_html :text => "#{@students_count} träffar, förfina sökningen"
 end
-
-page['student_query'].select()
-page['spinner'].hide()

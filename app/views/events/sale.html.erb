@@ -7,18 +7,35 @@
   <h1>Försäljning för <%= @event %></h1>
 
   <div id="status" class="highlight shadow" style="padding: 0.5em;">
-    Väntar på kortläsare ...
+    &nbsp;
   </div>
 
-  <div class="span-5 prepend-top right">
+  <div class="span-11 prepend-top right">
     <!-- Sök student -->
     <%= form_for(:student, :url => search_event_students_path(@event), :remote => true, :html => { :class => :search }) do |f| %>
-      <%= f.text_field :query, :value => 'Sök student' %>
+      Använd extern läsare eller <%= f.text_field :query, :value => 'Sök student' %>
       <%#= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
-      <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
+      <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.25em;" id="loading" alt="" />
     <% end %>
+
     <script type="text/javascript">
-      $('student_query').onclick = function(e) { if ($('student_query').value == 'Sök student') { $('student_query').value = ''; } };
+      $('#student_query').focus(function() {
+        if($(this).attr("value") == $(this).attr("defaultValue")) {
+          $(this).attr("value", '');
+        }
+      });
+
+      jQuery(function($) {
+        // create a convenient toggleLoading function
+        var toggleLoading = function() { $("#loading").toggle() };
+
+        $("#tool-form")
+          .bind("ajax:loading",  toggleLoading)
+          .bind("ajax:complete", toggleLoading)
+          .bind("ajax:failure", function(data, status, xhr) {
+            $("#status").html(status);
+          });
+      });
     </script>
   </div>
 
@@ -31,10 +48,6 @@
   <table class="span-12 prepend-top" id="results">
 
   </table>
-
-  <script type="text/javascript" charset="utf-8">
-    $('student_query').focus();
-  </script>
 
 </div>
 

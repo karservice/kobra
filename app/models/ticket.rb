@@ -14,6 +14,7 @@ class Ticket < ActiveRecord::Base
 
   scope :any_union, where('union_discount IS NOT ?', nil)
   scope :union, lambda {|u| where('union_discount LIKE ?', u.to_s) }
+  scope :no_union, where(:union_discount => nil)
 
   def validate_maximum_number_of_tickets
     # maximum_number_of_tickets == 0 means infinit

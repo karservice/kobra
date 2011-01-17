@@ -37,7 +37,7 @@ class Sture < ActiveRecord::Base
     # LiU term (20102 for 2010 autumn)
     query = "SELECT k.mainunioncode FROM mp_membershipdata AS m,
       mp_kar_sektions_data AS k WHERE personno ='#{personal_number}' AND
-      m.sunionsemesterid =k.id AND k.semester = '#{Time.now.liu_term}' LIMIT 1;"
+      m.sunionsemesterid = k.id AND k.semester = '#{Time.now.liu_term}' LIMIT 1;"
 
     # Ask the PostgreSQL server directly, no use for ActiveRecord here.
     result = self.connection.execute(query)

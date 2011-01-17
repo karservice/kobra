@@ -16,12 +16,14 @@ class Event < ActiveRecord::Base
     self.title
   end
 
+  # FIXME Should probably be a scope
   def available_ticket_types
     self.ticket_types.select {|t| t.available? }
   end
 
+  # FIXME Ugly hack
   def autosave?
-    self.ticket_types.size == 1 && self.ticket_types.first.always_save?
+    self.available_ticket_types.size == 1 && self.available_ticket_types.first.always_save?
   end
 
   # FIXME Should be handled as a transaction?

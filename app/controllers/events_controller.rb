@@ -114,6 +114,10 @@ class EventsController < ApplicationController
 private
   # Preload event, admin gets all events
   def preload_event
-    @event = Event.find(params[:id])
+    if current_user.admin?
+      @event = Event.find(params[:id])
+    else
+      @event = current_user.events.find(params[:id])
+    end
   end
 end

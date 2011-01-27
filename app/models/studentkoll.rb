@@ -45,9 +45,11 @@ class Studentkoll < ActiveRecord::Base
       # Don't handle numbers without hyphen, don't want to screw with RFID or barcode numbers
       #
       # Personal number recors stored as 860421-0000 in student database
-      if p = keyword.match(/^(\d{2})(\d{6}-\d{4})$/) # 19860421-0000
+      #
+      # Remember foreign exchange students!
+      if p = keyword.match(/^(\d{2})(\d{6}-\w{4})$/) # 19860421-0000
         keyword = p[2]
-      elsif p = keyword.match(/^(\d{6}-\d{4})$/) # 860421-0000
+      elsif p = keyword.match(/^(\d{6}-\w{4})$/) # 860421-0000
         # Just notice for later performance tweak
       elsif m = keyword.match(/^0(\d{9})$/)
         # Look if number is a RFID number with an extra zero

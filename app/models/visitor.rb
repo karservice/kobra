@@ -18,14 +18,14 @@ class Visitor < ActiveRecord::Base
         #  860421-0000 (don't do anything, just notice)
         #  8604210000
         # Records stored as 860421-0000 in student database
-        if m = keyword.match(/^(\d{2})(\d{6}-\d{4})$/) # 19860421-0000
+        if m = keyword.match(/^(\d{2})(\d{6}-\w{4})$/) # 19860421-0000
           keyword = m[2]
-        elsif m = keyword.match(/^(\d{2})(\d{6})(\d{4})$/) # 198604210000
+        elsif m = keyword.match(/^(\d{2})(\d{6})(\w{4})$/) # 198604210000
         #  keyword = m[2] + "-" + m[3]
-        elsif m = keyword.match(/^(\d{6}-\d{4})$/) # 860421-0000
+        elsif m = keyword.match(/^(\d{6}-\w{4})$/) # 860421-0000
           # Just notice for later performance tweak
         # FIXME Breaks RFID
-        elsif m = keyword.match(/^(\d{6})(\d{4})$/) # 8604210000
+        elsif m = keyword.match(/^(\d{6})(\w{4})$/) # 8604210000
         #  keyword = m[1] + "-" + m[2]
         end
         # If there is a match, we can just look at personal_number column to speed things up a bit

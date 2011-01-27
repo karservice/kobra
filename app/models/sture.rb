@@ -28,7 +28,8 @@ class Sture < ActiveRecord::Base
 
     # If formated personal number, convert to long string
     # 860421-0000 -> 198604210000
-    if m = personal_number.match(/^(\d{6})-(\d{4})$/)
+    # Remember foreign exchange students! (\w instead of \d)
+    if m = personal_number.match(/^(\d{6})-(\w{4})$/)
       personal_number = "19#{m[1]}#{m[2]}"
     end
 

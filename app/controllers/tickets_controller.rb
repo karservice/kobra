@@ -19,6 +19,8 @@ class TicketsController < ApplicationController
       @union_override = params[:student][:union]
     end
 
+    raise StandardError unless params[:ticket_type]
+
     ticket_types = []
     params[:ticket_type].each_pair do |ticket_type, state|
       if state == "1"
@@ -35,6 +37,8 @@ class TicketsController < ApplicationController
 
     @message  = "Kunde registrera på grund av: "
     @message += errors.keys.collect {|k| errors[k] }.flatten.collect {|k| k.capitalize }.join(', ')
+  rescue StandardError
+    @message = "Du måste välja biljett!"
   end
 private
   def load_event

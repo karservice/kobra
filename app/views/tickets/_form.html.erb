@@ -7,9 +7,14 @@
   <% unless @event.available_ticket_types.empty? %>
     <ul style="">
     <% @event.available_ticket_types.each do |ticket_type| %>
+      <% has_ticket = (@visitor && @visitor.tickets.collect {|t| t.ticket_type}.include?(ticket_type)) %>
       <li style="font-size:150%; margin-bottom: 0.5em; list-style-type:none;">
-        <%= check_box_tag "ticket_type[#{ticket_type.id}]", "1", @event.available_ticket_types.size == 1 %>
+        <%= check_box_tag "ticket_type[#{ticket_type.id}]", "1", @event.available_ticket_types.size == 1,
+          :disabled => has_ticket %>
         <%= label_tag "ticket_type[#{ticket_type.id}]", ticket_type %>
+        <% if has_ticket %>
+          (redan registrerad)
+        <% end %>
       </li>
     <% end %>
     </ul>

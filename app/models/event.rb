@@ -33,17 +33,21 @@ class Event < ActiveRecord::Base
   def register_student(student, tickets, current_user, union_override = nil)
     # Look if Student already is a Visitor
     visitor = Visitor.where(:personal_number => student.personal_number).first
+
     # Unless, create a new Visitor
     visitor ||= Visitor.create(:personal_number => student.personal_number,
       :first_name => student.first_name,
       :last_name => student.last_name)
-    registration = Registration.create!(:event => self, :visitor => visitor)
-    tickets.each do |ticket|
+    registration = Registration.new(:event => self, :visitor => visitor)
+    registration.tickets = tickets.collect do |ticket_type|
       # Create the ticket, add union_override if it's available
       # FIXME a bit ugly
-      Ticket.create!(:registration => registration, :ticket_type => ticket,
+      Ticket.new(:ticket_type => ticket_type,
         :union_override => !union_override.nil?, :union_discount => union_override, :seller => current_user)
     end
+
+    registration.save!
+
     # Return registration
     registration
   end

@@ -32,6 +32,9 @@ class StudentsController < ApplicationController
         @tickets = @registration.tickets
         @visitor = @registration.visitor
         @message += ' och har registrerats'
+      else
+        # Maybe look for existing user?
+        @visitor = Visitor.where(:personal_number => @student.personal_number).first
       end
     end
   rescue ActiveRecord::RecordInvalid => e

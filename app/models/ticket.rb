@@ -6,9 +6,8 @@ class Ticket < ActiveRecord::Base
   belongs_to :seller, :foreign_key => "created_by", :class_name => "User"
 
   validates_presence_of :ticket_type, :on => :create, :message => "can't be blank"
-  validates_presence_of :registration, :on => :create, :message => "can't be blank"
-  validates_associated :ticket_type, :on => :create
-  validates_associated :registration, :on => :create
+  validates_associated :ticket_type, :on => :create, :message => "no ticket type"
+  validates_associated :registration, :on => :create, :message => "no registration"
 
   validate :validate_maximum_number_of_tickets, :on => :create
 

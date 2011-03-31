@@ -59,44 +59,48 @@
     </tr>
     <% @ticket_types.each do |ticket_type| %>
       <tr>
-        <th>
+        <th style="border-top: 1px solid #555;">
           <%= ticket_type %>
         </th>
-        <td>
+        <td style="border-top: 1px solid #555;">
           <%= ticket_type.tickets.any_union.count %>
         </td>
-        <% ticket_type.tickets.select(:union_discount).group_by(&:union_discount).select {|u| !u.nil?}.collect {|u| [u[0], u[1].size] }.each do |u| %>
-          <td>
-            <%= u[1] %>
+
+        <% for union in @unions %>
+          <td style="border-top: 1px solid #555;">
+            <%= ticket_type.tickets.where(:union_discount => union).count %>
           </td>
         <% end %>
 
-        <td>
+        <td style="border-top: 1px solid #555;">
           <%= ticket_type.tickets.no_union.count %>
         </td>
 
-        <td class="total">
+        <td class="total" style="border-top: 1px solid #555;">
           <%= ticket_type.tickets.count %>
         </td>
       </tr>
       <% total_per_day = ticket_type.tickets.group("DATE(created_at)").size %>
       <% union_per_day = ticket_type.tickets.any_union.group("DATE(created_at)").size %>
       <% total_per_day.each do |total| %>
+        <% date = total[0]%>
       <tr class="sub_table">
         <td>
-          <%= total[0] %>
+          <%= date %>
         </td>
         <td>
-          <%= union_per_day[total[0]].to_i %>
+          <%= union_per_day[date].to_i %>
         </td>
-        <% per_union_count = ticket_type.tickets.where("DATE(created_at) LIKE :date", :date => total[0]).select(:union_discount).group_by(&:union_discount).collect {|u| [u[0], u[1].size] } %>
-        <% for i in 0..(@event.tickets.select(:union_discount).collect {|t| t.union_discount }.uniq.compact.count - 1) %>
-          <td>
-            <%= per_union_count[i] ? per_union_count[i][1] : 0 %>
-          </td>
+
+        <% for union in @unions %>
+        <td>
+          <%= ticket_type.tickets.where("DATE(created_at) LIKE :date AND union_discount LIKE :union_discount",
+            :date => date, :union_discount => union).count %>
+        </td>
         <% end %>
+
         <td>
-          <%= ticket_type.tickets.where("DATE(created_at) LIKE :date", :date => total[0]).where(:union_discount => nil).count %>
+          <%= ticket_type.tickets.where("DATE(created_at) LIKE :date", :date => date).where(:union_discount => nil).count %>
         </td>
         <td class="total">
           <%= total[1].to_i %>
@@ -110,7 +114,7 @@
       <td>
         <%= @event.tickets.any_union.count %>
       </td>
-      <% @union_stats.each do |union| %>
+      <% @unions.each do |union| %>
       <td>
         <%= @event.tickets.union(union).count %>
       </td>

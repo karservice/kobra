@@ -92,9 +92,17 @@ class EventsController < ApplicationController
     #   }
     # end
 
+    #result = ActiveRecord::Base.connection.execute('SELECT DATE(tickets.created_at) AS created_at_date, tickets.union_discount, COUNT(*) AS count
+    #  FROM "tickets" INNER JOIN "registrations" ON "tickets".registration_id = "registrations".id
+    #  WHERE (("registrations".event_id = 4))
+    #  GROUP BY created_at_date, union_discount')
+    #@statistics = result.group_by {|r| r["created_at_date"] }
+
     @ticket_types = @event.ticket_types
     @ticket_dates = @event.tickets.select(:created_at).group("DATE(created_at)")
     @union_stats  = @event.tickets.select(:union_discount).group_by(&:union_discount).select {|u| !u.nil?}.collect {|u| [u[0], u[1].size] }
+
+    @unions = @event.tickets.group("tickets.union_discount").collect {|t| t.union_discount }.compact
   end
 
   # FIXME error handling

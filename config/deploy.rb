@@ -30,9 +30,9 @@ set :git_enable_submodules, 1
 set :keep_releases, 5
 
 
-role :web, "master.sof2009.se"                          # Your HTTP server, Apache/etc
-role :app, "master.sof2009.se"                          # This may be the same as your `Web` server
-role :db,  "master.sof2009.se", :primary => true # This is where Rails migrations will run
+role :web, "sof.lysator.liu.se"                          # Your HTTP server, Apache/etc
+role :app, "sof.lysator.liu.se"                          # This may be the same as your `Web` server
+role :db,  "sof.lysator.liu.se", :primary => true # This is where Rails migrations will run
 
 # If you are using Passenger mod_rails uncomment this:
 # if you're still using the script/reapear helper you will need

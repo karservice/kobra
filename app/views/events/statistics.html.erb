@@ -45,10 +45,10 @@
         </div>
       </th>
 
-      <% @union_stats.each do |union| %>
+      <% for union in @unions %>
         <th style="padding: 2.9em 0 0 0; font-weight: normal;">
           <div style="border-top: 1px solid #ccc;">
-          <%= union[0] %>
+          <%= union %>
           </div>
         </th>
       <% end %>

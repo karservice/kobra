@@ -16,6 +16,9 @@ gem 'unicorn'
 gem 'capistrano'
 gem 'capistrano-ext'
 
+# Active sanity checks database for invalid records
+gem 'active_sanity'
+
 group :development do
   # Debugger
   gem 'ruby-debug19', :require => 'ruby-debug'

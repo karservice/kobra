@@ -5,4 +5,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Cobra::Application.config.secret_token = '0ef1c73fd5f143a17aa490bb718e42c2a3cbf14420d42ba01b4f5015ff61de9efaa638f0fd506e0673ce450cd6b2929d8cb889c1b6722be1a50988f31be5ee6c'
+Cobra::Application.config.secret_token = 'ff9a47c7af613178482ff25ddd781c062cd5eb83b6eaf7aece8ea3ee40bf751b38ff9d324da2dd227c2841cf42f593b3ee04196b52a49d6103653eb24677138d'

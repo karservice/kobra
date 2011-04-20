@@ -1,13 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Sture < ActiveRecord::Base
   begin
-    if Rails.env == "test"
-      # No Postgresql for tests
-      set_table_name "sture"
-    else
-      # Try to use STURE
-      establish_connection :sture
-    end
+    establish_connection :sture
   rescue ActiveRecord::AdapterNotSpecified
     # If not specified, fall back on standard database
     set_table_name "sture"

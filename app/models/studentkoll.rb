@@ -7,14 +7,9 @@
 # studient union, but isn't reliable. Use Sture instead.
 class Studentkoll < ActiveRecord::Base
   begin
-    if Rails.env == "test"
-      # No Oracle for tests
-      set_table_name "studentkoll"
-    else
-      # Try to use Oracle STUDENTKOLL
-      set_table_name "STUDENTKOLL"
-      establish_connection :sektionskoll
-    end
+    # Try to use Oracle STUDENTKOLL
+    set_table_name "STUDENTKOLL"
+    establish_connection :sektionskoll
   rescue ActiveRecord::AdapterNotSpecified
     # If not specified, fall back on standard database
     set_table_name "studentkoll"

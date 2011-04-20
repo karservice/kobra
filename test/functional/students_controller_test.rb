@@ -7,40 +7,40 @@ class StudentsControllerTest < ActionController::TestCase
   end
 
   test "should login with correct password" do
-    post :api, {:liu_id => "johec890"}
+    post :api, {:liu_id => "johec890"}, :format => "json"
     assert_response 200
   end
 
   test "should not login with wrong password" do
     @request.env["HTTP_AUTHORIZATION"] = encode_credentials('lintek', '9999')
-    post :api, {:liu_id => "johec890"}
+    post :api, {:liu_id => "johec890"}, :format => "json"
     assert_response 401
   end
 
   test "should get parameter error" do
-    post :api
+    post :api, :format => "json"
     assert_response 400
     assert_equal "No parameter", @response.body
   end
 
   test "should find a student" do
-    post :api, {:liu_id => "johec890"}
+    post :api, :liu_id => "johec890", :format => "json"
     assert_response 200
   end
 
   test "should not find student" do
-    post :api, {:liu_id => "johec990"}
+    post :api, :liu_id => "johec990", :format => "json"
     assert_response 404
   end
 
   test "should find student with lintek membership" do
-    post :api, {:liu_id => "johec890"}
+    post :api, :liu_id => "johec890", :format => "json"
     assert_response 200
     assert_equal "LinTek", @response.body
   end
 
   test "should find student but with no membership" do
-    post :api, {:liu_id => "nouni890"}
+    post :api, :liu_id => "nouni890", :format => "json"
     assert_response 200
     assert_equal "", @response.body
   end

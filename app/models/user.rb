@@ -60,14 +60,14 @@ class User < ActiveRecord::Base
   end
 
   # Override password_required? Since we don't need password for new users
-  # with recover tokens
+  # with recover tokens.
   #
   # Checks whether a password is needed or not. For validations only.
   # Passwords are always required if it's a new record, or if the password
   # or confirmation are being set somewhere.
   def password_required?
     if reset_password_token?
-      false
+      !password.nil? || !password_confirmation.nil?
     else
       !persisted? || !password.nil? || !password_confirmation.nil?
     end

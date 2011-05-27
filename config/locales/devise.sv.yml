@@ -4,6 +4,7 @@ sv:
       not_found: "hittades inte"
       already_confirmed: "var redan bekräftat"
       not_locked: "var inte låst"
+      not_saved: "Det gick inte att spara"
 
   devise:
     failure:
@@ -14,6 +15,7 @@ sv:
       invalid_token: 'Felaktig autencierings token.'
       timeout: 'Din session har gått ut, logga in igen.'
       inactive: 'Ditt konto har inte aktiverats än.'
+      already_authenticated: 'Du är redan inloggad.'
     sessions:
       signed_in: 'Inloggad.'
       signed_out: 'Utloggad.'

@@ -131,6 +131,7 @@
         odd: "måste vara udda"
         even: "måste vara jämnt"
         record_invalid: "Ett fel uppstod: %{errors}"
+        not_saved: "Det gick inte att spara"
         # Append your own errors here or at the model/attributes scope.
 
       # You can define own errors for models or model attributes.

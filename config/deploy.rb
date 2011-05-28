@@ -26,7 +26,6 @@ set :branch, "master"
 set :repository, "git@github.com:jage/cobra.git"
 set :deploy_via, :remote_cache
 set :git_shallow_clone, 1
-set :git_enable_submodules, 1
 set :keep_releases, 5
 
 

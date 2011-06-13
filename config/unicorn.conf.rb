@@ -4,17 +4,17 @@ worker_processes 2 # this should be >= nr_cpus
 if rails_env == 'production'
   listen 8090
   user 'linweb'
-  pid "/var/www/linticket.sof2009.se/shared/pids/unicorn.pid"
-  stderr_path "/var/www/linticket.sof2009.se/current/log/unicorn.log"
-  stdout_path "/var/www/linticket.sof2009.se/current/log/unicorn.log"
-  working_directory "/var/www/linticket.sof2009.se/current"
+  pid "/var/www/kobra.ks.liu.se/shared/pids/unicorn.pid"
+  stderr_path "/var/www/kobra.ks.liu.se/current/log/unicorn.log"
+  stdout_path "/var/www/kobra.ks.liu.se/current/log/unicorn.log"
+  working_directory "/var/www/kobra.ks.liu.se/current"
 elsif rails_env == 'staging'
   listen 8091
   user 'linweb'
-  pid "/var/www/staging.linticket.sof2009.se/shared/pids/unicorn.pid"
-  stderr_path "/var/www/staging.linticket.sof2009.se/current/log/unicorn.log"
-  stdout_path "/var/www/staging.linticket.sof2009.se/current/log/unicorn.log"
-  working_directory "/var/www/staging.linticket.sof2009.se/current"
+  pid "/var/www/staging.kobra.ks.liu.se/shared/pids/unicorn.pid"
+  stderr_path "/var/www/staging.kobra.ks.liu.se/current/log/unicorn.log"
+  stdout_path "/var/www/staging.kobra.ks.liu.se/current/log/unicorn.log"
+  working_directory "/var/www/staging.kobra.ks.liu.se/current"
 end
 
 

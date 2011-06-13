@@ -13,7 +13,7 @@ set :repository,  "Cobra"
 set :user, "linweb"
 
 set :scm, :git
-set :deploy_to, "/var/www/linticket.sof2009.se"
+set :deploy_to, "/var/www/kobra.ks.liu.se"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true

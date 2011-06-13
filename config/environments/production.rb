@@ -1,6 +1,5 @@
-# -*- encoding : utf-8 -*-
-Cobra::Application.configure do
-  # Settings specified here will take precedence over those in config/environment.rb
+Kobra::Application.configure do
+  # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
   config.cache_classes = true

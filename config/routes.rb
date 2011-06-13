@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-Cobra::Application.routes.draw do
+Kobra::Application.routes.draw do
 
   devise_for :users
   resources :users

@@ -4,4 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-Cobra::Application.load_tasks
+Kobra::Application.load_tasks

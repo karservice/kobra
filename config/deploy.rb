@@ -7,8 +7,8 @@ set :rvm_ruby_string, 'ruby-1.9.2-p0'
 set :rvm_type, :user
 
 # Production deployment
-set :application, "Cobra"
-set :repository,  "Cobra"
+set :application, "Kobra"
+set :repository,  "Kobra"
 
 set :user, "linweb"
 

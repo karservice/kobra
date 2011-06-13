@@ -5,7 +5,7 @@ gem 'rails', '>=3.1.0.rc1'
 gem 'delayed_job', :git => 'http://github.com/collectiveidea/delayed_job.git'
 gem 'devise'
 
-#gem 'jquery-rails'
+gem 'jquery-rails'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
@@ -19,7 +19,15 @@ gem 'capistrano-ext'
 # Active sanity checks database for invalid records
 gem 'active_sanity'
 
+# Asset Pipeline
+gem 'json'
+gem 'sass'
+gem 'coffee-script'
+gem 'uglifier'
+
 group :development do
+  # Have to use thin since webrick + pg crashes in development mode
+  gem 'thin'
   # Debugger
   gem 'ruby-debug19', :require => 'ruby-debug'
 end
@@ -30,6 +38,10 @@ group :production do
   gem 'mysql2'
   # env ARCHFLAGS="-arch x86_64" gem install pg
   gem 'pg'
+end
+
+group :test do
+  gem 'turn'
 end
 
 # Bundle the extra gems:

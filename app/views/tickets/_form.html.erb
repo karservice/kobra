@@ -23,14 +23,12 @@
   <% end %>
 
   <div id="union_override" style="display:none;">
-  <%= link_to_function "Tvinga kårmedlemskap" do |page|
-        page[:union_override_form].toggle();
-      end %>
+    <%= link_to_function "Tvinga kårmedlemskap", "$('#union_override_form').toggle();" %>
   </div>
 
   <div id="union_override_form" style="display:none; margin-top: 1em;">
     <%= select :student, :union, Studentkoll.unions, { :include_blank => true } %>
   </div>
 
-  <p><%= f.submit "Registrera" %></p>
+  <p><%= f.submit "Registrera", :id => 'ticket_submit' %></p>
 <% end %>

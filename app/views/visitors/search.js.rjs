@@ -1,5 +1,0 @@
-if @visitors.empty?
-  page['results'].replace_html :text => "<h3>Ingen träff</h3>"
-else
-  page['results'].replace_html :partial => 'handout'
-end

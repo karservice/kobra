@@ -1,3 +1,0 @@
-page.remove(dom_id(@user))
-page.replace_html 'users_form', :partial => 'users_form'
-page.hide 'spinner'

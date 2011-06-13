@@ -8,7 +8,11 @@ Cobra::Application.configure do
   # and recreated between test runs.  Don't rely on the data there!
   config.cache_classes = true
 
-  # Log error messages when you accidentally call methods on nil.
+  # Configure static asset server for tests with Cache-Control for performance
+  config.serve_static_assets = true
+  config.static_cache_control = "public, max-age=3600"
+
+  # Log error messages when you accidentally call methods on nil
   config.whiny_nils = true
 
   # Show full error reports and disable caching
@@ -35,5 +39,5 @@ Cobra::Application.configure do
   config.active_support.deprecation = :stderr
 
   # Default URL for mail
-  config.action_mailer.default_url_options = { :host => 'linticket.sof2009.se:3000' }
+  config.action_mailer.default_url_options = { :host => 'kobra.ks.liu.se' }
 end

@@ -1,3 +1,0 @@
-page['results'].replace_html :partial => "tickets/ticket_sold"
-page['student_query'].select()
-page['spinner'].hide()

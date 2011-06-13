@@ -44,4 +44,9 @@ class Sture < ActiveRecord::Base
       nil
     end
   end
+
+  # Hack since Sture doesn't work with pg >~0.11 and ActiveRecord >~3.1.0
+  def self.union_for(union)
+    nil
+  end
 end

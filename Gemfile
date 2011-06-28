@@ -33,8 +33,10 @@ group :development do
 end
 
 group :production do
+  # Oracle needs this (with correct path)
+  # export DYLD_LIBRARY_PATH=/opt/local/lib/oracle
   gem 'ruby-oci8' # Needs oracle-instantclient
-  gem 'activerecord-oracle_enhanced-adapter'
+  gem "activerecord-oracle_enhanced-adapter", :git => "git://github.com/rsim/oracle-enhanced.git"
   gem 'mysql2'
   # env ARCHFLAGS="-arch x86_64" gem install pg
   gem 'pg'

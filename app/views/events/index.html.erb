@@ -6,7 +6,10 @@
 
 <ul>
 <% @events.each do |event| %>
-  <li><%= link_to event, event %></li>
+  <li>
+    <h2><%= link_to event, event %></h2>
+    <p><%= raw event.users.collect {|u| link_to(u, u) }.join(', ') %></p>
+  </li>
 <% end %>
 </ul>
 

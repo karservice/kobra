@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101123084846) do
+ActiveRecord::Schema.define(:version => 20110614101210) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -80,9 +80,10 @@ ActiveRecord::Schema.define(:version => 20101123084846) do
     t.string   "email"
     t.datetime "expire_at"
     t.boolean  "blocked"
-    t.boolean  "union_member"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "union"
+    t.datetime "union_expire_at"
   end
 
   add_index "students", ["first_name", "last_name", "personal_number", "rfid_number", "barcode_number", "email"], :name => "search_index", :unique => true

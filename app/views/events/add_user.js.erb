@@ -1,3 +1,4 @@
 $('#<%= dom_id(@event, :users) %>').prepend('<%= escape_javascript(render :partial => "user", :locals => { :user => @user }) %>');
-$('#users_form').html('<%= escape_javascript(render "users_form", :data => { :event => @event }) %>');
+// Important to hide the spinner before users_form is updated, the form could disappear if no users are available //
 $('#spinner').hide();
+$('#users_form').html('<%= escape_javascript(render "users_form", :data => { :event => @event }) %>');

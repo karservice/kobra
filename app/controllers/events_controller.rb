@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class EventsController < ApplicationController
   before_filter :preload_event, :except => [:index, :new, :create]
+  before_filter :load_available_users, :only => [:edit, :add_user, :remove_user]
 
   # GET /events
   # GET /events.xml
@@ -40,6 +41,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    @available_users = User.all.reject {|u| @event.users.include?(u) }.collect {|u| [u.name, u.id] }
   end
 
   # POST /events
@@ -109,6 +111,7 @@ class EventsController < ApplicationController
   def add_user
     @user = User.find(params[:user][:id])
     @event.users << @user
+    @available_users = User.all.reject {|u| @event.users.include?(u) }.collect {|u| [u.name, u.id] }
   end
 
   # FIXME error handling
@@ -127,5 +130,9 @@ private
     else
       @event = current_user.events.find(params[:id])
     end
+  end
+
+  def load_available_users
+    @available_users = User.all.reject {|u| @event.users.include?(u) }.collect {|u| [u.name, u.id] }
   end
 end

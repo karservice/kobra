@@ -1,5 +1,7 @@
-<%= form_for(:user, :url => add_user_event_path(@event), :remote => true) do |f| %>
-  <%= f.select :id, User.all.reject {|u| @event.users.include?(u) }.collect {|u| [u.name, u.id] } %>
-  <%= f.submit "Lägg till", :onclick => "$('spinner').show();"  %>
-  <img src="/assets/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
+<% unless @available_users.empty? %>
+  <%= form_for(:user, :url => add_user_event_path(@event), :remote => true) do |f| %>
+    <%= f.select :id, @available_users %>
+    <%= f.submit "Lägg till", :onclick => "$('#spinner').show();"  %>
+    <img src="/assets/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
+  <% end %>
 <% end %>

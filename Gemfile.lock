@@ -177,7 +177,7 @@ DEPENDENCIES
   json
   mysql2
   pg
-  rails (>= 3.1.0.rc1)
+  rails (>= 3.1.0.rc3)
   ruby-debug19
   ruby-oci8
   sass

@@ -14,7 +14,6 @@ gem 'capistrano-ext'
 # Asset Pipeline
 gem 'json'
 gem 'sass'
-gem 'uglifier'
 # Active sanity checks database for invalid records
 gem 'active_sanity'
 

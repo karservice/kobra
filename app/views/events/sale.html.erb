@@ -13,12 +13,13 @@
     <img src="/assets/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
   <% end %>
 
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+      $('#student_query').focus();
+    });
+  </script>
 
   <div style="margin-top:1em;" id="results"></div>
-
-  <script type="text/javascript" charset="utf-8">
-    $('student_query').focus();
-  </script>
 
 </div>
 
@@ -44,21 +45,7 @@
   <h3>Vid problem</h3>
   <p>
     Vid strul kontakta:<br />
-    <a href="mailto:johan@duh.se">Johan Eckerström</a> 0732411798
+    <a href="mailto:it@ks.liu.se">Erik Eklöv</a> 013-281650
   </p>
 </div>
-
-<!-- <script type="text/javascript" charset="utf-8">
-  Event.observe(document, 'keypress', function(event){
-     numKeyPressed = event.keyCode - 48;
-     if (numKeyPressed) {
-        if ($("ticket_type_" + numKeyPressed).checked == 1) {
-          $("ticket_type_" + numKeyPressed).checked = 0;
-        } else {
-          $("ticket_type_" + numKeyPressed).checked = 1;
-        }
-     }
-  });
-</script>
- -->
 

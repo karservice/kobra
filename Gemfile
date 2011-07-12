@@ -16,6 +16,8 @@ gem 'json'
 gem 'sass'
 # Active sanity checks database for invalid records
 gem 'active_sanity'
+# Exception notification by email
+gem 'exception_notification', :require => 'exception_notifier'
 
 group :development do
   # Debugger

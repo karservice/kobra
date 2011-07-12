@@ -54,4 +54,11 @@ Kobra::Application.configure do
 
   # Default URL for mail
   config.action_mailer.default_url_options = { :host => 'kobra.ks.liu.se' }
+
+  # Send exception mails
+  config.middleware.use ExceptionNotifier,
+    :email_prefix => "[KOBRA] ",
+    :sender_address => %{"KOBRA" <kobra@ks.liu.se>},
+    :exception_recipients => %w{johan@duh.se}
+
 end

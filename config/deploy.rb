@@ -53,6 +53,12 @@ namespace :deploy do
   end
 end
 after "deploy:update", "deploy:relink_shared_directories"
+before :"deploy:symlink", :"deploy:assets";
+
+desc "Compile asets"
+task :assets do
+  run "cd #{release_path}; RAILS_ENV=#{rails_env} bundle exec rake assets:precompile"
+end
 
 namespace :bundler do
   task :create_symlink, :roles => :app do

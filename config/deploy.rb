@@ -64,7 +64,7 @@ namespace :bundler do
   task :bundle_new_release, :roles => :app do
     bundler.create_symlink
     run "cd #{release_path} &&
-    env LD_LIBRARY_PATH=/usr/lib/oracle/xe/app/oracle/product/10.2.0/server/lib ORACLE_HOME=/usr/lib/oracle/xe/app/oracle/product/10.2.0/server bundle install --deployment --without test development"
+    env LD_LIBRARY_PATH=/usr/lib/oracle/xe/app/oracle/product/10.2.0/client/lib ORACLE_HOME=/usr/lib/oracle/xe/app/oracle/product/10.2.0/client bundle install --deployment --without test development"
   end
 end
 

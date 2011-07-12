@@ -51,14 +51,14 @@ namespace :deploy do
     run "ln -fs #{shared_path}/config/database.yml #{current_path}/config/database.yml"
     run "ln -fs #{shared_path}/config/initializers/gmail.rb #{current_path}/config/initializers/gmail.rb"
   end
+  desc "Compile assets"
+  task :assets do
+    run "cd #{release_path}; RAILS_ENV=#{rails_env} bundle exec rake assets:precompile"
+  end
 end
 after "deploy:update", "deploy:relink_shared_directories"
-before :"deploy:symlink", :"deploy:assets";
+after "deploy:relink_shared_directories", "deploy:assets";
 
-desc "Compile asets"
-task :assets do
-  run "cd #{release_path}; RAILS_ENV=#{rails_env} bundle exec rake assets:precompile"
-end
 
 namespace :bundler do
   task :create_symlink, :roles => :app do

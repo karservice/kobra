@@ -1,4 +1,4 @@
-rails_env = ENV['RAILS_ENV'] || production
+rails_env = ENV['RAILS_ENV'] || 'production'
 worker_processes 2 # this should be >= nr_cpus
 
 if rails_env == 'production'

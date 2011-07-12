@@ -7,7 +7,7 @@ gem 'jquery-rails'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 # Thin for serving the site, and foreman for handling thin
 gem 'thin'
-gem 'foreman'
+gem 'unicorn'
 # Deploy with Capistrano
 gem 'capistrano'
 gem 'capistrano-ext'

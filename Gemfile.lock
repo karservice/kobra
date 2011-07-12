@@ -62,6 +62,7 @@ GEM
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
     erubis (2.7.0)
+    exception_notification (2.4.1)
     foreman (0.19.0)
       term-ansicolor (~> 1.0.5)
       thor (>= 0.13.6)
@@ -163,6 +164,7 @@ DEPENDENCIES
   capistrano-ext
   delayed_job
   devise
+  exception_notification
   foreman
   jquery-rails
   json

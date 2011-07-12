@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/rsim/oracle-enhanced.git
+  revision: 3c0860b877adca6f3e5aebf06693aeae4279c567
+  specs:
+    activerecord-oracle_enhanced-adapter (1.3.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -28,7 +34,6 @@ GEM
       activesupport (= 3.1.0.rc4)
       arel (~> 2.1.1)
       tzinfo (~> 0.3.27)
-    activerecord-oracle_enhanced-adapter (1.3.2)
     activeresource (3.1.0.rc4)
       activemodel (= 3.1.0.rc4)
       activesupport (= 3.1.0.rc4)
@@ -152,7 +157,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_sanity
-  activerecord-oracle_enhanced-adapter
+  activerecord-oracle_enhanced-adapter!
   capistrano
   capistrano-ext
   delayed_job

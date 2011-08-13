@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails'
+gem 'rails', '~>3.0.0'
 
 gem 'delayed_job', :git => 'http://github.com/collectiveidea/delayed_job.git'
 gem 'devise'

@@ -34,7 +34,7 @@ GEM
       activesupport (= 3.0.9)
       arel (~> 2.0.10)
       tzinfo (~> 0.3.23)
-    activerecord-oracle_enhanced-adapter (1.4.0)
+    activerecord-oracle_enhanced-adapter (1.3.2)
     activeresource (3.0.9)
       activemodel (= 3.0.9)
       activesupport (= 3.0.9)
@@ -134,7 +134,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_sanity
-  activerecord-oracle_enhanced-adapter
+  activerecord-oracle_enhanced-adapter (~> 1.3.0)
   capistrano
   capistrano-ext
   delayed_job!

@@ -26,7 +26,7 @@ end
 
 group :production do
   gem 'ruby-oci8' # Needs oracle-instantclient
-  gem 'activerecord-oracle_enhanced-adapter'
+  gem 'activerecord-oracle_enhanced-adapter', '~> 1.3.0'
   gem 'mysql2'
   # env ARCHFLAGS="-arch x86_64" gem install pg
   gem 'pg'

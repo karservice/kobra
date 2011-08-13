@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/collectiveidea/delayed_job
+  remote: git://github.com/collectiveidea/delayed_job.git
   revision: 03d3ff300dddd43d4b150d3c5110df1558de1e26
   specs:
     delayed_job (3.0.0.pre)

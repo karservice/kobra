@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '~>3.0.0'
 
-gem 'delayed_job', :git => 'https://github.com/collectiveidea/delayed_job'
+gem 'delayed_job', :git => 'git://github.com/collectiveidea/delayed_job.git'
 gem 'devise'
 
 #gem 'jquery-rails'

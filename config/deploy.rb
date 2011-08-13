@@ -3,7 +3,7 @@ set :stages, %w(staging production)
 set :default_stage, "staging"
 
 # Set the correct RVM environment
-set :rvm_ruby_string, 'ruby-1.9.2-p0'
+set :rvm_ruby_string, 'ruby-1.9.2-p180'
 set :rvm_type, :user
 
 # Production deployment

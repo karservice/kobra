@@ -2,24 +2,26 @@
   <%= @message %>
 </h3>
 
-<% if @tickets %>
-  <ul>
-  <% @tickets.each do |ticket|%>
-    <li>
-      <%= ticket.price %> SEK, <%= ticket %>
-      <% if ticket.union_discount? %>
-        <% if ticket.extra_discount? %>
-          (Rabatt för <%= ticket.union_discount %>, biljett nummer <%= ticket.ticket_type.number_of_extra_discounts %>)
+<% unless @event.permanent? %>
+  <% if @tickets %>
+    <ul>
+    <% @tickets.each do |ticket|%>
+      <li>
+        <%= ticket.price %> SEK, <%= ticket %>
+        <% if ticket.union_discount? %>
+          <% if ticket.extra_discount? %>
+            (Rabatt för <%= ticket.union_discount %>, biljett nummer <%= ticket.ticket_type.number_of_extra_discounts %>)
+          <% else %>
+            (Rabatt kår)
+          <% end %>
         <% else %>
-          (Rabatt kår)
+          (Inga rabatter)
         <% end %>
-      <% else %>
-        (Inga rabatter)
-      <% end %>
-    </li>
+      </li>
+    <% end %>
+      <li>
+        <strong>Totalt: <%= @tickets.collect {|t| t.price }.sum %> SEK</strong>
+      </li>
+    </ul>
   <% end %>
-    <li>
-      <strong>Totalt: <%= @tickets.collect {|t| t.price }.sum %> SEK</strong>
-    </li>
-  </ul>
 <% end %>

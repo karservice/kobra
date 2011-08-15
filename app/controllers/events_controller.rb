@@ -76,6 +76,16 @@ class EventsController < ApplicationController
 
   def sale
     @visitor = Visitor.new
+
+    respond_to do |format|
+      format.html do
+        if @event.permanent?
+          render 'sale_kiosk'
+        else
+          render 'sale'
+        end
+      end
+    end
   end
 
   def handout

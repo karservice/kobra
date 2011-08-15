@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101123084846) do
+ActiveRecord::Schema.define(:version => 20110815151537) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(:version => 20101123084846) do
     t.datetime "enable_extra_discount_at"
     t.datetime "disable_extra_discount_at"
     t.boolean  "use_time_to_enable_extra_discount"
+    t.string   "available_for_union"
   end
 
   create_table "tickets", :force => true do |t|

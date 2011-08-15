@@ -21,8 +21,10 @@ class StudentsController < ApplicationController
       @student = @students.first
 
       if @student.union_member?
+        @status = :success
         @message = "#{@student} är medlem i #{@student.union}"
       else
+        @status = :failure
         @message = "#{@student} är inte kårmedlem"
       end
 
@@ -31,15 +33,21 @@ class StudentsController < ApplicationController
         @registration  = @event.register_student(@student, @event.available_ticket_types, current_user)
         @tickets = @registration.tickets
         @visitor = @registration.visitor
-        @message += ' och har registrerats'
+        unless @event.permanent?
+          @message += ' och har registrerats'
+        end
       else
         # Maybe look for existing user?
         @visitor = Visitor.where(:personal_number => @student.personal_number).first
       end
+    else
+      @status = :failure
+      @message = 'Hittade ingen student.'
     end
   rescue ActiveRecord::RecordInvalid => e
     errors = e.record.errors
 
+    @status   = :failure
     @message  = "Kunde registrera på grund av: "
     @message += errors.keys.collect {|k| errors[k] }.flatten.collect {|k| k.capitalize }.join(', ')
   ensure

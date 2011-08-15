@@ -27,6 +27,10 @@
     <%= f.label :maximum_number_of_tickets, 'Maximalt antal biljetter' %> (0 == oändligt)<br />
     <%= f.text_field :maximum_number_of_tickets %>
   </div>
+  <div class="field">
+    <%= f.label :available_for_union, 'Säljs endast till kår' %><br />
+    <%= f.select :available_for_union, Studentkoll.unions, { :include_blank => true } %>
+  </div>
   <hr />
   <h3>Kårrabatt</h3>
   <div class="field">

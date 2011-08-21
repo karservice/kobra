@@ -27,12 +27,10 @@ class UsersController < ApplicationController
 
     @user.admin = params[:user][:admin]
 
-    respond_to do |format|
-      if @user.save_and_send_password_instructions
-        format.html { redirect_to(users_path, :notice => 'Användare skapad.') }
-      else
-        render :action => "new"
-      end
+    if @user.save_and_send_password_instructions
+      redirect_to(users_path, :notice => 'Användare skapad.')
+    else
+      render :action => "new"
     end
   end
 
@@ -41,12 +39,10 @@ class UsersController < ApplicationController
 
     @user.admin = params[:user][:admin]
 
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        format.html { redirect_to(user_path(@user), :notice => 'Användare uppdaterad.') }
-      else
-        render :action => "edit"
-      end
+    if @user.update_attributes(params[:user])
+      redirect_to(user_path(@user), :notice => 'Användare uppdaterad.')
+    else
+      render :action => "edit"
     end
   end
 

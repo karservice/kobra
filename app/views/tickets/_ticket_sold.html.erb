@@ -10,13 +10,14 @@
         <%= ticket.price %> SEK, <%= ticket %>
         <% if ticket.union_discount? %>
           <% if ticket.extra_discount? %>
-            (Rabatt för <%= ticket.union_discount %>, biljett nummer <%= ticket.ticket_type.number_of_extra_discounts %>)
+            (Rabatt för <%= ticket.union_discount %>)
           <% else %>
             (Rabatt kår)
           <% end %>
         <% else %>
           (Inga rabatter)
-        <% end %>
+        <% end %><br />
+        Totalt antar biljetter sålda: <strong><%= ticket.ticket_type.tickets.size %></strong>
       </li>
     <% end %>
       <li>

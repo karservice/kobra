@@ -14,9 +14,13 @@ class TicketsController < ApplicationController
   # If the personal number is found in a student database, the Visitor
   # gets attributes such as Visitor#first_name, Visitor#last_name and Visitor#union_override
   def sale
-    @student = Studentkoll.where(:pnr_format => params[:student][:pnr_format]).first
-    if params[:student] && !params[:student][:union].empty?
-      @union_override = params[:student][:union]
+    if params[:non_student]
+      @student = Studentkoll.new(params[:non_student])
+    else
+      @student = Studentkoll.where(:pnr_format => params[:student][:pnr_format]).first
+      if params[:student] && !params[:student][:union].empty?
+        @union_override = params[:student][:union]
+      end
     end
 
     raise StandardError unless params[:ticket_type]
@@ -32,6 +36,8 @@ class TicketsController < ApplicationController
     @tickets = @registration.tickets
 
     @tickets_count = @event.tickets.count
+
+    @message = "Biljett såld till #{@student.name}"
   rescue ActiveRecord::RecordInvalid => e
     errors = e.record.errors
 

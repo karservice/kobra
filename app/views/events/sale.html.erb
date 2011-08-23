@@ -4,17 +4,52 @@
 
 <div class="span-12">
 
-  <h1>Försäljning för <%= @event %></h1>
+  <h1>
+    Försäljning för <%= @event %>
+    <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
+  </h1>
 
   <!-- Sök student -->
   <%= form_for(:student, :url => search_event_students_path(@event), :remote => true) do |f| %>
     <%= f.text_field :query %>
     <%= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
-    <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
   <% end %>
-
+  <br /><br /><br />
 
   <div style="margin-top:1em;" id="results"></div>
+
+<% if @event.electronic_tickets? %>
+  <hr />
+
+  <h3>För icke-studenter</h3>
+
+  <%= form_for(:non_student, :url => sale_event_tickets_path(@event), :remote => true) do |f| %>
+    <%= f.label :firstname, 'Förnamn' %> <br /><%= f.text_field :first_name %><br />
+    <%= f.label :last_name, 'Efternamn' %> <br /><%= f.text_field :last_name %> <br />
+    <%= f.label :personal_number, 'Personnummer (ÅÅMMDD-XXXX)' %> <br /><%= f.text_field :personal_number %>
+
+    <% unless @event.available_ticket_types.empty? %>
+      <ul style="">
+      <% @event.available_ticket_types.each do |ticket_type| %>
+        <% has_ticket = (@visitor && @visitor.tickets.collect {|t| t.ticket_type}.include?(ticket_type)) %>
+        <li style="font-size:150%; margin-bottom: 0.5em; list-style-type:none;">
+          <%= check_box_tag "ticket_type[#{ticket_type.id}]", "1", @event.available_ticket_types.size == 1,
+            :disabled => has_ticket %>
+          <%= label_tag "ticket_type[#{ticket_type.id}]", ticket_type %>
+          <% if has_ticket %>
+            (redan registrerad)
+          <% end %>
+        </li>
+      <% end %>
+      </ul>
+    <% else %>
+      <p>Finns inga tillgängliga biljetter.</p>
+    <% end %>
+
+    <%= f.submit "Lägg in biljett manuellt", :onclick => "$('spinner').show();"  %>
+
+  <% end %>
+<% end %>
 
   <script type="text/javascript" charset="utf-8">
     $('student_query').focus();

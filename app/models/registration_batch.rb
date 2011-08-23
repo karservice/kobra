@@ -58,6 +58,12 @@ class RegistrationBatch < ActiveRecord::Base
       self.visitors.sync_from_students
     end
   end
+  
+  def check_union_membership
+    self.visitors.find_each do |visitor|
+      Sture.union_for(visitor)
+    end
+  end
 
   def generate_tickets
     # FIXME benchmark and use the best batch_size

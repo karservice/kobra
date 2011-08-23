@@ -81,4 +81,8 @@ class Visitor < ActiveRecord::Base
     # Ask Sture for the union
     @union ||= Sture.union_for(self)
   end
+
+  def liu_id
+    self.email.split('@').first if self.email
+  end
 end

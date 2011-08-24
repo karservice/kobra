@@ -1,3 +1,7 @@
+<p>
+  <%= link_to 'Tillbaka', event_registration_batch_visitors_path(@event, @registration_batch)%>
+</p>
+
 <h1><%= @visitor %></h1>
 
 <h3>Biljetter</h3>
@@ -42,9 +46,19 @@
   <td><%= @visitor.barcode_number %></td>
 </tr>
 <tr>
-  <td>Skapad den</td>
-  <td><%= @visitor.created_at %></td>
+  <td>Nollan?</td>
+  <td><%= "Ja" if @visitor.nollan? %></td>
+</tr>
+<tr>
+  <td>Nykter?</td>
+  <td><%= "Ja" if @visitor.sober %></td>
 </tr>
 </table>
 
-<p><%= link_to 'Ändra', edit_event_visitor_path(@event, @visitor) %></p>
+<p>
+    <%= link_to 'Läs in från LiU-databasen', event_registration_batch_visitor_reload_from_liu_path(@event, @registration_batch, @visitor),
+      :method => :post %>
+  <% end %>
+</p>
+
+  <p><%= link_to 'Ändra', edit_event_registration_batch_visitor_path(@event, @registration_batch, @visitor) %></p>

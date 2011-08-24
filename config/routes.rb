@@ -30,6 +30,7 @@ Cobra::Application.routes.draw do
       end
       resources :visitors do
         post :search, :on => :collection
+        post :reload_from_liu
       end
     end
 

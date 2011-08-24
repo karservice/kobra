@@ -9,11 +9,19 @@ class VisitorsController < ApplicationController
   end
 
   def show
+    @registration_batch = @event.registration_batches.find(params[:registration_batch_id])
     @visitor = @event.visitors.find(params[:id])
   end
 
   def search
     @visitors = @event.visitors.search(params[:visitor][:query])
+  end
+
+  def reload_from_liu
+    @registration_batch = @event.registration_batches.find(params[:registration_batch_id])
+    @visitor = Visitor.find(params[:visitor_id])
+    @visitor.sync_student
+    redirect_to([@event, @registration_batch, @visitor], :notice => 'Uppdaterad från LiU-databasen.')
   end
 
   # Create Visitor with Ticket
@@ -25,15 +33,17 @@ class VisitorsController < ApplicationController
   end
 
   def edit
+    @registration_batch = @event.registration_batches.find(params[:registration_batch_id])
     @visitor = Visitor.find(params[:id])
   end
 
   def update
     @visitor = Visitor.find(params[:id])
+    @registration_batch = @event.registration_batches.find(params[:registration_batch_id])
 
     respond_to do |format|
       if @visitor.update_attributes(params[:visitor])
-        format.html { redirect_to([@event, @visitor], :notice => 'Visitor was successfully updated.') }
+        format.html { redirect_to([@event, @registration_batch, @visitor], :notice => 'Uppdaterad.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

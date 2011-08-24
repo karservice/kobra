@@ -1,4 +1,4 @@
-<%= form_for([@event, @visitor]) do |f| %>
+<%= form_for([@event, @registration_batch, @visitor]) do |f| %>
   <% if @visitor.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@visitor.errors.count, "error") %> prohibited this visitor from being saved:</h2>
@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-  
+
   <div class="field">
     <%= f.label "Förnamn" %><br />
     <%= f.text_field :first_name %>
@@ -35,7 +35,17 @@
     <%= f.label "Streckkodsnummer" %><br />
     <%= f.text_field :barcode_number %>
   </div>
+  <div class="field">
+    <%= f.label "Nollan" %><br />
+    <%= f.check_box :nollan %>
+  </div>
+  <div class="field">
+    <%= f.label "Nykter" %><br />
+    <%= f.check_box :sober %>
+  </div>
   <div class="actions">
-    <%= f.submit 'Spara' %>
+    <%= f.submit 'Spara' %> eller
+
+     <%= link_to("Avbryt", event_registration_batch_visitor_path(@event, @registration_batch, @visitor)) %>
   </div>
 <% end %>

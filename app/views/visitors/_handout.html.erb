@@ -1,7 +1,7 @@
 <ul>
   <% for visitor in @visitors %>
   <li>
-    <h1><%= link_to visitor, [@event, visitor] %> <%= visitor.personal_number %></h1>
+    <h1><%= link_to visitor, [@event, @registration_batch, visitor] %> <%= visitor.personal_number %></h1>
     <ul>
       <% if visitor.tickets.empty? %>
         <li>Har inga biljetter till detta evenemang</li>

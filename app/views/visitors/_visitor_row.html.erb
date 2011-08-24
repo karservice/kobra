@@ -6,4 +6,6 @@
 <td><%= visitor_row.personal_number %></td>
 <td><%= visitor_row.barcode_number %></td>
 <td><%= visitor_row.rfid_number %></td>
+<td><%= "Nollan" if visitor_row.nollan? %></td>
+<td><%= "Nykter" if visitor_row.sober? %></td>
 </tr>

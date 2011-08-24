@@ -56,11 +56,15 @@ class Visitor < ActiveRecord::Base
   # Should be split up in a few delayed jobs for parallelization
   def self.sync_from_students
     # FIXME benchmark and use the best batch_size
-    Visitor.find_each(:batch_size => 100) do |visitor|
-      if student = Studentkoll.where(:pnr_format => visitor.personal_number).first
-        visitor.set_attributes_from_student(student)
-        visitor.save
-      end
+    self.find_each(:batch_size => 100) do |visitor|
+      visitor.sync_student
+    end
+  end
+
+  def sync_student
+    if student = Studentkoll.where(:pnr_format => self.personal_number).first
+      self.set_attributes_from_student(student)
+      self.save
     end
   end
 
@@ -84,5 +88,8 @@ class Visitor < ActiveRecord::Base
 
   def liu_id
     self.email.split('@').first if self.email
+  end
+
+  def underage?
   end
 end

@@ -65,6 +65,10 @@ class Visitor < ActiveRecord::Base
     if student = Studentkoll.where(:pnr_format => self.personal_number).first
       self.set_attributes_from_student(student)
       self.save
+    else
+      student = Studentkoll.where(:epost => self.email).first
+      self.set_attributes_from_student(student)
+      self.save
     end
   end
 

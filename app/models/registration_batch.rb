@@ -65,7 +65,7 @@ class RegistrationBatch < ActiveRecord::Base
       self.update_attribute(:imported_at, Time.now)
 
       # Start background job to sync these visitors from student database
-      self.visitors.sync_from_students
+      #self.visitors.sync_from_students
     end
   end
 

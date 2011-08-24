@@ -41,10 +41,20 @@ class RegistrationBatch < ActiveRecord::Base
         last_name       = row[1]
         personal_number = row[2]
 
+        unless row[3]
+          email           = "#{row[3]}@student.liu.se"
+        end
+
+        nollan          = row[4] || ""
+        sober           = row[5] || ""
+
         visitor = Visitor.where(:personal_number => personal_number).first ||
                   Visitor.new(:personal_number => personal_number,
+                              :email => email,
                               :first_name => first_name,
-                              :last_name => last_name)
+                              :last_name => last_name,
+                              :nollan => !nollan.empty?,
+                              :sober => !sober.empty?)
 
         Registration.create(
           :event => self.event,
@@ -58,7 +68,7 @@ class RegistrationBatch < ActiveRecord::Base
       self.visitors.sync_from_students
     end
   end
-  
+
   def check_union_membership
     self.visitors.find_each do |visitor|
       Sture.union_for(visitor)

@@ -5,7 +5,7 @@ class TicketsController < ApplicationController
 
   # Hand out a ticket
   def handout
-    @ticket = @event.tickets.find(params[:id])
+    @ticket = @event.tickets.find(params[:id], :readonly => false)
     @ticket.handout!
   end
 

@@ -64,9 +64,9 @@ class StudentsController < ApplicationController
 
   def api
     if params[:liu_id]
-      @student = Student.where(:email => "#{params[:liu_id]}@student.liu.se").first
+      @student = Student.where(:email => "#{params[:liu_id].downcase}@student.liu.se").first
     elsif params[:email]
-      @student = Student.where(:email => params[:email]).first
+      @student = Student.where(:email => params[:email].downcase).first
     elsif params[:rfid_number]
       @student = Student.where(:rfid_number => params[:rfid_number]).first
     elsif params[:barcode_number]

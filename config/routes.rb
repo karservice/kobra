@@ -23,6 +23,9 @@ Cobra::Application.routes.draw do
       post :search_card, :on => :collection
     end
 
+    get :new_union_list
+    post :create_union_list
+
     resources :registration_batches do
       member do
         post :generate_tickets

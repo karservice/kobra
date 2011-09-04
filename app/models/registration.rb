@@ -10,7 +10,7 @@ class Registration < ActiveRecord::Base
   validates_associated :event, :on => :create
   validates_associated :visitor, :on => :create
 
-  validate :validate_union_limit, :on => :create
+  #validate :validate_union_limit, :on => :create
 
   # Only one ticket per event, unless permanent event
   # Multiple registrations are ok, but only if the registrations has different tickets (ticket types)

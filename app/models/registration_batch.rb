@@ -7,10 +7,10 @@ class RegistrationBatch < ActiveRecord::Base
   has_many :visitors, :through => :registrations
   has_many :tickets, :through => :registrations
 
-  validates_presence_of :event, :on => :create, :message => "can't be blank"
-  validates_associated :event, :on => :create
-  validates_presence_of :data, :on => :create, :message => "can't be blank"
-  validates_length_of :data, :minimum => 10, :on => :create, :message => "must be present"
+  #validates_presence_of :event, :on => :create, :message => "can't be blank"
+  #validates_associated :event, :on => :create
+  #validates_presence_of :data, :on => :create, :message => "can't be blank"
+  #validates_length_of :data, :minimum => 10, :on => :create, :message => "must be present"
 
   after_create :start_delayed_import
 
@@ -71,7 +71,7 @@ class RegistrationBatch < ActiveRecord::Base
 
   def check_union_membership
     self.visitors.find_each do |visitor|
-      Sture.union_for(visitor)
+      #Sture.union_for(visitor)
     end
   end
 

@@ -2,6 +2,38 @@
 class EventsController < ApplicationController
   before_filter :preload_event, :except => [:index, :new, :create]
 
+  def new_union_list
+  end
+
+  def create_union_list
+    @unions = "\n"
+
+    @data = params[:unions][:to_s]
+    @data.each_line do |line|
+      pnr, liu_id = line.split(/\s+/)
+
+      if pnr
+        if m = pnr.match(/^(\d{2})(\d{6}-\w{4})$/)
+          pnr = "#{m[2]}"
+        elsif m = pnr.match(/^(\d{2})(\d{6})(\w{4})$/)
+          pnr = "#{m[2]}-#{m[3]}"
+        elsif m = pnr.match(/^(\d{6})(\w{4})$/)
+          pnr = "#{m[1]}-#{m[2]}"
+        end
+      end
+
+      if pnr && student = Studentkoll.where(:pnr_format => pnr).first
+        @unions << "#{Sture.union_for(student)}\n"
+      elsif liu_id && student = Studentkoll.where(:epost => "#{liu_id.downcase}@student.liu.se").first
+        @unions << "#{Sture.union_for(student)}\n"
+      else
+        @unions << "\n"
+      end
+    end
+
+    render 'events/new_union_list'
+  end
+
   # GET /events
   # GET /events.xml
   def index
@@ -133,9 +165,9 @@ private
   # Preload event, admin gets all events
   def preload_event
     if current_user.admin?
-      @event = Event.find(params[:id])
+      @event = Event.find(params[:id] || params[:event_id])
     else
-      @event = current_user.events.find(params[:id])
+      @event = current_user.events.find(params[:id] || params[:event_id])
     end
   end
 end

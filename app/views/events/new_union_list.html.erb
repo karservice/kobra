@@ -1,0 +1,9 @@
+<%= form_for(:event, :url => event_create_union_list_path(@event)) do |f| %>
+  <div class="field">
+    <%= label :unions, :to_s %><br />
+    <%= text_area :unions, :to_s %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

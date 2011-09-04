@@ -27,11 +27,14 @@ class Sture < ActiveRecord::Base
       personal_number = "19#{m[1]}#{m[2]}"
     end
 
+    # One day after MH, transactions are delayed in sture
+    mh_date = '2011-08-26 00:00:00'
+
     # Ask for mainunioncode (LinTek, StuFF or Consensus) by checking
     # personal number (198604210000) and registered (paid) for the curerent
     # LiU term (20102 for 2010 autumn)
     query = "SELECT k.mainunioncode FROM mp_membershipdata AS m,
-      mp_kar_sektions_data AS k WHERE personno ='#{personal_number}' AND
+      mp_kar_sektions_data AS k WHERE m.personno ='#{personal_number}' AND m.startdate < CAST('#{mh_date}' AS date) AND
       m.sunionsemesterid = k.id AND k.semester = '#{Time.now.liu_term}' LIMIT 1;"
 
     # Ask the PostgreSQL server directly, no use for ActiveRecord here.

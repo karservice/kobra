@@ -21,10 +21,14 @@ class StudentsController < ApplicationController
       @student = @students.first
 
       if @student.union_member?
-        @status = :success
+        if @event.permanent?
+          @status = :success
+        end
         @message = "#{@student} är medlem i #{@student.union}"
       else
-        @status = :failure
+        if @event.permanent?
+          @status = :failure
+        end
         @message = "#{@student} är inte kårmedlem"
       end
 

@@ -5,6 +5,32 @@ class StudentsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :api
   before_filter :verify_api_key, :only => :api
 
+  def multi_search
+    @event   = Event.find(params[:event_id], :include => :ticket_types)
+    @student = Studentkoll.where(:rfidnr => params[:student][:atr]).first
+
+    unless @student
+      @message = "Hittade ingen student!"
+    end
+
+    if @student && @event.autosave?
+      @registration  = @event.register_student(@student, @event.available_ticket_types, current_user)
+      @tickets = @registration.tickets
+      @visitor = @registration.visitor
+      @program = Program.for(@student.liu_id)
+      @message = "#{@student} (#{@program}) har registrerats"
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    errors = e.record.errors
+
+    if @student
+      @message = "Kunde inte registrera #{@student} på grund av: "
+    else
+      @message  = "Kunde registrera på grund av: "
+    end
+    @message += errors.keys.collect {|k| errors[k] }.flatten.collect {|k| k.capitalize }.join(', ')
+  end
+
   def search
     @event    = Event.find(params[:event_id], :include => :ticket_types)
     @students = Studentkoll.search(params[:student][:query])

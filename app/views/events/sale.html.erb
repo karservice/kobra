@@ -4,10 +4,10 @@
 
 <div class="span-12">
 
-  <h1>
-    Försäljning för <%= @event %>
+  <h2>
+    <%= @event %>
     <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
-  </h1>
+  </h2>
 
   <!-- Sök student -->
   <%= form_for(:student, :url => search_event_students_path(@event), :remote => true) do |f| %>
@@ -16,7 +16,13 @@
   <% end %>
   <br /><br /><br />
 
+  <%= form_for(:student, :url => multi_search_event_students_path(@event), :remote => true) do |f| %>
+    <%= f.hidden_field :atr %>
+    <%= f.submit "", :id => 'multi_submit', :style => "display:none;", :onclick => "$('spinner').show();"  %>
+  <% end %>
+
   <div style="margin-top:1em;" id="results"></div>
+  <ul style="margin-top:1em;" id="multi_results"></ul>
 
 <% if @event.electronic_tickets? %>
   <hr />

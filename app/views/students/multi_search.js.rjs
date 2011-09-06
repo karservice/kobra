@@ -1,0 +1,3 @@
+page.insert_html(:top, 'multi_results', "<li>#{@message}</li>")
+
+page['spinner'].hide()

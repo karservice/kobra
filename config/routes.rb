@@ -20,6 +20,7 @@ Cobra::Application.routes.draw do
 
     resources :students do
       post :search, :on => :collection
+      post :multi_search, :on => :collection
       post :search_card, :on => :collection
     end
 

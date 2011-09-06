@@ -1,3 +1,2 @@
-page.insert_html(:top, 'multi_results', "<li>#{@message}</li>")
-
+page["results_#{@reader}"].replace_html :partial => "tickets/ticket_sold"
 page['spinner'].hide()

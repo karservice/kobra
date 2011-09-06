@@ -6,8 +6,16 @@ class StudentsController < ApplicationController
   before_filter :verify_api_key, :only => :api
 
   def multi_search
+    if params[:student][:atr_0]
+      rfid_number = params[:student][:atr_0]
+      @reader = 0
+    elsif params[:student][:atr_1]
+      rfid_number = params[:student][:atr_1]
+      @reader = 1
+    end
+
     @event   = Event.find(params[:event_id], :include => :ticket_types)
-    @student = Studentkoll.where(:rfidnr => params[:student][:atr]).first
+    @student = Studentkoll.where(:rfidnr => rfid_number).first
 
     unless @student
       @message = "Hittade ingen student!"

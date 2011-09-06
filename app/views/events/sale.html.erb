@@ -17,8 +17,13 @@
   <br /><br /><br />
 
   <%= form_for(:student, :url => multi_search_event_students_path(@event), :remote => true) do |f| %>
-    <%= f.hidden_field :atr %>
-    <%= f.submit "", :id => 'multi_submit', :style => "display:none;", :onclick => "$('spinner').show();"  %>
+    <%= f.hidden_field :atr_0 %>
+    <%= f.submit "", :id => 'multi_submit_0', :style => "display:none;", :onclick => "$('spinner').show();"  %>
+  <% end %>
+
+  <%= form_for(:student, :url => multi_search_event_students_path(@event), :remote => true) do |f| %>
+    <%= f.hidden_field :atr_1 %>
+    <%= f.submit "", :id => 'multi_submit_1', :style => "display:none;", :onclick => "$('spinner').show();"  %>
   <% end %>
 
   <div style="margin-top:1em;" id="results"></div>
@@ -80,6 +85,11 @@
 
   <p class="highlight">
     DET ÄR VIKTIGT ATT ALLA BILJETTER SOM SÄLJS TILL KÅRMEDLEMMAR REGISTRERAS.
+  </p>
+
+  <h3>Avancerad</h3>
+  <p>
+    <%= link_to 'Använd flera RFID-läsare', multi_sale_event_path(@event) %>
   </p>
 
   <h3>Vid problem</h3>

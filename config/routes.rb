@@ -12,6 +12,7 @@ Cobra::Application.routes.draw do
   resources :events do
     member do
       get :sale
+      get :multi_sale
       get :handout
       get :statistics
       post :add_user

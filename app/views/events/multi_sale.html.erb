@@ -1,0 +1,43 @@
+<p>
+  <%= link_to 'Tillbaka', @event %>
+</p>
+
+<div class="span-12">
+
+  <h2>
+    <%= @event %>
+    <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
+  </h2>
+
+  <!-- Sök student -->
+  <%= form_for(:student, :url => search_event_students_path(@event), :remote => true) do |f| %>
+    <%= f.text_field :query %>
+    <%= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
+  <% end %>
+  <br /><br /><br />
+
+  <%= form_for(:student, :url => multi_search_event_students_path(@event), :remote => true) do |f| %>
+    <%= f.hidden_field :atr_0 %>
+    <%= f.submit "", :id => 'multi_submit_0', :style => "display:none;", :onclick => "$('spinner').show();"  %>
+  <% end %>
+
+  <%= form_for(:student, :url => multi_search_event_students_path(@event), :remote => true) do |f| %>
+    <%= f.hidden_field :atr_1 %>
+    <%= f.submit "", :id => 'multi_submit_1', :style => "display:none;", :onclick => "$('spinner').show();"  %>
+  <% end %>
+
+  <script type="text/javascript" charset="utf-8">
+    $('student_query').focus();
+  </script>
+</div>
+<div class="span-12 last">
+  <p><em>Anpassad vy för flera läsare</em></p>
+</div>
+
+<div class="span-12">
+  <div style="margin-top:1em;" id="results_0"></div>
+</div>
+
+<div class="span-12 last">
+    <div style="margin-top:1em;" id="results_1"></div>
+</div>

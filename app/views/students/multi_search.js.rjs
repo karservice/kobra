@@ -1,0 +1,2 @@
+page["results_#{@reader}"].replace_html :partial => "tickets/ticket_sold"
+page['spinner'].hide()

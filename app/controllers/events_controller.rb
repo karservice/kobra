@@ -120,6 +120,12 @@ class EventsController < ApplicationController
     end
   end
 
+  def multisale
+    @visitor = Visitor.new
+
+    render 'multi_sale'
+  end
+
   def handout
   end
 

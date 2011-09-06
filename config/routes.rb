@@ -12,6 +12,7 @@ Cobra::Application.routes.draw do
   resources :events do
     member do
       get :sale
+      get :multi_sale
       get :handout
       get :statistics
       post :add_user
@@ -20,6 +21,7 @@ Cobra::Application.routes.draw do
 
     resources :students do
       post :search, :on => :collection
+      post :multi_search, :on => :collection
       post :search_card, :on => :collection
     end
 

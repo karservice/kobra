@@ -1,7 +1,7 @@
 page['results'].replace_html :partial => "tickets/ticket_sold"
 page['student_query'].select()
 page['spinner'].hide()
-if
+if @event.electronic_tickets?
   page['non_student_first_name'].value = ""
   page['non_student_last_name'].value = ""
   page['non_student_personal_number'].value = ""

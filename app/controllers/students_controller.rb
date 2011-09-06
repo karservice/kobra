@@ -5,6 +5,40 @@ class StudentsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :api
   before_filter :verify_api_key, :only => :api
 
+  def multi_search
+    if params[:student][:atr_0]
+      rfid_number = params[:student][:atr_0]
+      @reader = 0
+    elsif params[:student][:atr_1]
+      rfid_number = params[:student][:atr_1]
+      @reader = 1
+    end
+
+    @event   = Event.find(params[:event_id], :include => :ticket_types)
+    @student = Studentkoll.where(:rfidnr => rfid_number).first
+
+    unless @student
+      @message = "Hittade ingen student!"
+    end
+
+    if @student && @event.autosave?
+      @registration  = @event.register_student(@student, @event.available_ticket_types, current_user)
+      @tickets = @registration.tickets
+      @visitor = @registration.visitor
+      @program = Program.for(@student.liu_id)
+      @message = "#{@student} (#{@program}) har registrerats"
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    errors = e.record.errors
+
+    if @student
+      @message = "Kunde inte registrera #{@student} på grund av: "
+    else
+      @message  = "Kunde registrera på grund av: "
+    end
+    @message += errors.keys.collect {|k| errors[k] }.flatten.collect {|k| k.capitalize }.join(', ')
+  end
+
   def search
     @event    = Event.find(params[:event_id], :include => :ticket_types)
     @students = Studentkoll.search(params[:student][:query])
@@ -21,10 +55,14 @@ class StudentsController < ApplicationController
       @student = @students.first
 
       if @student.union_member?
-        @status = :success
+        if @event.permanent?
+          @status = :success
+        end
         @message = "#{@student} är medlem i #{@student.union}"
       else
-        @status = :failure
+        if @event.permanent?
+          @status = :failure
+        end
         @message = "#{@student} är inte kårmedlem"
       end
 

@@ -4,10 +4,10 @@
 
 <div class="span-12">
 
-  <h1>
-    Försäljning för <%= @event %>
+  <h2>
+    <%= @event %>
     <img src="/images/spinner.gif" style="display: none; border:none; margin-bottom: -0.5em;" id="spinner" alt="" />
-  </h1>
+  </h2>
 
   <!-- Sök student -->
   <%= form_for(:student, :url => search_event_students_path(@event), :remote => true) do |f| %>
@@ -16,7 +16,18 @@
   <% end %>
   <br /><br /><br />
 
+  <%= form_for(:student, :url => multi_search_event_students_path(@event), :remote => true) do |f| %>
+    <%= f.hidden_field :atr_0 %>
+    <%= f.submit "", :id => 'multi_submit_0', :style => "display:none;", :onclick => "$('spinner').show();"  %>
+  <% end %>
+
+  <%= form_for(:student, :url => multi_search_event_students_path(@event), :remote => true) do |f| %>
+    <%= f.hidden_field :atr_1 %>
+    <%= f.submit "", :id => 'multi_submit_1', :style => "display:none;", :onclick => "$('spinner').show();"  %>
+  <% end %>
+
   <div style="margin-top:1em;" id="results"></div>
+  <ul style="margin-top:1em;" id="multi_results"></ul>
 
 <% if @event.electronic_tickets? %>
   <hr />
@@ -74,6 +85,11 @@
 
   <p class="highlight">
     DET ÄR VIKTIGT ATT ALLA BILJETTER SOM SÄLJS TILL KÅRMEDLEMMAR REGISTRERAS.
+  </p>
+
+  <h3>Avancerad</h3>
+  <p>
+    <%= link_to 'Använd flera RFID-läsare', multi_sale_event_path(@event) %>
   </p>
 
   <h3>Vid problem</h3>

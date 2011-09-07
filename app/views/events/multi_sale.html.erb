@@ -14,7 +14,10 @@
     <%= f.text_field :query %>
     <%= f.submit "Sök efter student", :onclick => "$('spinner').show();"  %>
   <% end %>
-  <br /><br /><br />
+  <br />
+  <div class="span-12">
+    <div style="margin-top:1em;" id="results"></div>
+  </div>
 
   <%= form_for(:student, :url => multi_search_event_students_path(@event), :remote => true) do |f| %>
     <%= f.hidden_field :atr_0 %>

@@ -30,8 +30,16 @@ class Sture < ActiveRecord::Base
     # Ask for mainunioncode (LinTek, StuFF or Consensus) by checking
     # personal number (198604210000) and registered (paid) for the curerent
     # LiU term (20102 for 2010 autumn)
-    query = "SELECT k.mainunioncode FROM mp_membershipdata AS m,
-      mp_kar_sektions_data AS k WHERE personno ='#{personal_number}' AND
+    #
+    # stopdate is often NULL, but is sometimes used as a block. Fake future date
+    # if NULL with COALESCE(), othervise use the date.
+    today = Time.now.to_date
+    query = "SELECT k.mainunioncode, m.startdate, stopdate,
+      COALESCE(m.stopdate, CAST('#{today + 1.day}' AS timestamp)) AS stopdate
+      FROM mp_membershipdata AS m, mp_kar_sektions_data AS k
+      WHERE personno ='#{personal_number}' AND
+      m.startdate <= CAST('#{today}' AS timestamp) AND
+      stopdate > CAST('#{today}' AS timestamp) AND
       m.sunionsemesterid = k.id AND k.semester = '#{Time.now.liu_term}' LIMIT 1;"
 
     # Ask the PostgreSQL server directly, no use for ActiveRecord here.

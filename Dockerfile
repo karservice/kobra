@@ -9,7 +9,8 @@ ENV NODE_ENV=production \
     PYTHONUNBUFFERED=true
 
 ADD ./requirements.alpine /src/requirements.alpine
-RUN apk add --update $(grep -vE "^\s*#" /src/requirements.alpine | tr "\n" " ")
+RUN apk add --update $(grep -vE "^\s*#" /src/requirements.alpine | tr "\n" " ") && \
+    ln -sf /usr/bin/python3 /usr/bin/python
 
 ADD ./requirements.pip /src/requirements.pip
 RUN pip3 install -r /src/requirements.pip

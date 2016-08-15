@@ -9,6 +9,7 @@ python3
 g++
 gcc
 git
+libffi-dev
 make
 musl-dev
 nodejs

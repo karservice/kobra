@@ -15,6 +15,10 @@ djangorestframework_jwt==1.8.*
 django-environ==0.4.*
 django-extensions==1.7.*
 
+# Static asset serving
+whitenoise==3.2.*
+brotlipy==0.4.*
+
 # Permissions handling
 rules==1.1.*
 

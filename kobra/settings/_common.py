@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 
     'opbeat.contrib.django',  # Error reporting
@@ -38,6 +40,7 @@ MIDDLEWARE_CLASSES = [
     # measurements
     'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -117,6 +120,7 @@ STATIC_ROOT = str(ROOT_DIR.path('collected-static'))
 STATICFILES_DIRS = (
     str(ROOT_DIR.path('web-build')),
 )
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 OPBEAT = {
     'ORGANIZATION_ID': env.str('OPBEAT_ORGANIZATION_ID', ''),

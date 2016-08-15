@@ -7,7 +7,7 @@ DEBUG = env.bool('DJANGO_DEBUG_MODE', True)
 
 
 DATABASES = {
-    'default': env.db_url('DJANGO_DATABASE_URL', 'sqlite://db.sqlite3')
+    'default': env.db_url('DJANGO_DATABASE_URL', 'sqlite:///db.sqlite3')
 }
 
 

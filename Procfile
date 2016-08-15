@@ -1,1 +1,0 @@
-web:    bundle exec unicorn_rails -E production -c config/unicorn.conf.rb

@@ -1,0 +1,27 @@
+body {
+  padding-top: $navbar-height;
+}
+
+.well-heading {
+  margin-top: 0;
+}
+
+@mixin breakpoint($class) {
+  @if $class == xs {
+    @media (max-width: $screen-xs-max) {
+      @content
+    }
+  } @else if $class == sm {
+    @media (min-width: $screen-sm-min) {
+      @content
+    }
+  } @else if $class == md {
+    @media (min-width: $screen-md-min) {
+      @content
+    }
+  } @else if $class == lg {
+    @media (min-width: $screen-lg-min) {
+      @content
+    }
+  }
+}

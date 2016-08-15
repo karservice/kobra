@@ -1,0 +1,18 @@
+# This file contains the APK (Alpine) packages needed to run the application.
+
+# Runtime dependencies
+curl
+libpq
+python3
+
+# Build dependencies
+g++
+gcc
+git
+make
+musl-dev
+nodejs
+postgresql-dev
+python3-dev
+# gyp (used by node-gyp, used by npm) is stuck on Python 2.
+python

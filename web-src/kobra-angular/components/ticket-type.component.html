@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{$ctrl.ticketType.name}}</h3>
+  </div>
+
+  <div class="panel-body">
+    <div ng-if="$ctrl.eligibleDiscount">
+      <p>Eligible for discount: {{$ctrl.eligibleDiscount.amount}} SEK</p>
+    </div>
+    <div ng-if="!$ctrl.eligibleDiscount">
+      <p>Not eligible for discount.</p>
+    </div>
+    <button type="button" class="btn btn-block btn-primary"
+            ng-click="$ctrl.registerDiscount()"
+            ng-disabled="!$ctrl.eligibleDiscount">
+      <i class="fa fa-fw fa-plus-square"></i> Register
+    </button>
+    <div class="alert alert-danger" ng-if="$ctrl.registerDiscountFailed">
+      <p>{{$ctrl.registerDiscountFailedDetail || "Unknown error."}}</p>
+    </div>
+  </div>
+
+  <table class="table">
+    <tbody>
+    <tr ng-repeat="registration in $ctrl.registrations">
+      <td>{{registration.discount.union.name}}</td>
+      <td>{{registration.discount.amount}} SEK</td>
+      <td>
+        <small class="text-muted" am-time-ago="registration.timestamp"
+               title="{{registration.timestamp|date:'yyyy-MM-dd HH:mm:ss'}}">
+        </small>
+      </td>
+      <td class="text-right">
+        <button type="button" class="btn btn-xs btn-warning"
+                ng-click="$ctrl.openUnregisterModal(registration)">
+          <i class="fa fa-fw fa-minus-square"></i> Unregister
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

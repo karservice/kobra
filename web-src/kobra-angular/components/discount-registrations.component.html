@@ -1,0 +1,13 @@
+<table class="table table-striped">
+  <tbody>
+  <tr ng-repeat="registration in $ctrl.registrations">
+    <td>{{registration.discount.ticket_type.name}}</td>
+    <td am-time-ago="registration.timestamp" title="{{registration.timestamp}}"></td>
+    <td>
+      <button class="btn btn-xs btn-danger">
+        <i class="fa fa-fw fa-remove"></i> Remove
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

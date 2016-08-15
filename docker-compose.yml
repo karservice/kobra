@@ -1,0 +1,23 @@
+version: '2'
+services:
+  django:
+    build: .
+    depends_on:
+      - postgres-master
+    environment:
+      DJANGO_DATABASE_URL: postgres://kobra:kobra-pass@postgres/kobra
+      DJANGO_SECRET_KEY: very-secret-key
+
+  postgres-master:
+    image: sameersbn/postgresql:9.5
+    restart: always
+    environment:
+      DB_USER: kobra
+      DB_PASS: kobra-pass
+      DB_NAME: kobra
+      REPLICATION_MODE: master
+      REPLICATION_USER: kobra-replication
+      REPLICATION_PASS: kobra-replication-pass
+      REPLICATION_SSLMODE: prefer
+    volumes:
+      - /var/lib/postgresql

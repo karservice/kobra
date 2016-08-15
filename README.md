@@ -1,14 +1,20 @@
-KOBRA - Ticket management for LiU students
+Kobra
+=====
 
-INSTALL
-=======
+Architecture
+------------
+Kobra is an API-first application. This means that all exposed 
+functionality should be accessible through the public API. The web interface
+is therefore only one of several possible consumers of the API.
 
-* Make sure Ruby 1.9 is installed on the system
-* Install bundler and rake (rubygem) `gem install bundler rake`
-* Run `bundle install --without production` to install the gems for development use
-* Install default database.yml `mv config/database.yml.example config/database.yml` for development.
-  Use MySQL for production use. (PostgreSQL should work also, not tested)
-* Run `bundle exec rake db:setup` to install the database with default admin user (Username: admin Password: liukort)
-* Run `bundle exec rails server` and you're good to go! Surf in to http://127.0.0.1:3000/ to view the site
+Setting up a development environment
+------------------------------------
+These instructions assume you have Python and Node.js installed. A 
+virtualenv setup is strongly recommended. 
 
-For production use, access to the University databases STURE (PostgreSQL) and STUDENTKOLL (Oracle) is needed.
+    pip install -r requirements.pip
+    npm install
+
+Design assumptions
+------------------
+* Ticket sales are not interesting per se, but utilized union member discounts are.

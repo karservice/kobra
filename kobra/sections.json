@@ -1,0 +1,330 @@
+[
+  {
+    "pk": "060b6dae-b563-40fc-9ab7-72c1ac2380c7",
+    "fields": {
+      "name": "AJF",
+      "code": "AJF"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "0b92c3de-73bc-4f38-b19c-2ed5b32f0efc",
+    "fields": {
+      "name": "MT",
+      "code": "MT"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "12f1014e-70a9-44dc-a33b-7e31aed493ab",
+    "fields": {
+      "name": "D",
+      "code": "D"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "1cbe9ab3-7a8a-48fc-a762-18530437f93f",
+    "fields": {
+      "name": "PhD",
+      "code": "DokL"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "24611086-f837-4288-86bf-8edc537a1e6d",
+    "fields": {
+      "name": "StuFF (No section)",
+      "code": "StuF"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "250688ae-b706-4f61-8523-28ea85d68df4",
+    "fields": {
+      "name": "BMA",
+      "code": "BMA"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "26f008c2-4598-4cab-85c1-1ceed1ebd538",
+    "fields": {
+      "name": "Socionom",
+      "code": "Soci"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "2c6d8078-97ac-428c-acee-1602ec977471",
+    "fields": {
+      "name": "TBi",
+      "code": "TBI"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "2ef8e5cd-4dba-4982-bbf5-f879e34e4f38",
+    "fields": {
+      "name": "L\u00e4k",
+      "code": "L\u00e4k"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "2f30046d-619c-4e60-95c9-ac699384c6b2",
+    "fields": {
+      "name": "GDK",
+      "code": "GDK"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "3588fb1a-c13c-4095-8f5f-957f6e83f245",
+    "fields": {
+      "name": "KogVet",
+      "code": "KogV"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "3b611f35-8f19-4632-b61b-47c7a6582244",
+    "fields": {
+      "name": "STiL",
+      "code": "STiL"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "48dfdffb-ec65-4e30-ab70-3ab98a427361",
+    "fields": {
+      "name": "ED",
+      "code": "ED"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "4ffbe783-efbb-4dc4-a89e-c9191bf4a96a",
+    "fields": {
+      "name": "Y",
+      "code": "Y"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "63b28385-2b18-4996-ba83-ad2419af6bfc",
+    "fields": {
+      "name": "FLiNS",
+      "code": "flin"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "6b021c32-936e-4868-b651-d7145a8dd7d1",
+    "fields": {
+      "name": "SSK Link\u00f6ping",
+      "code": "SskL"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "6f49705e-0510-4cae-bb75-717b96e05e73",
+    "fields": {
+      "name": "MatNat",
+      "code": "MatN"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "7185bbba-d8dd-43ce-9678-2d60ec57d7a7",
+    "fields": {
+      "name": "DOMFIL",
+      "code": "Domf"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "7225be2e-d45d-4371-b0b8-9f72b7c7af24",
+    "fields": {
+      "name": "SSHF",
+      "code": "SSHF"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "72b720ff-3ce8-48cc-9940-b5416367eb8c",
+    "fields": {
+      "name": "AT",
+      "code": "At"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "73208afe-72ed-4164-9c04-d5bea689c41f",
+    "fields": {
+      "name": "Logistik",
+      "code": "KTS"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "7a541201-d296-458a-aa92-2e2986bdbc98",
+    "fields": {
+      "name": "LinTek (No section)",
+      "code": "LinT"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "916e78b9-58aa-4630-8411-d42821bcc263",
+    "fields": {
+      "name": "SKUM",
+      "code": "SKUM"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "9b7b622e-7eba-4069-9513-ede50a56c305",
+    "fields": {
+      "name": "Logoped",
+      "code": "Log"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "9ed2dd25-6ddd-4079-886e-d6e416355302",
+    "fields": {
+      "name": "I",
+      "code": "I"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "9f763003-6b74-4626-80c6-74077ebd0a4d",
+    "fields": {
+      "name": "Lsek Link\u00f6ping",
+      "code": "Lsek"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "add2aaae-7c6f-485a-abf4-9bd932615bb5",
+    "fields": {
+      "name": "SSK Norrk\u00f6ping",
+      "code": "SskN"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "ae69f95a-507e-4b33-aef0-1ce7b4b12425",
+    "fields": {
+      "name": "Malmsten",
+      "code": "CTD"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "afb0b8d5-173f-456b-b245-473cc290d2c2",
+    "fields": {
+      "name": "N",
+      "code": "N"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "b33b816b-3cb6-4eaa-9f17-da5d076e3a2a",
+    "fields": {
+      "name": "StaLin",
+      "code": "Stal"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "b6b01468-0456-4201-a3ad-692e28d6e62d",
+    "fields": {
+      "name": "Lsek Norrk\u00f6ping",
+      "code": "Gans"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "c2dbc0df-8c3f-462b-8fc9-8fa70bfbd1f4",
+    "fields": {
+      "name": "Ling",
+      "code": "Ling"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "cc355e4b-332a-4986-add5-e2906f3fbe6b",
+    "fields": {
+      "name": "SeKeL",
+      "code": "SEKE"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "ccd7e9be-25f4-471d-8842-ea4a8d49d30a",
+    "fields": {
+      "name": "Stimulus",
+      "code": "Stim"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "d2593e95-c736-4456-9478-c0007f7cd564",
+    "fields": {
+      "name": "Fysioterapeut",
+      "code": "SG"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "d72efeca-b367-44bb-b3bc-d99251d716b8",
+    "fields": {
+      "name": "SAKS",
+      "code": "SAKS"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "e3f59c22-e57c-4406-9982-bf8617f2e700",
+    "fields": {
+      "name": "MiP",
+      "code": "MiP"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "ed20037f-a62e-4297-a165-394471210528",
+    "fields": {
+      "name": "M",
+      "code": "M"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "eeb54b35-65d7-4a48-a30c-d6fcdfb8c81d",
+    "fields": {
+      "name": "PULS",
+      "code": "PULS"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "fa81b410-338f-4d6c-b97a-8b9af555f753",
+    "fields": {
+      "name": "MedBi",
+      "code": "MedB"
+    },
+    "model": "kobra.section"
+  },
+  {
+    "pk": "fdacf3fb-f117-437f-9e45-95b99726ac2b",
+    "fields": {
+      "name": "SKA",
+      "code": "SKA"
+    },
+    "model": "kobra.section"
+  }
+]

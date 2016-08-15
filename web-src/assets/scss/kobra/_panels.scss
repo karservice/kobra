@@ -1,0 +1,12 @@
+.panel > .table {
+  > thead, > tbody, > tfoot {
+    > tr {
+      > :first-child {
+        padding-left: $panel-body-padding;
+      }
+      > :last-child {
+        padding-right: $panel-body-padding;
+      }
+    }
+  }
+}

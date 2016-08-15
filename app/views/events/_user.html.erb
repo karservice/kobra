@@ -1,6 +1,0 @@
-<li id="<%= dom_id(user) %>">
-  <%= user %>
-  <% if user != current_user || current_user.admin? %>
-    <%= link_to 'Ta bort', remove_user_event_path(@event, :user => { :id => user.id }), :remote => true, :method => :post %>
-  <% end %>
-</li>

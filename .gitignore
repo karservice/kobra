@@ -1,8 +1,7 @@
-.bundle
-db/*.sqlite3
-log/*.log
-tmp/**/*
-dbdump
-config/database.yml
-config/initializers/gmail.rb
-vendor/bundle
+collected-static/
+node_modules/
+web-build/*
+!web-build/README.md
+db.sqlite3
+*.pyc
+.env

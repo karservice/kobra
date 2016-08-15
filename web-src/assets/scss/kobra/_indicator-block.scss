@@ -1,0 +1,61 @@
+.indicator-block {
+  display: block;
+  width: 100%;
+  padding: 1em 1.2em;
+  margin-bottom: $line-height-computed;
+
+  color: $label-color;
+  font-size: $font-size-h3;
+  font-weight: bold;
+  text-align: center;
+
+  border-radius: $border-radius-large;
+
+  > .icon, > .text {
+    display: block;
+    line-height: $line-height-base;
+  }
+
+  > .icon {
+    font-size: 200%;
+  }
+
+  @include breakpoint(xs) {
+    padding: 0.5em 0.6em;
+
+    font-size: $font-size-h4;
+
+    > .icon, > .text {
+      display: inline;
+    }
+
+    > .icon {
+      font-size: inherit;
+      margin-right: ($line-height-computed / 2);
+    }
+  }
+}
+
+.indicator-block-default {
+  background-color: $label-default-bg;
+}
+
+.indicator-block-primary {
+  background-color: $label-primary-bg;
+}
+
+.indicator-block-success {
+  background-color: $label-success-bg;
+}
+
+.indicator-block-info {
+  background-color: $label-info-bg;
+}
+
+.indicator-block-warning {
+  background-color: $label-warning-bg;
+}
+
+.indicator-block-danger {
+  background-color: $label-danger-bg;
+}

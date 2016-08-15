@@ -1,0 +1,32 @@
+# Gunicorn WSGI server
+gunicorn==19.6.*
+
+# Newest Django release
+django==1.10.*
+psycopg2==2.6.*
+
+# ReST API
+djangorestframework==3.4.*
+django-rest-auth==0.8.*
+django-filter==0.13.*
+djangorestframework_jwt==1.8.*
+
+# Utilities
+django-environ==0.4.*
+django-extensions==1.7.*
+
+# Permissions handling
+rules==1.1.*
+
+# Sesam/SOAP
+requests==2.11.*
+requests-file==1.4.*
+https://bitbucket.org/jurko/suds/get/94664ddd46a61d06862fa8fb6ba7b9e054214f57.tar.bz2#egg=suds-jurko
+git+https://github.com/chrcoe/suds_requests.git@feature/python3_suds_jurko#egg=suds-requests
+
+# Opbeat (app monitoring)
+opbeat==3.3.*
+
+# Testing/Development
+factory_boy==2.7.*
+bpython

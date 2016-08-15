@@ -1,5 +1,0 @@
-<% if @visitors.empty? %>
-  $('#results').html('<h3>Ingen träff</h3>');
-<% else %>
-  $('#results').html('<%= escape_javascript(render :partial => "handout", :data => { :event => @event, :visitors => @visitors }) %> ');
-<% end %>

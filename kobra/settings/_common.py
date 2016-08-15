@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+import warnings
 
 import environ
 
@@ -9,7 +10,10 @@ env = environ.Env()
 ROOT_DIR = environ.Path(__file__) - 3
 APPS_DIR = ROOT_DIR.path('kobra')
 
-env.read_env(str(ROOT_DIR.path('.env')))
+# https://docs.python.org/3/library/warnings.html#temporarily-suppressing-warnings
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    env.read_env(str(ROOT_DIR.path('.env')))
 
 # This assumes you are using a reverse proxy that will never let through HTTP
 # requests with spoofed headers.

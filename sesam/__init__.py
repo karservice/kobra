@@ -107,7 +107,7 @@ class SesamStudentServiceClient(suds.client.Client):
         try:
             data = self.service.GetStudent(request).Student
         except suds.WebFault as exception:
-            if NOT_FOUND_MESSAGE in exception.fault:
+            if NOT_FOUND_MESSAGE in exception.fault.faultstring:
                 raise StudentNotFound
             raise exception
 

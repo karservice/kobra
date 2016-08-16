@@ -127,6 +127,63 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+LOGGING = {
+    'version': 1,
+    # This is THE log config. This makes sense since we use a root logger.
+    'disable_existing_loggers': True,
+    'formatters': {
+        'default': {
+            'format': '%(levelname)s %(asctime)s %(name)s %(message)s'
+        },
+        # Used by the Django development server. Included from django.utils.log.
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default'
+        },
+        # Used by the Django development server. Included from django.utils.log.
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+        'opbeat': {
+            'level': 'WARNING',
+            'class': 'opbeat.contrib.django.handlers.OpbeatHandler',
+        }
+    },
+    'loggers': {
+        # Log everything of level WARNING or above to the console and to opbeat.
+        # This is to keep the log config as simple and as predictable as
+        # possible.
+        None: {
+            'level': 'WARNING',
+            'handlers': ['console', 'opbeat']
+        },
+        # Exceptions to the above rule go here. Use propagate=False to prevent
+        # the root logger to also swallow the event.
+
+        # Used by the Django development server. Included from django.utils.log.
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        # Logs timing information about SOAP requests to the console.
+        'suds.metrics': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False
+        },
+    },
+}
+
 OPBEAT = {
     'ORGANIZATION_ID': env.str('OPBEAT_ORGANIZATION_ID', ''),
     'APP_ID': env.str('OPBEAT_APP_ID', ''),

@@ -151,28 +151,33 @@ def update_or_create_from_sesam(student=None, **kwargs):
 
 class StudentQuerySet(models.QuerySet):
     def get_with_sesam(self, *args, **kwargs):
-        def update_optimistic_fields(student, **kwargs):
-            # Save parameters not returned by Sesam
-            if hasattr(kwargs, 'mifare_id'):
-                student.mifare_id = getattr(kwargs, 'mifare_id')
+        # Specifies if the student model has changed during the get procedure.
+        # Used so that we only save the model once, if needed.
+        student_changed = False
 
         try:
-            match = self.get(*args, **kwargs)
+            student = self.get(*args, **kwargs)
             # Only update from SESAM if the data is old.
-            if match.is_outdated:
-                match.update_from_sesam()
-                update_optimistic_fields(match, **kwargs)
-                match.save()
+            if student.is_outdated:
+                student.update_from_sesam()
+                student_changed = True
 
         except self.model.DoesNotExist as exc:
             try:
-                match = update_or_create_from_sesam(**kwargs)
-                update_optimistic_fields(match, **kwargs)
-                match.save()
+                student = update_or_create_from_sesam(**kwargs)
+                student_changed = True
             except StudentNotFound:
                 raise exc
 
-        return match
+        if 'mifare_id' in kwargs and (
+                student.mifare_id != int(kwargs['mifare_id'])):
+            student.mifare_id = kwargs['mifare_id']
+            student_changed = True
+
+        if student_changed:
+            student.save()
+
+        return student
 
     def get(self, *args, use_sesam=False, **kwargs):
         # use_sesam is False by default since the get() method is used

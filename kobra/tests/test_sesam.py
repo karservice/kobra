@@ -75,3 +75,15 @@ class SesamTests(TestCase):
         changed_student.refresh_from_db()
         self.assertEqual(changed_student.union, new_union)
 
+    def test_get_updates_mifare_id(self):
+        # With existing local entry.
+        student = factories.StudentFactory(mifare_id=None)
+        mock_sesam_response = sesam_response_factory(student)
+        mifare_id = 12345678
+
+        with mock.patch('sesam.SesamStudentServiceClient.get_student',
+                        return_value=mock_sesam_response):
+            student = Student.objects.get(mifare_id=mifare_id, use_sesam=True)
+        self.assertEqual(student.mifare_id, mifare_id)
+        student.refresh_from_db()  # Make sure the changes are persisted
+        self.assertEqual(student.mifare_id, mifare_id)

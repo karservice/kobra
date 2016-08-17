@@ -3,7 +3,6 @@ from collections import namedtuple
 from os import path
 import uuid
 
-import opbeat
 import requests
 from requests_file import FileAdapter
 import suds.client
@@ -76,7 +75,6 @@ class StudentNotFound(LookupError):
 
 
 class SesamStudentServiceClient(suds.client.Client):
-    @opbeat.trace()
     def __init__(self, username, password,
                  url=DEFAULT_STUDENT_SERVICE_WSDL_URL,
                  port=DEFAULT_STUDENT_SERVICE_PORT, **kwargs):
@@ -96,39 +94,35 @@ class SesamStudentServiceClient(suds.client.Client):
             **kwargs
         )
 
-    @opbeat.trace()
     def get_student(self, nor_edu_person_lin=None, liu_id=None, mifare_id=None,
                     national_id=None, iso_id=None):
-        with opbeat.trace('Building request'):
-            request = self.factory.create('ns2:GetStudentRequest')
+        request = self.factory.create('ns2:GetStudentRequest')
 
-            request.Identity.IsoNumber = iso_id
-            request.Identity.LiUId = liu_id
-            request.Identity.MifareNumber = mifare_id
-            request.Identity.norEduPersonLIN = nor_edu_person_lin
-            request.Identity.norEduPersonNIN = national_id
+        request.Identity.IsoNumber = iso_id
+        request.Identity.LiUId = liu_id
+        request.Identity.MifareNumber = mifare_id
+        request.Identity.norEduPersonLIN = nor_edu_person_lin
+        request.Identity.norEduPersonNIN = national_id
 
-        with opbeat.trace('Performing request'):
-            try:
-                data = self.service.GetStudent(request).Student
-            except suds.WebFault as exception:
-                if NOT_FOUND_MESSAGE in exception.fault.faultstring:
-                    raise StudentNotFound
-                raise exception
+        try:
+            data = self.service.GetStudent(request).Student
+        except suds.WebFault as exception:
+            if NOT_FOUND_MESSAGE in exception.fault.faultstring:
+                raise StudentNotFound
+            raise exception
 
-        with opbeat.trace('Building response'):
-            return SesamStudent(
-                liu_id=str(data.LiUId),
-                name=str(data.DisplayName),
-                union=str(data.MainUnion) if data.MainUnion else None,
-                # This abstraction is a bit ugly. It returns the raw codes from
-                # Sesam but not in every case.
-                # todo: look for a better abstraction for section_code.
-                section_code=str(data.StudentUnion) if (
-                    data.StudentUnion and
-                    data.StudentUnion not in EXCLUDED_SECTION_CODES
-                ) else None,
-                email=str(data.EmailAddress),
-                nor_edu_person_lin=uuid.UUID(data.norEduPersonLIN),
-                liu_lin=uuid.UUID(data.LiULIN)
-            )
+        return SesamStudent(
+            liu_id=str(data.LiUId),
+            name=str(data.DisplayName),
+            union=str(data.MainUnion) if data.MainUnion else None,
+            # This abstraction is a bit ugly. It returns the raw codes from
+            # Sesam but not in every case.
+            # todo: look for a better abstraction for section_code.
+            section_code=str(data.StudentUnion) if (
+                data.StudentUnion and
+                data.StudentUnion not in EXCLUDED_SECTION_CODES
+            ) else None,
+            email=str(data.EmailAddress),
+            nor_edu_person_lin=uuid.UUID(data.norEduPersonLIN),
+            liu_lin=uuid.UUID(data.LiULIN)
+        )

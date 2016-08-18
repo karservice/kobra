@@ -22,30 +22,30 @@ var isProduction = (process.env.NODE_ENV === 'production')
 
 var paths = {
   build: {
-    base: 'web-build',
-    html: 'web-build',
-    readme: 'web-build/README.md',
-    css: 'web-build/assets/css',
-    fonts: 'web-build/assets/fonts',
-    js: 'web-build/assets/js',
-    jsBundle: 'web-build/assets/js/kobra.js'
+    base: 'kobra/webclient/build',
+    html: 'kobra/webclient/build/templates',
+    readme: 'kobra/webclient/build/README.md',
+    css: 'kobra/webclient/build/static',
+    fonts: 'kobra/webclient/build/static/fonts',
+    js: 'kobra/webclient/build/static',
+    jsBundle: 'kobra/webclient/build/static/kobra.js'
   },
   fonts: [
     'node_modules/font-awesome/fonts/fontawesome-webfont.*'
   ],
   html: [
-    'web-src/kobra/index.html'
+    'kobra/webclient/src/templates/index.html'
   ],
-  scss: 'web-src/assets/scss/kobra.scss',
+  scss: 'kobra/webclient/src/scss/kobra.scss',
   scssPaths: [
-    'web-src/assets/scss',  // This entry must be first!
+    'kobra/webclient/src/scss',  // This entry must be first!
     'node_modules/bootstrap-sass/assets/stylesheets',
     'node_modules/bootswatch',
     'node_modules/font-awesome/scss'
   ],
-  jsEntryPoint: 'web-src/kobra/index.js',
+  jsEntryPoint: 'kobra/webclient/src/js/index.js',
   js: [
-    'web-src/kobra/**/*.js'
+    'kobra/webclient/src/js/**/*.js'
   ]
 }
 

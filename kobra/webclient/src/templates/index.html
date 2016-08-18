@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Kobra</title>
+  <link rel="stylesheet" href="{% static 'kobra.css' %}">
+  <script src="https://d3tvtfb6518e3e.cloudfront.net/3/opbeat.min.js"></script>
+  <script>
+    _opbeat('config', {
+      orgId: '{{ opbeat_frontend_organization_id }}',
+      appId: '{{ opbeat_frontend_app_id }}'
+    })
+  </script>
+</head>
+<body>
+<div id="app">
+  <div class="container">
+    <div class="text-center">
+      <p class="text-muted">Loading Kobra&hellip;</p>
+    </div>
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped active" role="progressbar"
+           style="width: 100%;">
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  window.kobraApiRoot = '{{ api_root }}'
+</script>
+<script src="{% static 'kobra.js' %}"></script>
+</body>
+</html>

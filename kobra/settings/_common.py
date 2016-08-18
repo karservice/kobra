@@ -57,7 +57,7 @@ MIDDLEWARE_CLASSES = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(ROOT_DIR.path('web-src').path('djangotemplates'))],
+        'DIRS': [str(APPS_DIR.path('webclient').path('build').path('templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,7 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = str(ROOT_DIR.path('collected-static'))
 STATICFILES_DIRS = (
-    str(ROOT_DIR.path('web-build')),
+    str(APPS_DIR.path('webclient').path('build').path('static')),
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -184,10 +184,19 @@ LOGGING = {
     },
 }
 
-OPBEAT = {
-    'ORGANIZATION_ID': env.str('OPBEAT_ORGANIZATION_ID', ''),
-    'APP_ID': env.str('OPBEAT_APP_ID', ''),
-    'SECRET_TOKEN': env.str('OPBEAT_SECRET_TOKEN', '')
+# Backend Opbeat config
+OPBEAT_BACKEND = OPBEAT = {
+    'ORGANIZATION_ID': env.str('OPBEAT_BACKEND_ORGANIZATION_ID', ''),
+    'APP_ID': env.str('OPBEAT_BACKEND_APP_ID', ''),
+    'SECRET_TOKEN': env.str('OPBEAT_BACKEND_SECRET_TOKEN', ''),
+    'DEBUG': True
+}
+
+# Frontend Opbeat config
+OPBEAT_FRONTEND = {
+    'ORGANIZATION_ID': env.str('OPBEAT_FRONTEND_ORGANIZATION_ID', ''),
+    'APP_ID': env.str('OPBEAT_FRONTEND_APP_ID', ''),
+    'SECRET_TOKEN': env.str('OPBEAT_FRONTEND_SECRET_TOKEN', ''),
 }
 
 SESAM_USERNAME = env.str('SESAM_USERNAME', '')

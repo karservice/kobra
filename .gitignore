@@ -1,7 +1,7 @@
 collected-static/
 node_modules/
-web-build/*
-!web-build/README.md
+kobra/webclient/build/*
+!kobra/webclient/build/README.md
 db.sqlite3
 *.pyc
 .env

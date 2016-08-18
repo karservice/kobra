@@ -1,4 +1,4 @@
-export const apiRoot = '/api/v1'
+export const apiRoot = (!!window.kobraApiRoot) ? window.kobraApiRoot : '/api/v1'
 
 export const localJwtKey = 'jwt'
 

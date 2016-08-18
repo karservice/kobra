@@ -9,8 +9,8 @@ from .... import factories, models
 
 class StudentApiTests(APITestCase):
     def test_retrieve_unauthenticated(self):
-        organization = factories.OrganizationFactory()
-        url = reverse('v1:student-detail', kwargs={'pk': organization.pk})
+        student = factories.StudentFactory()
+        url = reverse('v1:student-detail', kwargs={'pk': student.pk})
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

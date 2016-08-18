@@ -74,8 +74,36 @@ class StudentNotFound(LookupError):
     pass
 
 
-class SesamStudentServiceClient(suds.client.Client):
+class TempSesamStudentServiceClient(suds.client.Client):
+    # Temporary version of the client used for StudentService 1.0
     def __init__(self, username, password,
+                 url='file://{}'.format(path.join(__path__[0], 'StudentService.1_0.wsdl')),
+                 port=DEFAULT_STUDENT_SERVICE_PORT, **kwargs):
+        wsse = suds.wsse.Security()
+        wsse.tokens.append(
+            suds.wsse.UsernameToken(username, password)
+        )
+
+        session = requests.Session()
+        session.mount('file://', FileAdapter())  # For loading the local WSDL
+
+        super(TempSesamStudentServiceClient, self).__init__(
+            url=url,
+            port=port,
+            transport=suds_requests.RequestsTransport(session),
+            wsse=wsse,
+            **kwargs
+        )
+
+    def get_union(self, nor_edu_person_lin):
+        request = self.factory.create('ns11:GetUnionRequest')
+        request.norEduPersonLIN = nor_edu_person_lin
+
+        return self.service.GetUnion(request)
+
+
+class SesamStudentServiceClient(suds.client.Client):
+    def __init__(self, username, password, temp_username, temp_password,
                  url=DEFAULT_STUDENT_SERVICE_WSDL_URL,
                  port=DEFAULT_STUDENT_SERVICE_PORT, **kwargs):
         wsse = suds.wsse.Security()
@@ -94,6 +122,9 @@ class SesamStudentServiceClient(suds.client.Client):
             **kwargs
         )
 
+        # TEMPORARY: delete this when StudentService 2.0 reaches production
+        self.union_service = TempSesamStudentServiceClient(temp_username, temp_password)
+
     def get_student(self, nor_edu_person_lin=None, liu_id=None, mifare_id=None,
                     national_id=None, iso_id=None):
         request = self.factory.create('ns2:GetStudentRequest')
@@ -111,18 +142,37 @@ class SesamStudentServiceClient(suds.client.Client):
                 raise StudentNotFound
             raise exception
 
+        # TEMPORARY: delete this when StudentService 2.0 reaches production
+        unions = self.union_service.get_union(data.norEduPersonLIN)
+
         return SesamStudent(
             liu_id=str(data.LiUId),
             name=str(data.DisplayName),
-            union=str(data.MainUnion) if data.MainUnion else None,
+            union=str(unions.MainUnion) if unions.MainUnion else None,
             # This abstraction is a bit ugly. It returns the raw codes from
             # Sesam but not in every case.
             # todo: look for a better abstraction for section_code.
-            section_code=str(data.StudentUnion) if (
-                data.StudentUnion and
-                data.StudentUnion not in EXCLUDED_SECTION_CODES
+            section_code=str(unions.StudentUnion) if (
+                unions.StudentUnion and
+                unions.StudentUnion not in EXCLUDED_SECTION_CODES
             ) else None,
             email=str(data.EmailAddress),
             nor_edu_person_lin=uuid.UUID(data.norEduPersonLIN),
             liu_lin=uuid.UUID(data.LiULIN)
         )
+
+        # return SesamStudent(
+        #     liu_id=str(data.LiUId),
+        #     name=str(data.DisplayName),
+        #     union=str(data.MainUnion) if data.MainUnion else None,
+        #     # This abstraction is a bit ugly. It returns the raw codes from
+        #     # Sesam but not in every case.
+        #     # todo: look for a better abstraction for section_code.
+        #     section_code=str(data.StudentUnion) if (
+        #         data.StudentUnion and
+        #         data.StudentUnion not in EXCLUDED_SECTION_CODES
+        #     ) else None,
+        #     email=str(data.EmailAddress),
+        #     nor_edu_person_lin=uuid.UUID(data.norEduPersonLIN),
+        #     liu_lin=uuid.UUID(data.LiULIN)
+        # )

@@ -59,15 +59,13 @@ class StudentViewSet(RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = models.Student.objects.all()
     serializer_class = serializers.StudentSerializer
 
-    use_sesam = True  # Denotes if Sesam should be used to get the person
-
     def get_object(self):
         # From rest_framework.generics.GenericAPIView.get_object with the
         # addition of the use_sesam argument passed on to Person.get() method
         queryset = self.filter_queryset(self.get_queryset())
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
         filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
-        obj = get_object_or_404(queryset, use_sesam=self.use_sesam,
+        obj = get_object_or_404(queryset, use_sesam=True,
                                 **filter_kwargs)
         self.check_object_permissions(self.request, obj)
         return obj

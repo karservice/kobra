@@ -12,9 +12,12 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  handleEmailChange(event) {dispatch(setEmail(event.target.value))},
-  handlePasswordChange(event) {dispatch(setPassword(event.target.value))},
-  handleSubmit() {dispatch(logIn())}
+  handleEmailChange: (event) => {dispatch(setEmail(event.target.value))},
+  handlePasswordChange: (event) => {dispatch(setPassword(event.target.value))},
+  handleSubmit: (domEvent) => {
+    dispatch(logIn())
+    domEvent.preventDefault()
+  }
 })
 
 const LogInForm = connect(mapStateToProps, mapDispatchToProps)((props) => (

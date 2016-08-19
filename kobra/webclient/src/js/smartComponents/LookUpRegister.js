@@ -33,6 +33,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleSubmit(domEvent) {
     dispatch(getStudentAndDiscountRegistrations())
+    domEvent.preventDefault()
   }
 })
 

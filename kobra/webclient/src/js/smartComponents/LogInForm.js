@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, ControlLabel, FormControl, FormGroup} from 'react-bootstrap'
+import {Alert, Button, ControlLabel, FormControl, FormGroup} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
 import {logIn, setEmail, setPassword} from '../actions'
@@ -8,7 +8,8 @@ import * as selectors from '../selectors'
 const mapStateToProps = (state) => ({
   email: selectors.getEmail(state),
   password: selectors.getPassword(state),
-  isPending: selectors.logInIsPending(state)
+  isPending: selectors.logInIsPending(state),
+  logInError: selectors.getLogInError(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -34,15 +35,23 @@ const LogInForm = connect(mapStateToProps, mapDispatchToProps)((props) => (
                    onChange={props.handlePasswordChange} />
       <FormControl.Feedback />
     </FormGroup>
-    <Button type="submit" block bsStyle="primary" bsSize="lg"
-            disabled={props.isPending}>
-      {props.isPending ? (
-        <span>Logging in...</span>
-      ) : (
-        <span>Log in</span>
-      )}
-
-    </Button>
+    <FormGroup>
+      <Button type="submit" block bsStyle="primary" bsSize="lg"
+              disabled={props.isPending}>
+        {props.isPending ? (
+          <span>Logging in...</span>
+        ) : (
+          <span>Log in</span>
+        )}
+      </Button>
+    </FormGroup>
+    {!props.logInError ? (
+      <div />
+    ) : (
+      <Alert bsStyle="danger">
+        {props.logInError.message}
+      </Alert>
+    )}
   </form>
 ))
 

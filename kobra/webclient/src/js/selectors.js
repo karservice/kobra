@@ -32,6 +32,10 @@ export const getEmail = (state) => (
   state.getIn(['meta', 'logIn', 'email'])
 )
 
+export const getLogInError = (state) => (
+  state.getIn(['meta', 'logIn', 'error'])
+)
+
 export const getJwt = (state) => (
   state.get('jwt')
 )

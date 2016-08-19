@@ -21,7 +21,7 @@ export const actionTypes = {
 
 export const getDiscounts = () => (dispatch, getState) => apiRequestDispatcher(
   actionTypes.GET_DISCOUNTS,
-  apiAdapter(getState()).get('/discounts/'),
+  apiAdapter(getState()).get('discounts/'),
   dispatch, getState
 )
 
@@ -31,7 +31,7 @@ export const getDiscountRegistrations = () => (dispatch, getState) => {
   const studentId = selectors.getStudent(state).get('id')
 
   const apiRequest = apiAdapter(state)
-    .get('/discount-registrations/')
+    .get('discount-registrations/')
     .query({
       'event': eventId,
       'student': studentId
@@ -44,19 +44,19 @@ export const getDiscountRegistrations = () => (dispatch, getState) => {
 
 export const getEvents = () => (dispatch, getState) => apiRequestDispatcher(
   actionTypes.GET_EVENTS,
-  apiAdapter(getState()).get('/events/'),
+  apiAdapter(getState()).get('events/'),
   dispatch, getState
 )
 
 export const getOrganizations = () => (dispatch, getState) => apiRequestDispatcher(
   actionTypes.GET_ORGANIZATIONS,
-  apiAdapter(getState()).get('/organizations/'),
+  apiAdapter(getState()).get('organizations/'),
   dispatch, getState
 )
 
 export const getSections = () => (dispatch, getState) => apiRequestDispatcher(
   actionTypes.GET_SECTIONS,
-  apiAdapter(getState()).get('/sections/'),
+  apiAdapter(getState()).get('sections/'),
   dispatch, getState
 )
 
@@ -65,7 +65,7 @@ export const getStudent = ({successCallback=null, failureCallback=null}={}) => (
   // getState. See the documentation on thunk middleware for more info.
 
   const apiRequest = apiAdapter(getState())
-    .get('/students/'.concat(selectors.getStudentSearchString(getState()), '/'))
+    .get('students/'.concat(selectors.getStudentSearchString(getState()), '/'))
 
   return apiRequestDispatcher(
     actionTypes.GET_STUDENT, apiRequest, dispatch, getState, {
@@ -81,13 +81,13 @@ export const getStudentAndDiscountRegistrations = () => (dispatch, getState) => 
 
 export const getTicketTypes = () => (dispatch, getState) => apiRequestDispatcher(
   actionTypes.GET_TICKET_TYPES,
-  apiAdapter(getState()).get('/ticket-types/'),
+  apiAdapter(getState()).get('ticket-types/'),
   dispatch, getState
 )
 
 export const getUnions = () => (dispatch, getState) => apiRequestDispatcher(
   actionTypes.GET_UNIONS,
-  apiAdapter(getState()).get('/unions/'),
+  apiAdapter(getState()).get('unions/'),
   dispatch, getState
 )
 
@@ -106,7 +106,7 @@ export const logIn = () => (dispatch, getState) => {
   return apiRequestDispatcher(
     actionTypes.LOG_IN,
     apiAdapter(state)
-      .post('/auth/jwt/')
+      .post('auth/jwt/')
       .send({
         email: selectors.getEmail(state),
         password: selectors.getPassword(state)
@@ -123,7 +123,7 @@ export const refreshJwt = (jwt, successCallback) => (dispatch, getState) => (
   apiRequestDispatcher(
     actionTypes.LOG_IN,
     apiAdapter(getState())
-      .post('/auth/jwt/refresh/')
+      .post('auth/jwt/refresh/')
       .send({
         token: jwt || selectors.getJwt(getState())
       }),
@@ -143,7 +143,7 @@ export const registerDiscount = (discountUrl) => (dispatch, getState) => {
   apiRequestDispatcher(
     actionTypes.REGISTER_DISCOUNT,
     apiAdapter(getState())
-      .post('/discount-registrations/')
+      .post('discount-registrations/')
       .send({ student: studentUrl, discount: discountUrl }),
     dispatch, getState
   )
@@ -153,7 +153,7 @@ export const unregisterDiscount = (discountRegistration) => (dispatch, getState)
   apiRequestDispatcher(
     actionTypes.UNREGISTER_DISCOUNT,
     apiAdapter(getState())
-      .delete('/discount-registrations/'.concat(
+      .delete('discount-registrations/'.concat(
         discountRegistration.get('id'), '/')),
     dispatch, getState
   )

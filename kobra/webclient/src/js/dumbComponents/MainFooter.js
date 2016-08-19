@@ -1,23 +1,17 @@
 import React from 'react'
+import {Row, Col} from 'react-bootstrap'
 
 export const MainFooter = (props) => (
   <footer style={{fontSize: '85%'}}>
     <hr />
-    <div className={'row'}>
-      <div className={'col-sm-4 text-muted'}>
-        <p>
+    <Row>
+      <Col sm={4}>
+        <p className="text-muted">
           Provided by <a href="http://www.karservice.se/"
-                         target="_blank">Kårservice Östergötland AB</a><br />
-          Developed by <a href="https://www.vidner.se/"
-                          target="_blank">Vidner Solutions</a>
+                         target="_blank">Kårservice Östergötland AB</a>
         </p>
-      </div>
-      <div className={'col-sm-4'}>
-
-      </div>
-      <div className={'col-sm-4 text-muted'}>
-        <p><a href="#">API Documentation</a></p>
-      </div>
-    </div>
+      </Col>
+      <Col sm={8} />
+    </Row>
   </footer>
 )

@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {IndexRoute, Route, Router, hashHistory} from 'react-router'
+import {IndexRoute, Route, Router, browserHistory} from 'react-router'
 import {Provider} from 'react-redux'
 import {createStore, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
@@ -28,8 +28,8 @@ export const store = createStore(
 
 const routes = (
   <Route path="/" component={App}>
-    <IndexRoute component={Home} />
-    <Route path="lookup-register/" component={LookUpRegister} name="lookUpRegister" title="Look up and register" />
+    <IndexRoute component={Home} title="Home" />
+    <Route path="lookup-register/" component={LookUpRegister} title="Look up and register" />
     <Route path="*" component={Error404} title="Page not found" />
   </Route>
 )
@@ -37,7 +37,7 @@ const routes = (
 const render = () => {
   ReactDOM.render(
     <Provider store={store}>
-      <Router history={hashHistory}>
+      <Router history={browserHistory}>
         {routes}
       </Router>
     </Provider>,

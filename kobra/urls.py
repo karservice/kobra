@@ -11,8 +11,9 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
 
-    # Matches everything and therefore must come last.
-    url(r'^', include([
+    # Matches everything* and therefore must come last.
+    # *everything except /static/... since this breaks the static file serving.
+    url(r'^(?!static/)', include([
         url(r'^$', web_client_view, name='home'),
         url(r'^.*/$', web_client_view)
     ], namespace='web-client'))

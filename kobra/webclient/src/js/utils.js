@@ -1,9 +1,7 @@
-import {Map} from 'immutable'
 import jwtDecode from 'jwt-decode'
 
-
 import {refreshJwt} from './actions'
-import {apiRoot, localJwtKey, jwtRefreshMargin} from './constants'
+import {localJwtKey, jwtRefreshMargin} from './constants'
 import {getJwt} from './selectors'
 
 const getLocalJwt = () => {
@@ -76,21 +74,15 @@ const autoRefreshJwt = (store) => {
   let activeTimer = null
 
   const performRefresh = () => {
-    console.log('performRefresh')
     store.dispatch(refreshJwt())
-    console.log('performRefresh done')
   }
 
   const setUpTimer = (jwt) => {
-    console.log('activeTimer', activeTimer)
     if (activeTimer) {
       window.clearTimeout(activeTimer)
     }
     const expiryTime = jwtDecode(jwt).exp
-    console.log(expiryTime * 1000)
-    console.log(Date.now())
     const timeToRefresh = (expiryTime * 1000) - Date.now() - jwtRefreshMargin
-    console.log(timeToRefresh)
 
     if (timeToRefresh <= 0) {
       activeTimer = null

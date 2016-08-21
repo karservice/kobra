@@ -2,6 +2,10 @@
 # Fail on non-zero exit status
 set -e
 
+# Fix for DNS issues as of 2016-08-22.
+echo "130.236.31.51 service.test.integration.it.liu.se" >> /etc/hosts
+echo "130.236.13.67 service.integration.it.liu.se" >> /etc/hosts
+
 # Collect static content for Django
 django-admin collectstatic --noinput
 

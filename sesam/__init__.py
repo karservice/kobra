@@ -127,6 +127,12 @@ class SesamStudentServiceClient(suds.client.Client):
 
     def get_student(self, nor_edu_person_lin=None, liu_id=None, mifare_id=None,
                     national_id=None, iso_id=None):
+        # Removes leading zeros from card numbers
+        if iso_id:
+            iso_id = str(iso_id).lstrip('0')
+        if mifare_id:
+            mifare_id = str(mifare_id).lstrip('0')
+
         request = self.factory.create('ns2:GetStudentRequest')
 
         request.Identity.IsoNumber = iso_id

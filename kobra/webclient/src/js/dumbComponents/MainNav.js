@@ -42,9 +42,6 @@ export const MainNav = connect(
       </Nav>
       <Nav pullRight>
         <NavDropdown title={props.user.get('name', 'Not logged in')} id="userMenu" disabled={!props.isLoggedIn}>
-          <MenuItem>User account</MenuItem>
-          <MenuItem>Organizations and events</MenuItem>
-          <MenuItem divider />
           <MenuItem onClick={props.logOut}>Log out</MenuItem>
         </NavDropdown>
       </Nav>

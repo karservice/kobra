@@ -175,12 +175,6 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-        # Logs timing information about SOAP requests to the console.
-        'suds.metrics': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False
-        },
     },
 }
 

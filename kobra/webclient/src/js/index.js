@@ -1,21 +1,26 @@
 import 'babel-polyfill'
+
+// Initialize the error handler in an early stage
+import * as errorHandler from './errorHandler'
+errorHandler.init()
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {IndexRoute, Route, Router, browserHistory} from 'react-router'
 import {Provider} from 'react-redux'
 import {createStore, applyMiddleware} from 'redux'
-import thunk from 'redux-thunk'
+import thunkMiddleware from 'redux-thunk'
 
 import {logInUsingJwt} from './actions'
 import {Error404, Home} from './dumbComponents'
 import {App, LookUpStudents, LookUpRegister} from './smartComponents'
-import {loggerMiddleware} from './middleware'
+import {loggerMiddleware, errorReportingMiddleware} from './middleware'
 import {reducer} from './reducers'
 import {getLocalJwt, syncJwtToLocal, autoRefreshJwt} from './utils'
 
-
 const middleware = [
-  thunk
+  errorReportingMiddleware,
+  thunkMiddleware
 ]
 if (process.env.NODE_ENV !== "production") {
   middleware.push(loggerMiddleware)

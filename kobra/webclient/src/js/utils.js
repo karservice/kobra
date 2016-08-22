@@ -2,7 +2,8 @@ import jwtDecode from 'jwt-decode'
 
 import {refreshJwt} from './actions'
 import {localJwtKey, jwtRefreshMargin} from './constants'
-import {getJwt} from './selectors'
+import {setUserContext} from './errorHandler'
+import {getJwt, getUser} from './selectors'
 
 const getLocalJwt = () => {
   try {
@@ -63,6 +64,19 @@ const observeStore = (store, select, onChange) => {
   return store.subscribe(handleChange)
 }
 
+const syncErrorHandlerUserContext = (store) => (
+  observeStore(store, getUser, (user) => {
+    try {
+      setUserContext({
+        id: user.get('id', undefined),
+        email: user.get('email', undefined)
+      })
+    } catch (err) {
+      setUserContext({})
+    }
+  })
+)
+
 const syncJwtToLocal = (store) => {
   const saveJwt = (value) => {
     if (value !== null) {
@@ -112,5 +126,6 @@ export {
   getLocalJwt,
   intersection,
   observeStore,
+  syncErrorHandlerUserContext,
   syncJwtToLocal
 }

@@ -12,7 +12,17 @@ const capture = (err) => {
   window._opbeat('captureException', err)
 }
 
+const setUserContext = ({id, email}) => {
+  window._opbeat('setUserContext', {
+    is_authenticated: !!id,
+    id: id,
+    email: email,
+    username: email
+  })
+}
+
 export {
   init,
-  capture
+  capture,
+  setUserContext
 }

@@ -16,7 +16,8 @@ import {Error404, Home} from './dumbComponents'
 import {App, LookUpStudents, LookUpRegister} from './smartComponents'
 import {loggerMiddleware, errorReportingMiddleware} from './middleware'
 import {reducer} from './reducers'
-import {getLocalJwt, syncJwtToLocal, autoRefreshJwt} from './utils'
+import {getLocalJwt, syncErrorHandlerUserContext, syncJwtToLocal,
+  autoRefreshJwt} from './utils'
 
 const middleware = [
   errorReportingMiddleware,
@@ -60,6 +61,7 @@ const bootstrap = () => {
   store.subscribe(render)
   autoRefreshJwt(store)
   syncJwtToLocal(store)
+  syncErrorHandlerUserContext(store)
 }
 
 bootstrap()

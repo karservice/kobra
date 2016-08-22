@@ -65,7 +65,11 @@ const observeStore = (store, select, onChange) => {
 
 const syncJwtToLocal = (store) => {
   const saveJwt = (value) => {
-    window.localStorage.setItem(localJwtKey, value)
+    if (value !== null) {
+      window.localStorage.setItem(localJwtKey, value)
+    } else {
+      window.localStorage.removeItem(localJwtKey)
+    }
   }
   return observeStore(store, getJwt, saveJwt)
 }
@@ -81,6 +85,11 @@ const autoRefreshJwt = (store) => {
     if (activeTimer) {
       window.clearTimeout(activeTimer)
     }
+
+    if (jwt === null) {
+      return
+    }
+
     const expiryTime = jwtDecode(jwt).exp
     const timeToRefresh = (expiryTime * 1000) - Date.now() - jwtRefreshMargin
 

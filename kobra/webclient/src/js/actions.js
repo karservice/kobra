@@ -11,6 +11,7 @@ export const actionTypes = {
   GET_TICKET_TYPES: 'GET_TICKET_TYPES',
   GET_UNIONS: 'GET_UNIONS',
   LOG_IN: 'LOG_IN',
+  LOG_OUT: 'LOG_OUT',
   REGISTER_DISCOUNT: 'REGISTER_DISCOUNT',
   SET_EMAIL: 'SET_EMAIL',
   SET_EVENT: 'SET_EVENT',
@@ -118,6 +119,10 @@ export const logIn = () => (dispatch, getState) => {
     }
   )
 }
+
+export const logOut = () => ({
+  type: actionTypes.LOG_OUT
+})
 
 export const refreshJwt = (jwt, successCallback) => (dispatch, getState) => (
   apiRequestDispatcher(

@@ -142,6 +142,11 @@ const reducer = (state = initialState, action) => {
         )
       )
 
+    case actionTypes.LOG_OUT:
+      // Basically resets the state completely.
+      return state
+        .merge(initialState)
+
     case actionTypes.GET_DISCOUNTS:
       return apiRequestReducer(state, action, 'discounts',
         (state, action, path) => (

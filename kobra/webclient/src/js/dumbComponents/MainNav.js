@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {IndexLink} from 'react-router'
 import {IndexLinkContainer, LinkContainer} from 'react-router-bootstrap'
 
+import * as actions from '../actions'
 import * as selectors from '../selectors'
 
 const mapStateToProps = (state) => ({
@@ -12,9 +13,13 @@ const mapStateToProps = (state) => ({
   user: selectors.getUser(state)
 })
 
+const mapDispatchToProps = (dispatch) => ({
+  logOut: (domEvent) => (dispatch(actions.logOut()))
+})
+
 export const MainNav = connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
   null,
   // See https://github.com/reactjs/react-redux/blob/master/docs/troubleshooting.md#my-views-arent-updating-when-something-changes-outside-of-redux
   // and https://github.com/react-bootstrap/react-router-bootstrap/issues/152
@@ -40,7 +45,7 @@ export const MainNav = connect(
           <MenuItem>User account</MenuItem>
           <MenuItem>Organizations and events</MenuItem>
           <MenuItem divider />
-          <MenuItem>Log out</MenuItem>
+          <MenuItem onClick={props.logOut}>Log out</MenuItem>
         </NavDropdown>
       </Nav>
     </Navbar.Collapse>

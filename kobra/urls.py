@@ -2,11 +2,11 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from .views import web_client_view
+from .views import health_view, web_client_view
 
 
 urlpatterns = [
-    # url(r'^', include('kobra.api.v1.urls', namespace='legacy')),
+    url(r'^health/$', health_view),
     url(r'^api/v1/', include('kobra.api.v1.urls', namespace='v1')),
 
     url(r'^admin/', include(admin.site.urls)),

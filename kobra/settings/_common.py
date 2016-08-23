@@ -183,6 +183,9 @@ OPBEAT_BACKEND = OPBEAT = {
     'ORGANIZATION_ID': env.str('OPBEAT_BACKEND_ORGANIZATION_ID', ''),
     'APP_ID': env.str('OPBEAT_BACKEND_APP_ID', ''),
     'SECRET_TOKEN': env.str('OPBEAT_BACKEND_SECRET_TOKEN', ''),
+    'TRANSACTIONS_IGNORE_PATTERNS': [
+        'views.health_view'
+    ],
     'DEBUG': True
 }
 

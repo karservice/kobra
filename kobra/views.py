@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
+from django.http.response import HttpResponse
 from django.shortcuts import render_to_response
 
 from rest_framework.reverse import reverse
+
+
+def health_view(request):
+    return HttpResponse()
 
 
 def web_client_view(request):

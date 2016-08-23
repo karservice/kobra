@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from django.conf import settings
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
@@ -9,6 +8,39 @@ from django.utils.translation import ugettext_lazy as _
 
 from sesam import StudentNotFound
 from .db_fields import IdField, MoneyField, NameField
+
+
+def update_or_create_from_sesam(student=None, **kwargs):
+    sesam_student = settings.SESAM_STUDENT_SERVICE_CLIENT.get_student(
+        nor_edu_person_lin=kwargs.pop('id', None),
+        liu_id=kwargs.pop('liu_id', None),
+        mifare_id=kwargs.pop('mifare_id', None),
+        national_id=kwargs.pop('national_id', None),
+        iso_id=kwargs.pop('iso_id', None)
+    )
+
+    if kwargs:
+        raise TypeError("Can't search Sesam for the specified parameter(s)")
+
+    if not student:
+        try:
+            student = Student.objects.get(id=sesam_student.nor_edu_person_lin)
+        except Student.DoesNotExist:
+            # Just instantiate, don't save.
+            student = Student(id=sesam_student.nor_edu_person_lin)
+
+    student.email = sesam_student.email
+    student.liu_id = sesam_student.liu_id
+    student.liu_lin = sesam_student.liu_lin
+    student.name = sesam_student.name
+    student.section = Section.objects.get_or_create(
+        code=sesam_student.section_code,
+        defaults={'name': sesam_student.section_code}
+    )[0] if sesam_student.section_code else None
+    student.union = Union.objects.get_or_create(
+        name=sesam_student.union)[0] if sesam_student.union else None
+
+    return student
 
 
 class Discount(models.Model):
@@ -114,39 +146,6 @@ class Section(models.Model):
 
     def __str__(self):
         return self.name
-
-
-def update_or_create_from_sesam(student=None, **kwargs):
-    sesam_student = settings.SESAM_STUDENT_SERVICE_CLIENT.get_student(
-        nor_edu_person_lin=kwargs.pop('id', None),
-        liu_id=kwargs.pop('liu_id', None),
-        mifare_id=kwargs.pop('mifare_id', None),
-        national_id=kwargs.pop('national_id', None),
-        iso_id=kwargs.pop('iso_id', None)
-    )
-
-    if kwargs:
-        raise TypeError("Can't search Sesam for the specified parameter(s)")
-
-    if not student:
-        try:
-            student = Student.objects.get(id=sesam_student.nor_edu_person_lin)
-        except Student.DoesNotExist:
-            # Just instantiate, don't save.
-            student = Student(id=sesam_student.nor_edu_person_lin)
-
-    student.email = sesam_student.email
-    student.liu_id = sesam_student.liu_id
-    student.liu_lin = sesam_student.liu_lin
-    student.name = sesam_student.name
-    student.section = Section.objects.get_or_create(
-        code=sesam_student.section_code,
-        defaults={'name': sesam_student.section_code}
-    )[0] if sesam_student.section_code else None
-    student.union = Union.objects.get_or_create(
-        name=sesam_student.union)[0] if sesam_student.union else None
-
-    return student
 
 
 class StudentQuerySet(models.QuerySet):

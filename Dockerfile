@@ -5,7 +5,7 @@ WORKDIR /src
 
 ENV NODE_ENV=production \
     DJANGO_SETTINGS_MODULE=kobra.settings.production \
-    PYTHONPATH=/app:$PYTHONPATH \
+    PYTHONPATH=/src:$PYTHONPATH \
     PYTHONUNBUFFERED=true
 
 ADD ./requirements.alpine /src/requirements.alpine

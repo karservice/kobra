@@ -1,14 +1,6 @@
 import React from 'react'
 import {findDOMNode} from 'react-dom'
-import {
-  Button,
-  ControlLabel,
-  FormControl,
-  FormGroup,
-  HelpBlock,
-  InputGroup,
-} from 'react-bootstrap'
-import FontAwesome from 'react-fontawesome'
+import {ControlLabel, FormControl, FormGroup, HelpBlock} from 'react-bootstrap'
 
 const keys = /^[a-z0-9]$/
 // keyIdentifier represents a *key* and not a *character*. Therefore these are

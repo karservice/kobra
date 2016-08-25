@@ -123,7 +123,8 @@ class SesamStudentServiceClient(suds.client.Client):
         )
 
         # TEMPORARY: delete this when StudentService 2.0 reaches production
-        self.union_service = TempSesamStudentServiceClient(temp_username, temp_password)
+        self.union_service = TempSesamStudentServiceClient(temp_username,
+                                                           temp_password)
 
     def get_student(self, nor_edu_person_lin=None, liu_id=None, mifare_id=None,
                     national_id=None, iso_id=None):

@@ -35,7 +35,8 @@ export const store = createStore(
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Home} title="Home" />
-    <Route path="lookup-register/" component={LookUpRegister} title="Look up and register" />
+    <Route path="lookup-register/" component={LookUpRegister}
+           title="Look up and register" />
     <Route path="*" component={Error404} title="Page not found" />
   </Route>
 )

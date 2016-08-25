@@ -3,7 +3,7 @@ from django.db.models import ProtectedError
 from django.utils.translation import ugettext_lazy as _
 
 import rest_framework.filters
-from rest_framework import mixins, viewsets, exceptions
+from rest_framework import mixins, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import RetrieveModelMixin
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row, Col} from 'react-bootstrap'
 
-export const MainFooter = (props) => (
+const MainFooter = (props) => (
   <footer style={{fontSize: '85%'}}>
     <hr />
     <Row>
@@ -15,3 +15,5 @@ export const MainFooter = (props) => (
     </Row>
   </footer>
 )
+
+export {MainFooter}

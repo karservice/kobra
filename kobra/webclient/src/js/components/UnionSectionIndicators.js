@@ -1,9 +1,15 @@
 import React from 'react'
+import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 
-import {IndicatorBlock as DumbIndicatorBlock} from '../dumbComponents'
 import {getStudentsSection, getStudentsUnion} from '../selectors'
 
+const DumbIndicatorBlock = ({bsClass, faIconName, text}) => (
+  <div className={'indicator-block indicator-block-'.concat(bsClass)}>
+    <FontAwesome className="icon" name={faIconName} />
+    <span className="text">{text}</span>
+  </div>
+)
 
 const mapUnionStateToProps = (state) => ({
   object: getStudentsUnion(state),
@@ -31,8 +37,10 @@ const IndicatorBlock = ({object, noneText, unknownText}) => {
   }
 }
 
-export const UnionIndicator = connect(mapUnionStateToProps)(IndicatorBlock)
+const UnionIndicator = connect(mapUnionStateToProps)(IndicatorBlock)
 UnionIndicator.propTypes = {}
 
-export const SectionIndicator = connect(mapSectionStateToProps)(IndicatorBlock)
+const SectionIndicator = connect(mapSectionStateToProps)(IndicatorBlock)
 SectionIndicator.propTypes = {}
+
+export {SectionIndicator, UnionIndicator}

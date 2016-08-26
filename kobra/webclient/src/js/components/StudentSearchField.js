@@ -7,7 +7,7 @@ const keys = /^[a-z0-9]$/
 // Unicode IDs for numbers and uppercase letters.
 const keyIdentifiers = /^U\+00(3[0-9]|4[1-9A-F]|5[0-9A])$/
 
-export const StudentSearchField = React.createClass({
+const StudentSearchField = React.createClass({
   handleKeyDown: function (event) {
     if (
       (
@@ -61,3 +61,5 @@ StudentSearchField.propTypes = {
   disabled: React.PropTypes.bool,
   value: React.PropTypes.string.isRequired
 }
+
+export {StudentSearchField}

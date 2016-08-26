@@ -1,13 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Col, Row, Well} from 'react-bootstrap'
-import isEmpty from 'lodash/isEmpty'
 
 import * as selectors from '../selectors'
-import {
-  SectionIndicator,
-  UnionIndicator
-} from '../smartComponents'
+import {SectionIndicator, UnionIndicator} from './'
 
 const mapStateToProps = (state) => ({
   student: selectors.getStudent(state),

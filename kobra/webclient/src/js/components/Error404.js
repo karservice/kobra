@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Error404 = (props) => (
+const Error404 = (props) => (
   <div>
     <h1>Aw snap! :(</h1>
     <p>
@@ -8,3 +8,5 @@ export const Error404 = (props) => (
     </p>
   </div>
 )
+
+export {Error404}

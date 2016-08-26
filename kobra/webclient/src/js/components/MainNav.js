@@ -17,10 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
   logOut: (domEvent) => (dispatch(actions.logOut()))
 })
 
-export const MainNav = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
+const MainNav = connect(mapStateToProps, mapDispatchToProps, null,
   // See https://github.com/reactjs/react-redux/blob/master/docs/troubleshooting.md#my-views-arent-updating-when-something-changes-outside-of-redux
   // and https://github.com/react-bootstrap/react-router-bootstrap/issues/152
   {pure: false}
@@ -48,3 +45,5 @@ export const MainNav = connect(
     </Navbar.Collapse>
   </Navbar>
 ))
+
+export {MainNav}

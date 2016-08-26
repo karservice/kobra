@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.setEvent(domEvent.target.value)))
 })
 
-export const EventSelectField = connect(mapStateToProps, mapDispatchToProps)(
+const EventSelectField = connect(mapStateToProps, mapDispatchToProps)(
   (props) => {
     const selectedEventUrl = (props.selectedEvent === null) ?
       '' : props.selectedEvent.get('url')
@@ -54,3 +54,5 @@ export const EventSelectField = connect(mapStateToProps, mapDispatchToProps)(
 EventSelectField.propTypes = {
   changeHandler: React.PropTypes.func
 }
+
+export {EventSelectField}

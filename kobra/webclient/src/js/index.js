@@ -12,8 +12,7 @@ import {createStore, applyMiddleware} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
 import {logInUsingJwt} from './actions'
-import {Error404, Home} from './dumbComponents'
-import {App, LookUpStudents, LookUpRegister} from './smartComponents'
+import * as components from './components'
 import {loggerMiddleware, errorReportingMiddleware} from './middleware'
 import {reducer} from './reducers'
 import {getLocalJwt, syncErrorHandlerUserContext, syncJwtToLocal,
@@ -33,11 +32,11 @@ export const store = createStore(
 )
 
 const routes = (
-  <Route path="/" component={App}>
-    <IndexRoute component={Home} title="Home" />
-    <Route path="lookup-register/" component={LookUpRegister}
+  <Route path="/" component={components.App}>
+    <IndexRoute component={components.Home} title="Home" />
+    <Route path="lookup-register/" component={components.LookUpRegister}
            title="Look up and register" />
-    <Route path="*" component={Error404} title="Page not found" />
+    <Route path="*" component={components.Error404} title="Page not found" />
   </Route>
 )
 

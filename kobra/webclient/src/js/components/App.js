@@ -2,15 +2,14 @@ import React from 'react'
 import {Col, Grid, Navbar, Row, Well} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
-import {MainFooter, MainNav} from '../dumbComponents'
-import {LogInForm} from './'
+import {LogInForm, MainFooter, MainNav} from './'
 import {isLoggedIn} from '../selectors'
 
 const mapStateToProps = (state) => ({
   isLoggedIn: isLoggedIn(state)
 })
 
-export const App = connect(mapStateToProps)((props) => (
+const App = connect(mapStateToProps)((props) => (
   <div>
     <MainNav />
     {(!props.isLoggedIn || props.children.props.route.title) ? (
@@ -53,3 +52,5 @@ export const App = connect(mapStateToProps)((props) => (
   </Grid>
     </div>
 ))
+
+export {App}

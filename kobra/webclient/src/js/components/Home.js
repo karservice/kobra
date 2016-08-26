@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Home = (props) => (
+const Home = (props) => (
   <div>
     <p className="lead">
       Kobra is a tool for looking up union and section membership of LiU
@@ -14,3 +14,5 @@ export const Home = (props) => (
     </p>
   </div>
 )
+
+export {Home}

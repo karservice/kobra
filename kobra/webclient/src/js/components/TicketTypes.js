@@ -3,8 +3,8 @@ import {Button, Col, Row} from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 
+import {DiscountRegistration} from './'
 import * as actions from '../actions'
-import {DiscountRegistration} from '../dumbComponents'
 import * as selectors from '../selectors'
 
 

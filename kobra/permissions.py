@@ -21,6 +21,9 @@ rules.add_perm('kobra.view_discountregistration',
 rules.add_perm('kobra.change_discountregistration',
                (is_authenticated_model_level |
                 predicates.is_discount_registration_admin))
+rules.add_perm('kobra.delete_discountregistration',
+               (is_authenticated_model_level |
+                predicates.is_discount_registration_admin))
 
 rules.add_perm('kobra.add_event', is_authenticated_model_level)
 rules.add_perm('kobra.view_event', (is_authenticated_model_level |

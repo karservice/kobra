@@ -95,9 +95,9 @@ class TempSesamStudentServiceClient(suds.client.Client):
             **kwargs
         )
 
-    def get_union(self, nor_edu_person_lin):
+    def get_union(self, liu_id):
         request = self.factory.create('ns11:GetUnionRequest')
-        request.norEduPersonLIN = nor_edu_person_lin
+        request.LiUId = liu_id
 
         return self.service.GetUnion(request)
 
@@ -150,7 +150,7 @@ class SesamStudentServiceClient(suds.client.Client):
             raise exception
 
         # TEMPORARY: delete this when StudentService 2.0 reaches production
-        unions = self.union_service.get_union(data.norEduPersonLIN)
+        unions = self.union_service.get_union(data.LiUId)
 
         return SesamStudent(
             liu_id=str(data.LiUId),

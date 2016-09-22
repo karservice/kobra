@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import csv
 from io import StringIO
+import pickle
 
-from kobra.models import Student
+from django.conf import settings
+from django.db import transaction
+
+from kobra.models import Student, DiscountRegistration
 
 
 def manually_add_mifare_id(liu_id, mifare_id):
@@ -17,3 +21,28 @@ def batch_add_mifare_id(csv_string):
     for row in reader:
         print(row)
         manually_add_mifare_id(row['liu_id'], row['mifare_id'])
+
+
+@transaction.atomic()
+def update_student_ids():
+    def serialize_all_discount_registrations():
+        return pickle.dumps(list(DiscountRegistration.objects.all().values(
+            'id', 'discount_id', 'timestamp', 'student__liu_id'
+        )))
+
+    start_discount_registrations = serialize_all_discount_registrations()
+
+    for student in Student.objects.all():
+        print(student.liu_id)
+        new_pk = settings.SESAM_STUDENT_SERVICE_CLIENT.get_student(liu_id=student.liu_id).nor_edu_person_lin
+        old_pk = student.pk
+        if new_pk != old_pk:
+            discount_registrations = student.discount_registrations.all()
+            student.pk = new_pk
+            student.save()
+            discount_registrations.update(student=student)
+            Student.objects.get(pk=old_pk).delete()
+
+    end_discount_registrations = serialize_all_discount_registrations()
+
+    assert end_discount_registrations == start_discount_registrations

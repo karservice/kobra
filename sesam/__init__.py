@@ -13,7 +13,7 @@ import suds_requests
 # is horrible. Therefore, we used a downloaded copy of the complete WSDL.
 # Download newer versions with the ?singleWsdl option.
 DEFAULT_STUDENT_SERVICE_WSDL_URL = 'file://{}'.format(
-    path.join(__path__[0], 'StudentService.2_0.test.wsdl'))
+    path.join(__path__[0], 'StudentService.2_0.production.wsdl'))
 DEFAULT_STUDENT_SERVICE_PORT = 'BasicHttpBinding_IStudentService'
 
 EXCLUDED_SECTION_CODES = [
@@ -74,36 +74,8 @@ class StudentNotFound(LookupError):
     pass
 
 
-class TempSesamStudentServiceClient(suds.client.Client):
-    # Temporary version of the client used for StudentService 1.0
-    def __init__(self, username, password,
-                 url='file://{}'.format(path.join(__path__[0], 'StudentService.1_0.wsdl')),
-                 port=DEFAULT_STUDENT_SERVICE_PORT, **kwargs):
-        wsse = suds.wsse.Security()
-        wsse.tokens.append(
-            suds.wsse.UsernameToken(username, password)
-        )
-
-        session = requests.Session()
-        session.mount('file://', FileAdapter())  # For loading the local WSDL
-
-        super(TempSesamStudentServiceClient, self).__init__(
-            url=url,
-            port=port,
-            transport=suds_requests.RequestsTransport(session),
-            wsse=wsse,
-            **kwargs
-        )
-
-    def get_union(self, liu_id):
-        request = self.factory.create('ns11:GetUnionRequest')
-        request.LiUId = liu_id
-
-        return self.service.GetUnion(request)
-
-
 class SesamStudentServiceClient(suds.client.Client):
-    def __init__(self, username, password, temp_username, temp_password,
+    def __init__(self, username, password,
                  url=DEFAULT_STUDENT_SERVICE_WSDL_URL,
                  port=DEFAULT_STUDENT_SERVICE_PORT, **kwargs):
         wsse = suds.wsse.Security()
@@ -121,10 +93,6 @@ class SesamStudentServiceClient(suds.client.Client):
             wsse=wsse,
             **kwargs
         )
-
-        # TEMPORARY: delete this when StudentService 2.0 reaches production
-        self.union_service = TempSesamStudentServiceClient(temp_username,
-                                                           temp_password)
 
     def get_student(self, nor_edu_person_lin=None, liu_id=None, mifare_id=None,
                     national_id=None, iso_id=None):
@@ -149,37 +117,18 @@ class SesamStudentServiceClient(suds.client.Client):
                 raise StudentNotFound
             raise exception
 
-        # TEMPORARY: delete this when StudentService 2.0 reaches production
-        unions = self.union_service.get_union(data.LiUId)
-
         return SesamStudent(
             liu_id=str(data.LiUId),
             name=str(data.DisplayName),
-            union=str(unions.MainUnion) if unions.MainUnion else None,
+            union=str(data.MainUnion) if data.MainUnion else None,
             # This abstraction is a bit ugly. It returns the raw codes from
             # Sesam but not in every case.
             # todo: look for a better abstraction for section_code.
-            section_code=str(unions.StudentUnion) if (
-                unions.StudentUnion and
-                unions.StudentUnion not in EXCLUDED_SECTION_CODES
+            section_code=str(data.StudentUnion) if (
+                data.StudentUnion and
+                data.StudentUnion not in EXCLUDED_SECTION_CODES
             ) else None,
             email=str(data.EmailAddress),
             nor_edu_person_lin=uuid.UUID(data.norEduPersonLIN),
             liu_lin=uuid.UUID(data.LiULIN)
         )
-
-        # return SesamStudent(
-        #     liu_id=str(data.LiUId),
-        #     name=str(data.DisplayName),
-        #     union=str(data.MainUnion) if data.MainUnion else None,
-        #     # This abstraction is a bit ugly. It returns the raw codes from
-        #     # Sesam but not in every case.
-        #     # todo: look for a better abstraction for section_code.
-        #     section_code=str(data.StudentUnion) if (
-        #         data.StudentUnion and
-        #         data.StudentUnion not in EXCLUDED_SECTION_CODES
-        #     ) else None,
-        #     email=str(data.EmailAddress),
-        #     nor_edu_person_lin=uuid.UUID(data.norEduPersonLIN),
-        #     liu_lin=uuid.UUID(data.LiULIN)
-        # )

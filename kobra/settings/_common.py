@@ -198,13 +198,11 @@ OPBEAT_FRONTEND = {
 
 SESAM_USERNAME = env.str('SESAM_USERNAME', '')
 SESAM_PASSWORD = env.str('SESAM_PASSWORD', '')
-TEMP_SESAM_USERNAME = env.str('TEMP_SESAM_USERNAME', '')
-TEMP_SESAM_PASSWORD = env.str('TEMP_SESAM_PASSWORD', '')
 # To utilize the connection pooling in the SesamStudentServiceClient, we
 # instantiate the client here and make it available as a singleton.
 # todo: investigate better ways of achieving this.
 SESAM_STUDENT_SERVICE_CLIENT = SesamStudentServiceClient(
-    SESAM_USERNAME, SESAM_PASSWORD, TEMP_SESAM_USERNAME, TEMP_SESAM_PASSWORD)
+    SESAM_USERNAME, SESAM_PASSWORD)
 # Specifies how old the data from Sesam can be before an update is forced.
 SESAM_DATA_AGE_THRESHOLD = timedelta(
     seconds=env.int('SESAM_DATA_AGE_THRESHOLD', 6*60*60))

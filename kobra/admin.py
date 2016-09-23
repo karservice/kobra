@@ -15,7 +15,7 @@ class EventAdmin(admin.ModelAdmin):
 
 
 class OrganizationAdmin(admin.ModelAdmin):
-    pass
+    filter_horizontal = ['admins']
 
 
 class SectionAdmin(admin.ModelAdmin):

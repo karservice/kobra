@@ -6,6 +6,8 @@ import pickle
 from django.conf import settings
 from django.db import transaction
 
+import cx_Oracle
+
 from kobra.models import Student, DiscountRegistration
 
 
@@ -46,3 +48,27 @@ def update_student_ids():
     end_discount_registrations = serialize_all_discount_registrations()
 
     assert end_discount_registrations == start_discount_registrations
+
+
+def import_mifare_ids():
+    connection = cx_Oracle.connect(
+        '{user}/{password}@{host}:{port}/sharedsvc'.format(
+            user=settings.ORACLE_USERNAME, password=settings.ORACLE_PASSWORD,
+            host=settings.ORACLE_HOST, port=settings.ORACLE_PORT))
+    cursor = connection.cursor()
+    cursor.execute("""
+        SELECT
+          SUBSTR(EPOST, 0, INSTR(EPOST, '@') - 1) AS liu_id,
+          RFIDNR AS mifare_id
+        FROM LIUKORT.STUDENTKOLL WHERE
+          RFIDNR IS NOT NULL AND
+          GILTIG_TILL > CURRENT_TIMESTAMP AND
+          ROWNUM <= 1000
+    """)
+    for result in cursor:
+        print(result)
+        student = Student.objects.get_with_sesam(liu_id=result[0])
+        student.mifare_id = result[1]
+        student.save()
+    cursor.close()
+    connection.close()

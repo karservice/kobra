@@ -6,9 +6,6 @@ set -e
 echo "130.236.31.51 service.test.integration.it.liu.se" >> /etc/hosts
 echo "130.236.13.67 service.integration.it.liu.se" >> /etc/hosts
 
-# Collect static content for Django
-django-admin collectstatic --noinput
-
 # Don't fail on non-zero exit status (we don't care that much about Opbeat)
 set +e
 

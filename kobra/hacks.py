@@ -62,13 +62,15 @@ def import_mifare_ids():
           RFIDNR AS mifare_id
         FROM LIUKORT.STUDENTKOLL WHERE
           RFIDNR IS NOT NULL AND
-          GILTIG_TILL > CURRENT_TIMESTAMP AND
-          ROWNUM <= 1000
+          GILTIG_TILL > CURRENT_TIMESTAMP
     """)
     for result in cursor:
         print(result)
-        student = Student.objects.get_with_sesam(liu_id=result[0])
-        student.mifare_id = result[1]
-        student.save()
+        try:
+            student = Student.objects.get_with_sesam(liu_id=result[0])
+            student.mifare_id = result[1]
+            student.save()
+        except Student.DoesNotExist:
+            pass
     cursor.close()
     connection.close()

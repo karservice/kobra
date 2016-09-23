@@ -4,16 +4,14 @@ from django.contrib import admin
 from . import models
 
 
-class DiscountAdmin(admin.ModelAdmin):
-    pass
-
-
 class DiscountRegistrationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['student', 'discount', 'timestamp']
+    list_filter = ['discount__ticket_type', 'discount__union']
+    ordering = ['-timestamp']
 
 
 class EventAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'organization']
 
 
 class OrganizationAdmin(admin.ModelAdmin):
@@ -26,13 +24,14 @@ class SectionAdmin(admin.ModelAdmin):
 
 class DiscountInline(admin.TabularInline):
     model = models.Discount
+    extra = 3
+    max_num = 3
 
 
 class TicketTypeAdmin(admin.ModelAdmin):
     inlines = [DiscountInline]
 
 
-admin.site.register(models.Discount, DiscountAdmin)
 admin.site.register(models.DiscountRegistration, DiscountRegistrationAdmin)
 admin.site.register(models.Event, EventAdmin)
 admin.site.register(models.Organization, OrganizationAdmin)

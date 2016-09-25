@@ -115,6 +115,7 @@ class Organization(models.Model):
 
     admins = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
+        blank=True,
         related_name='organizations_administered')
 
     class Meta:

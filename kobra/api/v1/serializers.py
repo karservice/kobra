@@ -124,7 +124,8 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
             'union',
             'section',
             'liu_lin',
-            'email'
+            'email',
+            'last_updated'
         ]
 
 

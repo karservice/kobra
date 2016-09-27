@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import logging
+
 from django.conf import settings
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
@@ -8,6 +10,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from sesam import StudentNotFound
 from .db_fields import IdField, MoneyField, NameField
+
+
+logger = logging.getLogger(__name__)
 
 
 def update_or_create_from_sesam(student=None, **kwargs):
@@ -159,8 +164,16 @@ class StudentQuerySet(models.QuerySet):
             student = self.get(*args, **kwargs)
             # Only update from SESAM if the data is old.
             if student.is_outdated:
-                student.update_from_sesam()
-                student_changed = True
+                try:
+                    student.update_from_sesam()
+                    student_changed = True
+                except StudentNotFound:
+                    # This is an unwanted state that most likely means that we
+                    # encountered some error in Sesam. So we just log this and
+                    # ignore that the data may be outdated, to avoid downtime we
+                    # cannot control.
+                    logger.error('Existing student not found in Sesam.',
+                                 exc_info=True)
 
         except self.model.DoesNotExist as exc:
             try:

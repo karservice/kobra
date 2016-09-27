@@ -75,6 +75,20 @@ class SesamTests(TestCase):
         changed_student.refresh_from_db()
         self.assertEqual(changed_student.union, new_union)
 
+    def test_get_with_local_no_sesam(self):
+        # With local entry.
+        student = factories.StudentFactory()
+
+        with mock.patch('sesam.SesamStudentServiceClient.get_student',
+                        side_effect=StudentNotFound):
+            with mock.patch('kobra.models.Student.is_outdated',
+                            new_callable=mock.PropertyMock,
+                            return_value=True):
+                fetched_student = Student.objects.get(pk=student.pk,
+                                                      use_sesam=True)
+        self.assertEqual(student.pk, fetched_student.pk)
+        self.assertEqual(student.last_updated, fetched_student.last_updated)
+
     def test_get_updates_mifare_id(self):
         # With existing local entry.
         student = factories.StudentFactory(mifare_id=None)

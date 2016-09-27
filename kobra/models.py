@@ -8,7 +8,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from sesam import StudentNotFound
+from sesam import SesamError, StudentNotFound
 from .db_fields import IdField, MoneyField, NameField
 
 
@@ -167,12 +167,12 @@ class StudentQuerySet(models.QuerySet):
                 try:
                     student.update_from_sesam()
                     student_changed = True
-                except StudentNotFound:
+                except SesamError:
                     # This is an unwanted state that most likely means that we
                     # encountered some error in Sesam. So we just log this and
                     # ignore that the data may be outdated, to avoid downtime we
                     # cannot control.
-                    logger.error('Existing student not found in Sesam.',
+                    logger.error('Encountered an error in Sesam.',
                                  exc_info=True)
 
         except self.model.DoesNotExist as exc:

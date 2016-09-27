@@ -70,7 +70,14 @@ SesamStudent = namedtuple('SesamStudent', [
 ])
 
 
-class StudentNotFound(LookupError):
+class SesamError(Exception):
+    def __init__(self, original_exception=None, *args, **kwargs):
+        super(SesamError, self).__init__(*args, **kwargs)
+
+        self.original_exception = original_exception
+
+
+class StudentNotFound(SesamError):
     pass
 
 
@@ -114,8 +121,8 @@ class SesamStudentServiceClient(suds.client.Client):
             data = self.service.GetStudent(request).Student
         except suds.WebFault as exception:
             if NOT_FOUND_MESSAGE in exception.fault.faultstring:
-                raise StudentNotFound
-            raise exception
+                raise StudentNotFound(exception)
+            raise SesamError(exception)
 
         return SesamStudent(
             liu_id=str(data.LiUId),

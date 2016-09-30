@@ -60,17 +60,14 @@ def import_mifare_ids():
             host=settings.ORACLE_HOST, port=settings.ORACLE_PORT))
     cursor = connection.cursor()
 
-    mifare_ids = ','.join([str(i[0]) for i in Student.objects.filter(mifare_id__isnull=False).values_list('mifare_id')]) or ['0']
-
     cursor.execute("""
         SELECT
           SUBSTR(EPOST, 0, INSTR(EPOST, '@') - 1) AS liu_id,
           RFIDNR AS mifare_id
         FROM LIUKORT.STUDENTKOLL WHERE
           RFIDNR IS NOT NULL AND
-          RFIDNR NOT IN ({mifare_ids}) AND
           GILTIG_TILL > ADD_MONTHS(TRUNC(CURRENT_TIMESTAMP), -12)
-    """.format(mifare_ids=mifare_ids))
+    """)
     for result in cursor:
         print(result)
         try:

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
+import logging
 from io import StringIO
 import pickle
 
@@ -9,6 +10,8 @@ from django.db import transaction
 import cx_Oracle
 
 from kobra.models import Student, DiscountRegistration
+
+logger = logging.getLogger(__name__)
 
 
 def manually_add_mifare_id(liu_id, mifare_id):
@@ -71,6 +74,6 @@ def import_mifare_ids():
             student.mifare_id = result[1]
             student.save()
         except Student.DoesNotExist:
-            pass
+            logger.warning('Student in Oracle not found in Sesam: {}'.format(result), exc_info=True)
     cursor.close()
     connection.close()

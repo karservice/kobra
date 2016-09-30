@@ -65,8 +65,8 @@ def import_mifare_ids():
           RFIDNR AS mifare_id
         FROM LIUKORT.STUDENTKOLL WHERE
           RFIDNR IS NOT NULL AND
-          GILTIG_TILL > CURRENT_TIMESTAMP
     """)
+          GILTIG_TILL > ADD_MONTHS(TRUNC(CURRENT_TIMESTAMP), -12)
     for result in cursor:
         print(result)
         try:

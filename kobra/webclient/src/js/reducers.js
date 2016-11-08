@@ -1,4 +1,4 @@
-import {fromJS, List, Map} from 'immutable'
+import {fromJS, Map} from 'immutable'
 
 import {actionTypes} from './actions'
 import {
@@ -7,15 +7,18 @@ import {
 
 const apiRequestStatusReducer = (state, action, path) => {
   return state
-    .setIn(['meta', path, 'isPending'],
+    .setIn([path, '_isPending'],
       apiRequestIsPending(action) ? true : false)
-    .setIn(['meta', path, 'error'],
+    .setIn([path, '_error'],
       apiRequestIsFailure(action) ? action.payload : null)
 }
 
 const apiRequestReducer = (state, action, path,
                            successReducer=(state, action, path) => (
-                             state.set(path, fromJS(action.payload))),
+                             action.payload.reduce((state, item) => (
+                               state.setIn([path, item.url], fromJS(item).set('_changes', Map()))
+                             ), state)
+                           ),
                            failureReducer=(state, action, path) => (state),
                            pendingReducer=(state, action, path) => (state)) => {
   state = apiRequestStatusReducer(state, action, path)
@@ -29,116 +32,45 @@ const apiRequestReducer = (state, action, path,
   }
 }
 
-const defaultMetaMap = Map.of(
-  'isPending', false,
-  'error', null
+const initialCollectionMap = Map.of(
+  '_isPending', false,
+  '_error', null
 )
 
 const initialState = Map.of(
-  // The metadata is stored separately to keep the actual entities clean.
-  'meta', Map.of(
-    'discounts', defaultMetaMap,
-    'discountRegistrations', defaultMetaMap,
-    'events', defaultMetaMap.set(
-      'selected', null
-    ),
-    'logIn', Map.of(
+  'auth', initialCollectionMap
+    .set('email', '')
+    .set('password', '')
+    .set('jwt', null),
+  'discounts', initialCollectionMap,
+  'discountRegistrations', initialCollectionMap,
+  'events', initialCollectionMap
+    .set('_active', null),
+  'organizations', initialCollectionMap,
+  'sections', initialCollectionMap,
+  'students', initialCollectionMap
+    .set('_active', null)
+    .set('_searchString', ''),
+  'ticketTypes', initialCollectionMap,
+  'unions', initialCollectionMap,
+  'users', initialCollectionMap
+    .set('_active', null)
+    .set('_new', Map.of(
       'email', '',
-      'password', '',
-      'isPending', false,
-      'error', null
-    ),
-    'organizations', defaultMetaMap,
-    'sections', defaultMetaMap,
-    'student', defaultMetaMap.set(
-      'searchString', ''
-    ),
-    'ticketTypes', defaultMetaMap,
-    'unions', defaultMetaMap
-  ),
-  'discounts', List.of(
-    // Map.of(
-    //   'url', null,
-    //   'id', null,
-    //   'ticketType', null,
-    //   'union', null,
-    //   'amount', null
-    // )
-  ),
-  'discountRegistrations', List.of(
-    // Map.of(
-    //   'url', null,
-    //   'id', null,
-    //   'discount', null,
-    //   'student', null,
-    //   'timestamp', null
-    // )
-  ),
-  'events', List.of(
-    // Map.of(
-    //   'url', null,
-    //   'id', null,
-    //   'name', null,
-    //   'organization', null,
-    // )
-  ),
-  'jwt', null,
-  'organizations', List.of(
-    // Map.of(
-    //   'url', null,
-    //   'id', null,
-    //   'name', null
-    // )
-  ),
-  'sections', List.of(
-    // Map.of(
-    //   'url', null,
-    //   'id', null,
-    //   'name', null
-    // )
-  ),
-  'student', null,
-  // Map.of(
-  //   'url', null,
-  //   'id', null,
-  //   'name', null,
-  //   'liuId', null,
-  //   'union', null,
-  //   'section', null
-  // ),
-  'ticketTypes', List.of(
-    // Map.of(
-    //   'url', null,
-    //   'id', null,
-    //   'name', null,
-    //   'event', null
-    // )
-  ),
-  'unions', List.of(
-    // Map.of(
-    //   'url', null,
-    //   'id', null,
-    //   'name', null
-    // )
-  ),
-  'user', Map.of(
-    // 'url', null,
-    // 'id', null,
-    // 'name', null,
-    // 'email', null
-  )
+      'name', ''
+    ))
 )
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOG_IN:
-      return apiRequestReducer(state, action, 'logIn',
+      return apiRequestReducer(state, action, 'auth',
         (state, action, path) => (
           state
-            .setIn(['meta', path, 'email'], '')
-            .setIn(['meta', path, 'password'], '')
-            .set('jwt', action.payload.token)
-            .set('user', fromJS(action.payload.user))
+            .setIn([path, 'email'], '')
+            .setIn([path, 'password'], '')
+            .setIn([path, 'jwt'], action.payload.token)
+            .setIn(['users', '_active'], action.payload.user)
         )
       )
 
@@ -150,13 +82,17 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_DISCOUNTS:
       return apiRequestReducer(state, action, 'discounts',
         (state, action, path) => (
-          state.set(path, fromJS(action.payload.map((discount) => ({
-            url: discount.url,
-            id: discount.id,
-            ticketType: discount.ticket_type,
-            union: discount.union,
-            amount: discount.amount
-          }))))
+          action.payload
+            .map((discount) => ({
+              url: discount.url,
+              id: discount.id,
+              ticketType: discount.ticket_type,
+              union: discount.union,
+              amount: discount.amount
+            }))
+            .reduce((state, item) => (
+            state.setIn([path, item.url], fromJS(item))
+          ), state)
         )
       )
 
@@ -173,12 +109,13 @@ const reducer = (state = initialState, action) => {
       return apiRequestReducer(state, action, 'sections')
 
     case actionTypes.GET_STUDENT:
-      return apiRequestReducer(state, action, 'student',
+      return apiRequestReducer(state, action, 'students',
         (state, action, path) => (
           // Success
           state
-            .setIn(['meta', path, 'searchString'], '')
-            .set(path, Map.of(
+            .setIn([path, '_searchString'], '')
+            .setIn([path, '_active'], action.payload.url)
+            .setIn([path, action.payload.url], Map.of(
               'url', action.payload.url,
               'id', action.payload.id,
               'name', action.payload.name,
@@ -190,7 +127,7 @@ const reducer = (state = initialState, action) => {
               initialState.get('discountRegistrations'))
         ), (state, action, path) => (
           // Failure
-          state.setIn(['meta', path, 'searchString'], '')
+          state.setIn([path, '_searchString'], '')
         ), (state, action, path) => (
           // Pending
           state.set(path, initialState.get(path))
@@ -202,51 +139,44 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_UNIONS:
       return apiRequestReducer(state, action, 'unions')
 
+    case actionTypes.GET_USERS:
+      return apiRequestReducer(state, action, 'users')
+
     case actionTypes.REGISTER_DISCOUNT:
       return apiRequestReducer(state, action, 'discountRegistrations',
         (state, action, path) => {
           return state
-            .set(path, state
-              .get(path)
-              .insert(0, fromJS(action.payload)))
+            .setIn([path, action.payload.url], fromJS(action.payload))
         })
 
     case actionTypes.SET_EMAIL:
-      return state.setIn(['meta', 'logIn', 'email'], action.payload)
+      return state.setIn(['auth', 'email'], action.payload)
 
     case actionTypes.SET_EVENT:
       return state
-        .setIn(['meta', 'events', 'selected'], action.payload)
-        .set('student', initialState.get('student'))
+        .setIn(['events', '_active'], action.payload)
+        .set('students', initialState.get('students'))
         .set('discountRegistrations', initialState.get('discountRegistrations'))
 
+    case actionTypes.SET_ORGANIZATION_ADMINS:
+      return state.setIn(['organizations', action.payload.organizationUrl, '_changes', 'admins'], fromJS(action.payload.adminUrls))
+
+    case actionTypes.SET_ORGANIZATION_NAME:
+      return state.setIn(['organizations', action.payload.organizationUrl, '_changes', 'name'], fromJS(action.payload.value))
+
     case actionTypes.SET_PASSWORD:
-      return state.setIn(['meta', 'logIn', 'password'], action.payload)
+      return state.setIn(['auth', 'password'], action.payload)
 
     case actionTypes.SET_STUDENT_SEARCH_STRING:
       return state
-        .setIn(['meta', 'student', 'searchString'], action.payload)
+        .setIn(['students', '_searchString'], action.payload)
 
     case actionTypes.UNREGISTER_DISCOUNT:
       return apiRequestReducer(state, action, 'discountRegistrations',
-        (state, action, path) => {
-          const index = state
-            .get(path)
-            .findIndex((discountRegistration) => (
-              discountRegistration.get('url') === action.payload))
-
-          if (index === -1) {
-            // findIndex returns -1 when the item can't be found. This shouldn't
-            // mess up our state.
-            // todo: log this.
-            return state
-          }
-
-          return state
-            .set(path, state
-              .get(path)
-              .delete(index))
-        })
+        (state, action, path) => (
+          state.deleteIn([path, action.payload])
+        )
+      )
 
     default:
       return state

@@ -2,54 +2,90 @@ import {List} from 'immutable'
 
 import {intersection} from './utils'
 
+const isNotMeta = (value, key) => !key.startsWith('_')
+
 export const isLoggedIn = (state) => (
   getJwt(state) !== null
 )
 
-export const getDiscounts = (state) => (
-  state.get('discounts')
+export const getAllDiscounts = (state) => (
+  state
+    .get('discounts')
+    .filter(isNotMeta)
+)
+
+export const getAllDiscountRegistrations = (state) => (
+  state
+    .get('discountRegistrations')
+    .filter(isNotMeta)
+    .map((discountRegistration) => {
+      const discount = getDiscount(state, discountRegistration.get('discount'))
+      const union = getUnion(state, discount.get('union'))
+
+      return discountRegistration.set('title', ''.concat(
+        union.get('name'), ': ', discount.get('amount'), ' kr'
+      ))
+    })
+)
+
+export const getAllEvents = (state) => (
+  state.get('events').filter(isNotMeta)
+)
+
+export const getAllOrganizations = (state) => (
+  state.get('organizations').filter(isNotMeta)
+)
+
+export const getAllSections = (state) => (
+  state.get('sections').filter(isNotMeta)
+)
+
+export const getAllTicketTypes = (state) => (
+  state.get('ticketTypes').filter(isNotMeta)
+)
+
+export const getAllUnions = (state) => (
+  state.get('unions').filter(isNotMeta)
+)
+
+export const getAllUsers = (state) => (
+  state.get('users').filter(isNotMeta)
 )
 
 export const getDiscount = (state, discountUrl) => (
-  getDiscounts(state).find((discount) => (
-    discount.get('url') === discountUrl
-  ))
-)
-
-export const getDiscountRegistrations = (state) => (
-  state.get('discountRegistrations')
-)
-
-export const getEvents = (state) => (
-  state.get('events')
-)
-
-export const getEventsMeta = (state) => (
-  state.getIn(['meta', 'events'])
+  getAllDiscounts(state).get(discountUrl)
 )
 
 export const getEmail = (state) => (
-  state.getIn(['meta', 'logIn', 'email'])
+  state.getIn(['auth', 'email'])
+)
+
+export const getEventTicketTypes = (state, eventUrl) => (
+  getAllTicketTypes(state).filter((t) => (t.get('event') === eventUrl))
+)
+
+export const getEventWithId = (state, eventId) => (
+  getAllEvents(state).find((e) => (e.get('id') === eventId))
 )
 
 export const getLogInError = (state) => (
-  state.getIn(['meta', 'logIn', 'error'])
+  state.getIn(['auth', '_error'])
+)
+
+export const getOrganizationWithId = (state, organizationId) => (
+  getAllOrganizations(state).find((o) => (o.get('id') === organizationId))
+)
+
+export const getOrganizationEvents = (state, organizationUrl) => (
+  getAllEvents(state).filter((e) => (e.get('organization') === organizationUrl))
 )
 
 export const getJwt = (state) => (
-  state.get('jwt')
-)
-
-export const getOrganizations = (state) => (
-  state.get('organizations')
+  state.getIn(['auth', 'jwt'])
 )
 
 export const getPassword = (state) => (
-  state.getIn(['meta', 'logIn', 'password'])
-)
-
-export const getSections = (state) => (
-  state.get('sections')
+  state.getIn(['auth', 'password'])
 )
 
 export const getSection = (state, ref) => {
@@ -58,36 +94,32 @@ export const getSection = (state, ref) => {
     case undefined:
       return ref
     default:
-      return getSections(state)
-        .find((s) => (s.get('url') === ref))
+      return getAllSections(state).get(ref)
   }
 }
 
-export const getSelectedEvent = (state) => {
-  const url = state.getIn(['meta', 'events', 'selected'])
+export const getSelectedEventUrl = (state) => (
+  state.getIn(['events', '_active'])
+)
 
-  if (url === null) {
-    return null
-  }
-
-  return getEvents(state)
-    .find((event) => (event.get('url') === url))
-}
+export const getSelectedEvent = (state) => (
+  getAllEvents(state).get(getSelectedEventUrl(state))
+)
 
 export const getStudent = (state) => (
-  state.get('student')
+  state.getIn(['students', state.getIn(['students', '_active'])])
 )
 
 export const getStudentError = (state) => (
-  state.getIn(['meta', 'student', 'error'])
+  state.getIn(['students', '_error'])
 )
 
 export const getStudentIsPending = (state) => (
-  state.getIn(['meta', 'student', 'isPending'])
+  state.getIn(['students', '_isPending'])
 )
 
 export const getStudentSearchString = (state) => (
-  state.getIn(['meta', 'student', 'searchString'])
+  state.getIn(['students', '_searchString'])
 )
 
 export const getStudentsSection = (state) => (
@@ -98,33 +130,24 @@ export const getStudentsUnion = (state) => (
   getUnion(state, getStudent(state).get('union'))
 )
 
-export const getTicketTypes = (state) => (
-  state.get('ticketTypes')
-)
-
-export const getUnions = (state) => (
-  state.get('unions')
-)
-
 export const getUnion = (state, ref) => {
   switch (ref) {
     case null:
     case undefined:
       return ref
     default:
-      return getUnions(state)
-        .find((u) => (u.get('url') === ref))
+      return getAllUnions(state).get(ref)
   }
 }
 
-export const getTicketTypeDiscounts = (state, ticketType) => (
-  getDiscounts(state).filter((discount) => (
-    discount.get('ticketType') === ticketType.get('url')
+export const getTicketTypeDiscounts = (state, ticketTypeUrl) => (
+  getAllDiscounts(state).filter((d) => (
+    d.get('ticketType') === ticketTypeUrl
   ))
 )
 
 export const getTicketTypeDiscountRegistrations = (state, ticketType) => (
-  getDiscountRegistrations(state)
+  getAllDiscountRegistrations(state)
     .filter(intersection(getTicketTypeDiscounts(state, ticketType),
       (discountRegistration, discount) => (
         discountRegistration.get('discount') === discount.get('url')
@@ -137,23 +160,18 @@ export const getEligibleDiscount = (state, ticketType) => (
   ))
 )
 
-export const getTicketTypesForSelectedEvent = (state) => {
-  const selectedEvent = getSelectedEvent(state)
-
-  if (selectedEvent === null) {
-    return List()
-  }
-
-  return getTicketTypes(state)
+export const getSelectedEventTicketTypes = (state) => (
+  getAllTicketTypes(state)
     .filter((ticketType) => (
-      ticketType.get('event') === selectedEvent.get('url')
+      ticketType.get('event') === state.getIn(['events', '_active'])
     ))
-}
-
-export const getUser = (state) => (
-  state.get('user')
 )
 
+export const getActiveUser = (state) => {
+  const activeUserUrl = state.getIn(['users', '_active'])
+  return !!activeUserUrl ? state.getIn(['users', activeUserUrl]) : null
+}
+
 export const logInIsPending = (state) => (
-  state.getIn(['meta', 'logIn', 'isPending'])
+  state.getIn(['auth', '_isPending'])
 )

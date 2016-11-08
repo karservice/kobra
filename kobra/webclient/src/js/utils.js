@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode'
 import {refreshJwt} from './actions'
 import {localJwtKey, jwtRefreshMargin} from './constants'
 import {setUserContext} from './errorHandler'
-import {getJwt, getUser} from './selectors'
+import {getJwt, getActiveUser} from './selectors'
 
 const getLocalJwt = () => {
   try {
@@ -65,7 +65,7 @@ const observeStore = (store, select, onChange) => {
 }
 
 const syncErrorHandlerUserContext = (store) => (
-  observeStore(store, getUser, (user) => {
+  observeStore(store, getActiveUser, (user) => {
     try {
       setUserContext({
         id: user.get('id', undefined),

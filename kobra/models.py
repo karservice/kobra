@@ -364,6 +364,11 @@ class User(AbstractBaseUser, PermissionsMixin, models.Model):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
+    class Meta:
+        permissions = [
+            ['view_user', _('Can view user')]
+        ]
+
     def __str__(self):
         return self.email
 

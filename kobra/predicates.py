@@ -51,3 +51,9 @@ def is_discount_registration_admin(user, discount_registration):
     if discount_registration is None:
         return False
     return is_discount_admin(user, discount_registration.discount)
+
+
+@rules.predicate
+def is_user_admin(active_user, user_obj):
+    if active_user is user_obj:
+        return True

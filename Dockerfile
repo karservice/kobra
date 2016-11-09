@@ -17,7 +17,7 @@ ADD ./requirements.pip /src/requirements.pip
 RUN pip3 install -U pip setuptools && pip3 install -r /src/requirements.pip
 
 ADD ./package.json /src/package.json
-RUN ln -s /usr/bin/nodejs /usr/bin/node && npm install
+RUN npm install
 
 ADD . /src
 

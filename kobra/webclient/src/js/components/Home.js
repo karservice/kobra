@@ -1,7 +1,9 @@
 import React from 'react'
 
+import {Page} from './'
+
 const Home = (props) => (
-  <div>
+  <Page>
     <p className="lead">
       Kobra is a tool for looking up union and section membership of LiU
       students and for registrering union discounts.
@@ -12,7 +14,7 @@ const Home = (props) => (
       registration should be done. Or just search for students by entering a LiU
       ID or by scanning a LiU card.
     </p>
-  </div>
+  </Page>
 )
 
 export {Home}

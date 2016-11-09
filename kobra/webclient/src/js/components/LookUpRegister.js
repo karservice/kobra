@@ -2,7 +2,7 @@ import React from 'react'
 import {Alert, Button, Col, Row, FormGroup} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
-import {EventSelectField, Student, StudentSearchField, TicketTypes} from './'
+import {EventSelectField, Page, Student, StudentSearchField, TicketTypes} from './'
 import {
   getStudentAndDiscountRegistrations,
   setEvent,
@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const LookUpRegister = connect(mapStateToProps, mapDispatchToProps)((props) => (
-  <div>
+  <Page title="Look up and register">
     <form onSubmit={props.handleSubmit}>
       <Row>
         <Col sm={6} smPush={6}>
@@ -52,23 +52,23 @@ const LookUpRegister = connect(mapStateToProps, mapDispatchToProps)((props) => (
       </FormGroup>
     </form>
 
-    {!props.studentError ? (
-      <div />
-    ) : (
+    {props.studentError ? (
       <Alert bsStyle="danger">
         {props.studentError.message}
       </Alert>
+    ) : (
+      <div />
     )}
 
     <Student>
-      {!!props.selectedEvent ? (
+      {props.selectedEvent ? (
         <TicketTypes />
       ) : (
         <p />
       )}
     </Student>
+  </Page>
 
-  </div>
 ))
 
 export {LookUpRegister}

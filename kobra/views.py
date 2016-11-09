@@ -13,6 +13,8 @@ def health_view(request):
 def web_client_view(request):
     context = {
         'api_root': reverse('v1:api-root', request=request),
+        'liu_adfs_client_id': settings.SOCIAL_AUTH_LIU_KEY,
+        'liu_adfs_host': settings.SOCIAL_AUTH_LIU_HOST,
         'opbeat_frontend_organization_id': settings.OPBEAT_FRONTEND['ORGANIZATION_ID'],
         'opbeat_frontend_app_id': settings.OPBEAT_FRONTEND['APP_ID']
     }

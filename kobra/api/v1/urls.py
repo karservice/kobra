@@ -29,6 +29,7 @@ router.register(r'users', views.UserViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
 
+    url(r'^auth/social/jwt/$', views.UserTokenView.as_view()),
     url(r'^auth/jwt/$', obtain_jwt_token),
     url(r'^auth/jwt/refresh/$', refresh_jwt_token),
     url(r'^auth/jwt/verify/$', verify_jwt_token)

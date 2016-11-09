@@ -13,8 +13,12 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  handleEmailChange: (event) => {dispatch(setEmail(event.target.value))},
-  handlePasswordChange: (event) => {dispatch(setPassword(event.target.value))},
+  handleEmailChange: (domEvent) => {
+    dispatch(setEmail(domEvent.target.value))
+  },
+  handlePasswordChange: (domEvent) => {
+    dispatch(setPassword(domEvent.target.value))
+  },
   handleSubmit: (domEvent) => {
     dispatch(logIn())
     domEvent.preventDefault()

@@ -1,9 +1,9 @@
 import React from 'react'
-import {Button, Col, Row} from 'react-bootstrap'
+import {Button, Col, Media, Row} from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
+import TimeAgo from 'react-timeago'
 
-import {DiscountRegistration} from './'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
 
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => ({
   getEligibleDiscount: (ticketType) => (
     selectors.getEligibleDiscount(state, ticketType)),
   getUnion: (unionUrl) => (selectors.getUnion(state, unionUrl)),
-  ticketTypes: selectors.getTicketTypesForSelectedEvent(state)
+  ticketTypes: selectors.getSelectedEventTicketTypes(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -43,29 +43,22 @@ const TicketTypes = connect(mapStateToProps, mapDispatchToProps)((props) => (
                 <FontAwesome name="check"/> Register
               </Button>
 
-
-              {discountRegistrations
-                .map((discountRegistration) => {
-                  const discount = props.getDiscount(
-                    discountRegistration.get('discount'))
-                  const union = props.getUnion(discount.get('union'))
-                  const title = ''.concat(
-                    union.get('name'),
-                    ': ',
-                    discount.get('amount'),
-                    ' kr'
-                  )
-
-                  return (
-                    <DiscountRegistration
-                      key={discountRegistration.get('id')} title={title}
-                      timestamp={discountRegistration.get('timestamp')}
-                      url={discountRegistration.get('url')}
-                      unregisterHandler={props.handleUnregister(
-                        discountRegistration)} />
-                  )
-                })
-              }
+              {discountRegistrations.map((discountRegistration) => (
+                <Media>
+                  <Media.Body>
+                    <span>{discountRegistration.get('title')}</span><br/>
+                    <small className="text-muted">
+                      <TimeAgo date={discountRegistration.get('timestamp')} />
+                    </small>
+                  </Media.Body>
+                  <Media.Right>
+                    <Button bsSize="small" bsStyle="danger"
+                            onClick={props.handleUnregister(discountRegistration)}>
+                      <FontAwesome name="remove" /> Unregister
+                    </Button>
+                  </Media.Right>
+                </Media>
+              ))}
             </Col>
           )
         })

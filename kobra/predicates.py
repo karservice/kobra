@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import rules
 
+from . import models
+
 
 # Model level (i.e. with obj=None) permission requests are used for list
 # requests in the API, so we want to allow those in a convenient manner.
@@ -9,6 +11,11 @@ def is_model_level(user, obj):
     if obj is None:
         return True
     return False
+
+
+@rules.predicate
+def is_any_organization_admin(user):
+    return models.Organization.objects.filter(admins__in=[user]).exists()
 
 
 @rules.predicate

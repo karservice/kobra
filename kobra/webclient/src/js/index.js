@@ -31,21 +31,28 @@ export const store = createStore(
   applyMiddleware(...middleware)
 )
 
-const routes = (
-  <Route path="/" component={components.App}>
-    <IndexRoute component={components.Home} title="Home" />
-    <Route path="lookup-register/" component={components.LookUpRegister}
-           title="Look up and register" />
-    <Route path="*" component={components.Error404} title="Page not found" />
-  </Route>
+const router = (
+  <Router history={browserHistory}>
+    <Route path="/log-in/:authProvider/" component={components.CompleteLogIn} />
+    <Route path="/" component={components.App}>
+      <IndexRoute component={components.Home} title="Home" />
+      <Route path="lookup-register/" component={components.LookUpRegister}
+             title="Look up and register" />
+      <Route path="events/new/" component={components.EventDetail} />
+      <Route path="events/:eventId/" component={components.EventDetail} />
+      <Route path="organizations/new/"
+             component={components.OrganizationDetail} />
+      <Route path="organizations/:organizationId/"
+             component={components.OrganizationDetail} />
+      <Route path="*" component={components.Error404} />
+    </Route>
+  </Router>
 )
 
 const render = () => {
   ReactDOM.render(
     <Provider store={store}>
-      <Router history={browserHistory}>
-        {routes}
-      </Router>
+      {router}
     </Provider>,
     document.getElementById('app')
   )

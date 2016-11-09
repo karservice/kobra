@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
+    'social.apps.django_app.default',
+    'rest_social_auth',
 
     'kobra'
 ]
@@ -73,6 +75,7 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = [
     'rules.permissions.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'social_liu.LiuBackend'
 ]
 AUTH_USER_MODEL = 'kobra.User'
 
@@ -110,6 +113,54 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER':
         'kobra.api.v1.serializers.jwt_response_payload_handler'
 }
+
+# fullname is the identifier used by python-social-auth.
+SOCIAL_AUTH_USER_FIELDS = ['email', 'fullname']
+SOCIAL_AUTH_PIPELINE = (
+    # Get the information we can about the user and return it in a simple
+    # format to create the user instance later. On some cases the details are
+    # already part of the auth response from the provider, but sometimes this
+    # could hit a provider API.
+    'social.pipeline.social_auth.social_details',
+
+    # Get the social uid from whichever service we're authing thru. The uid is
+    # the unique identifier of the given user in the provider.
+    'social.pipeline.social_auth.social_uid',
+
+    # Verifies that the current auth process is valid within the current
+    # project, this is where emails and domains whitelists are applied (if
+    # defined).
+    'social.pipeline.social_auth.auth_allowed',
+
+    # Checks if the current social-account is already associated in the site.
+    'social.pipeline.social_auth.social_user',
+
+    # Make up a username for this person, appends a random string at the end if
+    # there's any collision.
+    'social.pipeline.user.get_username',
+
+    # Associates the current social details with another user account with
+    # a similar email address.
+    'social.pipeline.social_auth.associate_by_email',
+
+    # Create a user account if we haven't found one yet.
+    'social.pipeline.user.create_user',
+
+    # Create the record that associates the social account with the user.
+    'social.pipeline.social_auth.associate_user',
+
+    # Populate the extra_data field in the social record with the values
+    # specified by settings (and the default ones like access_token, etc).
+    'social.pipeline.social_auth.load_extra_data',
+
+    # Update the user record with any changed info from the auth service.
+    'social.pipeline.user.user_details',
+    'social.pipeline.debug.debug',
+)
+
+SOCIAL_AUTH_LIU_HOST = env.str('ADFS_HOST', 'fs.liu.se')
+SOCIAL_AUTH_LIU_KEY = env.str('ADFS_CLIENT_ID', '')
+SOCIAL_AUTH_LIU_SCOPE = ['https://kobra.karservice.se']
 
 ROOT_URLCONF = 'kobra.urls'
 WSGI_APPLICATION = 'kobra.wsgi.application'

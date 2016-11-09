@@ -2,8 +2,10 @@
 from collections import OrderedDict
 
 from django.utils.translation import ugettext_lazy as _
+from rest_social_auth.serializers import JWTSerializer
 
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from ... import predicates
 from ...models import (Discount, DiscountRegistration, Event, Organization,
@@ -172,8 +174,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+class UserTokenSerializer(JWTSerializer):
+    user = serializers.HyperlinkedIdentityField('v1:user-detail')
+
+
 def jwt_response_payload_handler(token, user=None, request=None):
     return OrderedDict(
         token=token,
-        user=UserSerializer(user, context={'request': request}).data
+        user=reverse('v1:user-detail', kwargs={'pk': user.pk}, request=request)
     )

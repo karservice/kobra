@@ -7,9 +7,15 @@ psycopg2==2.6.*
 
 # ReST API
 djangorestframework==3.4.*
-django-rest-auth==0.8.*
 django-filter==0.13.*
+
+# Auth
 djangorestframework_jwt==1.8.*
+python-social-auth==0.2.*
+git+https://github.com/ovidner/python-social-auth-liu.git@0f875c0ec48a4c7a6684888068171a5e6cc69d67#egg=python-social-auth-liu
+git+https://github.com/st4lk/django-rest-social-auth.git@9ce7e6a5614b37da33718abc59aa9f75a27c9dd0#egg=rest-social-auth
+PyJWT==1.4.*
+cryptography==1.5.*
 
 # Utilities
 django-environ==0.4.*

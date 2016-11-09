@@ -10,7 +10,7 @@ import * as selectors from '../selectors'
 
 const mapStateToProps = (state) => ({
   isLoggedIn: selectors.isLoggedIn(state),
-  user: selectors.getUser(state)
+  user: selectors.getActiveUser(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -38,7 +38,7 @@ const MainNav = connect(mapStateToProps, mapDispatchToProps, null,
         </LinkContainer>
       </Nav>
       <Nav pullRight>
-        <NavDropdown title={props.user.get('name', 'Not logged in')} id="userMenu" disabled={!props.isLoggedIn}>
+        <NavDropdown title={props.user ? props.user.get('name') : 'Not logged in'} id="userMenu" disabled={!props.isLoggedIn}>
           <MenuItem onClick={props.logOut}>Log out</MenuItem>
         </NavDropdown>
       </Nav>

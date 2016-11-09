@@ -76,7 +76,9 @@ export const getStudent = ({successCallback=null, failureCallback=null}={}) => (
 
 export const getStudentAndDiscountRegistrations = () => (dispatch, getState) => {
   dispatch(getStudent({successCallback: () => {
-    dispatch(getDiscountRegistrations())
+    if (selectors.getSelectedEvent(getState())) {
+      dispatch(getDiscountRegistrations())
+    }
   }}))
 }
 
@@ -119,6 +121,24 @@ export const logIn = () => (dispatch, getState) => {
     }
   )
 }
+
+export const logInSocial = (provider, code, redirectUri) => (dispatch, getState) => (
+  apiRequestDispatcher(
+    actionTypes.LOG_IN,
+    apiAdapter(getState())
+      .post('auth/social/jwt/')
+      .send({
+        provider,
+        code,
+        redirect_uri: redirectUri
+      }),
+    dispatch, getState, {
+      successCallback: (result) => {
+        dispatch(getStaticEntities())
+      }
+    }
+  )
+)
 
 export const logOut = () => ({
   type: actionTypes.LOG_OUT

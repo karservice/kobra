@@ -4,7 +4,8 @@ import rules
 from . import predicates
 
 
-is_authenticated_model_level = rules.is_authenticated & predicates.is_model_level
+is_authenticated_model_level = (rules.is_authenticated &
+                                predicates.is_model_level)
 
 rules.add_perm('kobra.add_discount', is_authenticated_model_level)
 rules.add_perm('kobra.view_discount',
@@ -42,7 +43,8 @@ rules.add_perm('kobra.change_organization',
 
 rules.add_perm('kobra.view_section', rules.is_authenticated)
 
-rules.add_perm('kobra.view_student', rules.is_authenticated)
+rules.add_perm('kobra.view_student', (rules.is_authenticated &
+                                      predicates.is_any_organization_admin))
 
 rules.add_perm('kobra.add_tickettype', is_authenticated_model_level)
 rules.add_perm('kobra.view_tickettype',

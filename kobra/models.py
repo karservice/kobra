@@ -304,7 +304,11 @@ class Union(models.Model):
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, name, password=None):
+    def create_user(self, email, name=None, fullname=None, password=None):
+        if fullname:
+            # This is kind of a hack to adapt to python-social-auth.
+            name = fullname
+
         if not email:
             raise ValueError(_('User must have an email address.'))
 

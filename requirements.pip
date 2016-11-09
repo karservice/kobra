@@ -40,6 +40,3 @@ opbeat==3.3.*
 # Testing/Development
 factory_boy==2.7.*
 ipython
-
-# Oracle
-cx_oracle==5.2.*

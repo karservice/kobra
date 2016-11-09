@@ -257,8 +257,3 @@ SESAM_STUDENT_SERVICE_CLIENT = SesamStudentServiceClient(
 # Specifies how old the data from Sesam can be before an update is forced.
 SESAM_DATA_AGE_THRESHOLD = timedelta(
     seconds=env.int('SESAM_DATA_AGE_THRESHOLD', 6*60*60))
-
-ORACLE_USERNAME = env.str('ORACLE_USERNAME', '')
-ORACLE_PASSWORD = env.str('ORACLE_PASSWORD', '')
-ORACLE_HOST = env.str('ORACLE_HOST', '')
-ORACLE_PORT = env.int('ORACLE_PORT', 1521)

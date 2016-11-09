@@ -31,8 +31,8 @@ const TicketTypes = connect(mapStateToProps, mapDispatchToProps)((props) => (
     <Row>
       {props.ticketTypes
         .map((ticketType) => {
-          const discountRegistrations = props.getDiscountRegistrations(ticketType)
-          const eligibleDiscount = props.getEligibleDiscount(ticketType)
+          const discountRegistrations = props.getDiscountRegistrations(ticketType.get('url'))
+          const eligibleDiscount = props.getEligibleDiscount(ticketType.get('url'))
 
           return (
             <Col key={ticketType.get('id')} sm={6}>

@@ -104,6 +104,8 @@ class Event(models.Model):
         related_name='events')
 
     class Meta:
+        ordering = ['name']
+
         permissions = [
             ['view_event', _('Can view event')]
         ]
@@ -124,6 +126,8 @@ class Organization(models.Model):
         related_name='organizations_administered')
 
     class Meta:
+        ordering = ['name']
+
         permissions = [
             ['view_organization', _('Can view organization')]
         ]
@@ -245,8 +249,10 @@ class Student(models.Model):
     objects = StudentQuerySet.as_manager()
 
     class Meta:
-        verbose_name = _('person')
-        verbose_name_plural = _('people')
+        ordering = ['liu_id']
+
+        verbose_name = _('student')
+        verbose_name_plural = _('students')
 
     def __str__(self):
         return self.liu_id
@@ -283,6 +289,8 @@ class TicketType(models.Model):
                     'your organization liable for repayment.'))
 
     class Meta:
+        ordering = ['name']
+
         permissions = [
             ['view_tickettype', _('Can view ticket type')]
         ]
@@ -365,12 +373,14 @@ class User(AbstractBaseUser, PermissionsMixin, models.Model):
     REQUIRED_FIELDS = ['name']
 
     class Meta:
+        ordering = ['email']
+
         permissions = [
             ['view_user', _('Can view user')]
         ]
 
     def __str__(self):
-        return self.email
+        return '{} ({})'.format(self.email, self.name)
 
     def get_full_name(self):
         return self.name

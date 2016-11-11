@@ -14,8 +14,15 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ['name', 'organization']
 
 
+class EventInline(admin.TabularInline):
+    model = models.Event
+    extra = 1
+
+
 class OrganizationAdmin(admin.ModelAdmin):
     filter_horizontal = ['admins']
+
+    inlines = [EventInline]
 
 
 class SectionAdmin(admin.ModelAdmin):
@@ -29,6 +36,7 @@ class DiscountInline(admin.TabularInline):
 
 
 class TicketTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'event']
     inlines = [DiscountInline]
 
 

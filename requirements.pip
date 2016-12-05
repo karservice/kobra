@@ -8,6 +8,7 @@ psycopg2==2.6.*
 # ReST API
 djangorestframework==3.4.*
 django-filter==0.13.*
+git+https://github.com/ovidner/django-rest-framework-expandable.git@cefb7b89bfbfb3d2da2d50205380013f8ee0ee1e#egg=django-rest-framework-expandable
 
 # Auth
 djangorestframework_jwt==1.8.*

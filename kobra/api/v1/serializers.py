@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 from django.utils.translation import ugettext_lazy as _
 from rest_social_auth.serializers import JWTSerializer
+from rest_framework_expandable import ExpandableSerializerMixin
 
 from rest_framework import serializers
 from rest_framework.reverse import reverse
@@ -115,7 +116,8 @@ class SectionSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class StudentSerializer(serializers.HyperlinkedModelSerializer):
+class StudentSerializer(ExpandableSerializerMixin,
+                        serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Student
         fields = [
@@ -129,6 +131,10 @@ class StudentSerializer(serializers.HyperlinkedModelSerializer):
             'email',
             'last_updated'
         ]
+        expandable_fields = {
+            'union': ('.UnionSerializer', [], {}),
+            'section': ('.SectionSerializer', [], {})
+        }
 
 
 class TicketTypeSerializer(serializers.HyperlinkedModelSerializer):

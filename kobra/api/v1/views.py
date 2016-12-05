@@ -6,6 +6,7 @@ import rest_framework.filters
 from rest_framework import mixins, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import RetrieveModelMixin
+from rest_framework_expandable import ExpandableViewMixin
 from rest_social_auth.views import BaseSocialAuthView, JWTAuthMixin
 
 from ... import models
@@ -56,7 +57,8 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.OrganizationPermissionFilter]
 
 
-class StudentViewSet(RetrieveModelMixin, viewsets.GenericViewSet):
+class StudentViewSet(ExpandableViewMixin, RetrieveModelMixin,
+                     viewsets.GenericViewSet):
     queryset = models.Student.objects.all()
     serializer_class = serializers.StudentSerializer
 

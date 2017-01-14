@@ -15,13 +15,13 @@ authenticate against the API. These tokens have a short lifespan (in the order
 of minutes) and must be renewed regularly. They are therefore not suitable for 
 services.
 
-These tokens are used by setting the Authorization HTTP header for each request 
+These tokens are used by setting the `Authorization` HTTP header for each request 
 to `JWT <token>`.
 
 ### Long term token (for services)
 Long term tokens, suitable for service consumers, can be issued on request.
 
-These tokens are used by setting the Authorization HTTP header for each request 
+These tokens are used by setting the `Authorization` HTTP header for each request 
 to `Token <token>`.
 
 API use cases
@@ -83,8 +83,8 @@ union and section data will be included in the response, like this:
 Please note that LiU card numbers will never be returned from the API, due to 
 privacy decisions made by LiU.
 
-(*) Your account must be allowed to use the API. If not, you will receive a 403 
-status code.
+(*) See *API authentication* above. Your account must also be allowed to use the 
+API. If not, you will receive a 403 status code.
 
 Setting up a development environment
 ------------------------------------

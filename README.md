@@ -83,7 +83,7 @@ union and section data will be included in the response, like this:
 Please note that LiU card numbers will never be returned from the API, due to 
 privacy decisions made by LiU.
 
-(*) See *API authentication* above. Your account must also be allowed to use the 
+(*) See _API authentication_ above. Your account must also be allowed to use the 
 API. If not, you will receive a 403 status code.
 
 Setting up a development environment

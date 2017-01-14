@@ -54,7 +54,8 @@
   },
   "scripts": {
     "build": "gulp build",
-    "test": "jest"
+    "test": "jest",
+    "watch": "gulp watch"
   },
   "jest": {
     "unmockedModulePathPatterns": [

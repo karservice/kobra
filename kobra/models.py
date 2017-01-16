@@ -84,7 +84,7 @@ class DiscountRegistration(models.Model):
         on_delete=models.PROTECT)
 
     timestamp = models.DateTimeField(
-        auto_now_add=True)
+        default=now)
 
     class Meta:
         ordering = ['-timestamp']

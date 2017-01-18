@@ -77,8 +77,9 @@ class StudentViewSet(ExpandableViewMixin, RetrieveModelMixin,
 class StudentByLiuIdViewSet(StudentViewSet):
     lookup_field = 'liu_id'
     # No person in database as of 2016-07-05 with just two letters in LiU ID,
-    # but you never know...
-    lookup_value_regex = '[a-z]{2,5}[0-9]{2,3}'
+    # but you never know... Please note that upper/mixed case LiU IDs are
+    # allowed and must be handled by later stages.
+    lookup_value_regex = '[A-Za-z]{2,5}[0-9]{2,3}'
 
 
 class StudentByMifareIdViewSet(StudentViewSet):

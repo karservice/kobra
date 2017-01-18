@@ -199,8 +199,14 @@ class StudentQuerySet(models.QuerySet):
     def get(self, *args, use_sesam=False, **kwargs):
         # use_sesam is False by default since the get() method is used
         # extensively by Django internals.
+
+        if hasattr(kwargs, 'liu_id'):
+            # Always coerce LiU ID to lowercase
+            kwargs['liu_id'] = kwargs['liu_id'].lower()
+
         if use_sesam:
             return self.get_with_sesam(*args, **kwargs)
+
         return super(StudentQuerySet, self).get(*args, **kwargs)
 
 

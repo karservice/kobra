@@ -29,13 +29,11 @@ export const getDiscounts = () => (dispatch, getState) => apiRequestDispatcher(
 
 export const getDiscountRegistrations = () => (dispatch, getState) => {
   const state = getState()
-  const eventId = selectors.getSelectedEvent(state).get('id')
   const studentId = selectors.getStudent(state).get('id')
 
   const apiRequest = apiAdapter(state)
     .get('discount-registrations/')
     .query({
-      'event': eventId,
       'student': studentId
     })
 
@@ -77,9 +75,7 @@ export const getStudent = ({successCallback=null, failureCallback=null}={}) => (
 
 export const getStudentAndDiscountRegistrations = () => (dispatch, getState) => {
   dispatch(getStudent({successCallback: () => {
-    if (selectors.getSelectedEvent(getState())) {
-      dispatch(getDiscountRegistrations())
-    }
+    dispatch(getDiscountRegistrations())
   }}))
 }
 

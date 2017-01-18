@@ -155,8 +155,6 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_EVENT:
       return state
         .setIn(['events', '_active'], action.payload)
-        .set('students', initialState.get('students'))
-        .set('discountRegistrations', initialState.get('discountRegistrations'))
 
     case actionTypes.SET_ORGANIZATION_ADMINS:
       return state.setIn(['organizations', action.payload.organizationUrl, '_changes', 'admins'], fromJS(action.payload.adminUrls))

@@ -1,5 +1,6 @@
 Kobra
 =====
+[![Docker Repository on Quay](https://quay.io/repository/karservice/kobra/status "Docker Repository on Quay")](https://quay.io/repository/karservice/kobra)
 
 Architecture
 ------------

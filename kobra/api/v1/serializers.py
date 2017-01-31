@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
+from itertools import groupby
 
+from django.db.models import Count
+from django.db.models.functions import Trunc
 from django.utils.translation import ugettext_lazy as _
 from rest_social_auth.serializers import JWTSerializer
 from rest_framework_expandable import ExpandableSerializerMixin
@@ -33,6 +36,42 @@ class DiscountSerializer(serializers.HyperlinkedModelSerializer):
             raise serializers.ValidationError(_(_("Unauthorized to use "
                                                   "specified ticket type")))
         return value
+
+
+class DiscountRegistrationSummaryListSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        # data is a QuerySet of DiscountRegistration objects
+        grouped_data = groupby(
+            data.order_by()
+                .annotate(timespan=Trunc('timestamp', self.context['request'].query_params.get('resolution', 'hour')))
+                .values('timespan', 'discount_id')
+                .annotate(count=Count('id'))
+                .order_by('timespan'),
+            lambda x: x['timespan']
+        )
+
+        groups = (
+            dict(timespan=timespan, discount_registrations=points)
+            for timespan, points in grouped_data
+        )
+
+        return super(DiscountRegistrationSummaryListSerializer, self).to_representation(data=groups)
+
+
+class DiscountRegistrationSummaryPointSerializer(serializers.Serializer):
+    discount = serializers.SerializerMethodField()
+    count = serializers.IntegerField()
+
+    def get_discount(self, obj):
+        return reverse('v1:discount-detail', kwargs={'pk': str(obj['discount_id'])}, request=self.context['request'])
+
+
+class DiscountRegistrationSummarySerializer(serializers.Serializer):
+    timespan = serializers.DateTimeField()
+    discount_registrations = DiscountRegistrationSummaryPointSerializer(many=True)
+
+    class Meta:
+        list_serializer_class = DiscountRegistrationSummaryListSerializer
 
 
 class DiscountRegistrationSerializer(serializers.HyperlinkedModelSerializer):

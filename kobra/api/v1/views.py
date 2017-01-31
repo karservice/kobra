@@ -4,8 +4,10 @@ from django.utils.translation import ugettext_lazy as _
 
 import rest_framework.filters
 from rest_framework import mixins, viewsets
+from rest_framework.decorators import list_route
 from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.response import Response
 from rest_framework_expandable import ExpandableViewMixin
 from rest_social_auth.views import BaseSocialAuthView, JWTAuthMixin
 
@@ -43,6 +45,14 @@ class DiscountRegistrationViewSet(NoUpdateModelViewSet):
     filter_backends = [filters.DiscountRegistrationPermissionFilter,
                        rest_framework.filters.DjangoFilterBackend]
     filter_class = filters.DiscountRegistrationFilter
+
+    @list_route(methods=['get'])
+    def summary(self, request):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        serializer = serializers.DiscountRegistrationSummarySerializer(
+            queryset, many=True, context=self.get_serializer_context())
+        return Response(serializer.data)
 
 
 class EventViewSet(RegistrationsDeleteProtectedMixin, viewsets.ModelViewSet):

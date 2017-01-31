@@ -2,7 +2,7 @@
 import django_filters
 from rest_framework import filters
 
-from ...models import DiscountRegistration, TicketType
+from ...models import DiscountRegistration, Event, TicketType
 
 
 class DiscountPermissionFilter(filters.BaseFilterBackend):
@@ -12,6 +12,9 @@ class DiscountPermissionFilter(filters.BaseFilterBackend):
 
 
 class DiscountRegistrationFilter(filters.FilterSet):
+    event = django_filters.ModelChoiceFilter(
+        name='discount__ticket_type__event',
+        queryset=Event.objects.all())
     ticket_type = django_filters.ModelChoiceFilter(
         name='discount__ticket_type',
         queryset=TicketType.objects.all())
@@ -19,6 +22,7 @@ class DiscountRegistrationFilter(filters.FilterSet):
     class Meta:
         model = DiscountRegistration
         fields = [
+            'event',
             'ticket_type',
             'student'
         ]

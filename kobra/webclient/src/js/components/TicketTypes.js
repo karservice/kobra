@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Col, Media, Row} from 'react-bootstrap'
+import {Button, FormGroup, Col, Media, Row} from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 import TimeAgo from 'react-timeago'
@@ -37,13 +37,19 @@ const TicketTypes = connect(mapStateToProps, mapDispatchToProps)((props) => (
           return (
             <Col key={ticketType.get('id')} sm={6}>
               <h4>{ticketType.get('name')}</h4>
-              <Button bsSize="lg" bsStyle="primary" block
-                      disabled={!eligibleDiscount}
-                      onClick={!!eligibleDiscount ? props.handleRegister(eligibleDiscount.get('url')) : null}>
-                <FontAwesome name="check"/> Register
-              </Button>
+              <FormGroup>
+                <Button bsSize="lg" bsStyle="primary" block
+                        disabled={!eligibleDiscount}
+                        onClick={!!eligibleDiscount ? props.handleRegister(eligibleDiscount.get('url')) : null}>
+                  <FontAwesome name="check"/> Register
+                </Button>
+              </FormGroup>
 
-              {discountRegistrations.map((discountRegistration) => (
+              {discountRegistrations.isEmpty() ? (
+                <p className="text-muted">
+                  No discount registered for this student and ticket type.
+                </p>
+              ) : discountRegistrations.map((discountRegistration) => (
                 <Media>
                   <Media.Body>
                     <span>{discountRegistration.get('title')}</span><br/>

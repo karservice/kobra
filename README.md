@@ -87,6 +87,16 @@ privacy decisions made by LiU.
 (*) See _API authentication_ above. Your account must also be allowed to use the 
 API. If not, you will receive a 403 status code.
 
+Third-party API clients
+-----------------------
+This repository includes no programmatic API client. Please refer to the 
+following projects for API client implementations or use them as inspiration to 
+make one in your language:
+
+* Ruby: https://github.com/studentorkesterfestivalen/kobra_client
+
+*Made a client and want it listed here? Submit a pull request!*
+
 Setting up a development environment
 ------------------------------------
 These instructions assume you have Python >= 3.5 and Node.js installed. A 

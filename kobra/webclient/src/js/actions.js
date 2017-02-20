@@ -4,6 +4,7 @@ import * as selectors from './selectors'
 export const actionTypes = {
   GET_DISCOUNTS: 'GET_DISCOUNTS',
   GET_DISCOUNT_REGISTRATIONS: 'GET_DISCOUNT_REGISTRATIONS',
+  GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY: 'GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY',
   GET_EVENTS: 'GET_EVENTS',
   GET_ORGANIZATIONS: 'GET_ORGANIZATIONS',
   GET_SECTIONS: 'GET_SECTIONS',
@@ -46,6 +47,17 @@ export const getEvents = () => (dispatch, getState) => apiRequestDispatcher(
   actionTypes.GET_EVENTS,
   apiAdapter(getState()).get('events/'),
   dispatch, getState
+)
+
+export const getEventDiscountRegistrationSummary = (eventUrl) => (dispatch, getState) => apiRequestDispatcher(
+  actionTypes.GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY,
+  apiAdapter(getState())
+    .get('discount-registrations/summary/')
+    .query({
+      'event': selectors.getAllEvents(getState()).get(eventUrl).get('id')
+    }),
+  dispatch, getState,
+  {extraMeta: {event: eventUrl}}
 )
 
 export const getOrganizations = () => (dispatch, getState) => apiRequestDispatcher(

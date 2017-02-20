@@ -45,6 +45,7 @@ const initialState = Map.of(
   'discountRegistrations', initialCollectionMap,
   'events', initialCollectionMap
     .set('_active', null),
+  'eventDiscountRegistrationSummaries', initialCollectionMap,
   'organizations', initialCollectionMap,
   'sections', initialCollectionMap,
   'students', initialCollectionMap
@@ -97,6 +98,17 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_DISCOUNT_REGISTRATIONS:
       return apiRequestReducer(state, action, 'discountRegistrations')
+
+    case actionTypes.GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY:
+      if (apiRequestIsSuccess(action)) {
+        return state.setIn(['eventDiscountRegistrationSummaries', action.meta.event], fromJS(action.payload.map((item) => ({
+          timespan: item.timespan,
+          discountRegistrations: item.discount_registrations
+        }))))
+      } else {
+        return state
+      }
+
 
     case actionTypes.GET_EVENTS:
       return apiRequestReducer(state, action, 'events')

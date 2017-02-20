@@ -60,6 +60,10 @@ export const getEmail = (state) => (
   state.getIn(['auth', 'email'])
 )
 
+export const getEventDiscountRegistrationSummary = (state, eventUrl) => (
+  state.getIn(['eventDiscountRegistrationSummaries', eventUrl])
+)
+
 export const getEventTicketTypes = (state, eventUrl) => (
   getAllTicketTypes(state).filter((t) => (t.get('event') === eventUrl))
 )

@@ -36,6 +36,9 @@ const MainNav = connect(mapStateToProps, mapDispatchToProps, null,
         <LinkContainer to="/lookup-register/" disabled={!props.isLoggedIn}>
           <NavItem>Look up and register</NavItem>
         </LinkContainer>
+        <LinkContainer to="/manage/organizations-events/" disabled={!props.isLoggedIn}>
+          <NavItem>Manage organizations and events</NavItem>
+        </LinkContainer>
       </Nav>
       <Nav pullRight>
         <NavDropdown title={props.user ? props.user.get('name') : 'Not logged in'} id="userMenu" disabled={!props.isLoggedIn}>

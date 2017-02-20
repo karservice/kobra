@@ -38,6 +38,7 @@ const router = (
       <IndexRoute component={components.Home} title="Home" />
       <Route path="lookup-register/" component={components.LookUpRegister}
              title="Look up and register" />
+      <Route path="manage/organizations-events/" component={components.ManageOrganizationsEvents}/>
       <Route path="events/new/" component={components.EventDetail} />
       <Route path="events/:eventId/" component={components.EventDetail} />
       <Route path="organizations/new/"

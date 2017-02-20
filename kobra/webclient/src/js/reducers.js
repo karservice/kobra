@@ -7,8 +7,7 @@ import {
 
 const apiRequestStatusReducer = (state, action, path) => {
   return state
-    .setIn([path, '_isPending'],
-      apiRequestIsPending(action) ? true : false)
+    .setIn([path, '_isPending'], apiRequestIsPending(action))
     .setIn([path, '_error'],
       apiRequestIsFailure(action) ? action.payload : null)
 }

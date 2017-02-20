@@ -28,15 +28,20 @@ const apiAdapter = (state) => {
 }
 
 const apiRequestDispatcher = (actionType, apiRequest, dispatch, getState,
-  {successCallback, failureCallback}={}) => {
+  {successCallback, failureCallback, extraMeta={}}={}) => {
   // A function used to dispatch the various actions used in API requests.
   // todo: clean up the signature
 
-  // This is reused, so we want it to be immutable
-  const action = Map.of('type', actionType)
+  // This is reused, so make sure it is never mutated!
+  const action = {
+    type: actionType,
+    meta: Object.assign({}, {
+      _request: apiRequest
+    }, extraMeta)
+  }
 
   // Dispatch the request status action
-  dispatch(action.toJS())
+  dispatch(action)
 
   // Perform the request and hook up callbacks
   apiRequest
@@ -47,12 +52,12 @@ const apiRequestDispatcher = (actionType, apiRequest, dispatch, getState,
         const payload = (resolvedResult.req.method === 'DELETE') ?
           resolvedResult.xhr.responseURL : resolvedResult.body
 
-        dispatch(
-          action
-            .set('payload', payload)
-            .set('meta', resolvedResult)
-            .toJS()
-        )
+        dispatch(Object.assign({}, action, {
+          payload: payload,
+          meta: Object.assign({}, action.meta, {
+            _requestResult: resolvedResult
+          })
+        }))
         if (successCallback) {
           successCallback(resolvedResult)
         }
@@ -88,13 +93,14 @@ const apiRequestDispatcher = (actionType, apiRequest, dispatch, getState,
           error.message = rejectedResult.message
         }
 
-        dispatch(
-          action
-            .set('error', true)
-            .set('payload', error)
-            .set('meta', rejectedResult)
-            .toJS()
-        )
+        dispatch(Object.assign({}, action, {
+          error: true,
+          payload: error,
+          meta: Object.assign({}, action.meta, {
+            _requestResult: rejectedResult
+          })
+        }))
+
         if (failureCallback) {
           failureCallback(rejectedResult)
         }

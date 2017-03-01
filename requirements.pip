@@ -29,11 +29,8 @@ brotlipy==0.4.*
 # Permissions handling
 rules==1.1.*
 
-# Sesam/SOAP
-requests==2.11.*
-requests-file==1.4.*
-https://bitbucket.org/jurko/suds/get/94664ddd46a61d06862fa8fb6ba7b9e054214f57.tar.bz2#egg=suds-jurko
-git+https://github.com/chrcoe/suds_requests.git@feature/python3_suds_jurko#egg=suds-requests
+# Sesam
+sesam==0.0.2
 
 # Opbeat (app monitoring)
 opbeat==3.3.*

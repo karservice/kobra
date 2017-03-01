@@ -8,7 +8,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from sesam import SesamError, StudentNotFound
+from sesam import SesamError, SesamStudentNotFound
 from .db_fields import IdField, MoneyField, NameField
 
 
@@ -183,7 +183,7 @@ class StudentQuerySet(models.QuerySet):
             try:
                 student = update_or_create_from_sesam(**kwargs)
                 student_changed = True
-            except StudentNotFound:
+            except SesamStudentNotFound:
                 raise exc
 
         if 'mifare_id' in kwargs and (

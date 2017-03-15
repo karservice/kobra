@@ -38,8 +38,6 @@ const initialCollectionMap = Map.of(
 
 const initialState = Map.of(
   'auth', initialCollectionMap
-    .set('email', '')
-    .set('password', '')
     .set('jwt', null),
   'discounts', initialCollectionMap,
   'discountRegistrations', initialCollectionMap,
@@ -67,8 +65,6 @@ const reducer = (state = initialState, action) => {
       return apiRequestReducer(state, action, 'auth',
         (state, action, path) => (
           state
-            .setIn([path, 'email'], '')
-            .setIn([path, 'password'], '')
             .setIn([path, 'jwt'], action.payload.token)
             .setIn(['users', '_active'], action.payload.user)
         )
@@ -160,9 +156,6 @@ const reducer = (state = initialState, action) => {
             .setIn([path, action.payload.url], fromJS(action.payload))
         })
 
-    case actionTypes.SET_EMAIL:
-      return state.setIn(['auth', 'email'], action.payload)
-
     case actionTypes.SET_EVENT:
       return state
         .setIn(['events', '_active'], action.payload)
@@ -172,9 +165,6 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.SET_ORGANIZATION_NAME:
       return state.setIn(['organizations', action.payload.organizationUrl, '_changes', 'name'], fromJS(action.payload.value))
-
-    case actionTypes.SET_PASSWORD:
-      return state.setIn(['auth', 'password'], action.payload)
 
     case actionTypes.SET_STUDENT_SEARCH_STRING:
       return state

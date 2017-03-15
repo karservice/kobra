@@ -56,10 +56,6 @@ export const getDiscount = (state, discountUrl) => (
   getAllDiscounts(state).get(discountUrl)
 )
 
-export const getEmail = (state) => (
-  state.getIn(['auth', 'email'])
-)
-
 export const getEventDiscountRegistrationSummary = (state, eventUrl) => (
   state.getIn(['eventDiscountRegistrationSummaries', eventUrl])
 )
@@ -86,10 +82,6 @@ export const getOrganizationEvents = (state, organizationUrl) => (
 
 export const getJwt = (state) => (
   state.getIn(['auth', 'jwt'])
-)
-
-export const getPassword = (state) => (
-  state.getIn(['auth', 'password'])
 )
 
 export const getSection = (state, ref) => {

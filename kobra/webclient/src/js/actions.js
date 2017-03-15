@@ -15,9 +15,7 @@ export const actionTypes = {
   LOG_IN: 'LOG_IN',
   LOG_OUT: 'LOG_OUT',
   REGISTER_DISCOUNT: 'REGISTER_DISCOUNT',
-  SET_EMAIL: 'SET_EMAIL',
   SET_EVENT: 'SET_EVENT',
-  SET_PASSWORD: 'SET_PASSWORD',
   SET_STUDENT_SEARCH_STRING: 'SET_STUDENT_SEARCH_STRING',
   UNREGISTER_DISCOUNT: 'UNREGISTER_DISCOUNT'
 }
@@ -119,16 +117,14 @@ export const getStaticEntities = () => (dispatch, getState) => {
   dispatch(getUsers())
 }
 
-export const logIn = () => (dispatch, getState) => {
-  const state = getState()
-
-  return apiRequestDispatcher(
+export const logIn = (email, password) => (dispatch, getState) => (
+  apiRequestDispatcher(
     actionTypes.LOG_IN,
-    apiAdapter(state)
+    apiAdapter(getState())
       .post('auth/jwt/')
       .send({
-        email: selectors.getEmail(state),
-        password: selectors.getPassword(state)
+        email: email,
+        password: password
       }),
     dispatch, getState, {
       successCallback: (result) => {
@@ -136,7 +132,7 @@ export const logIn = () => (dispatch, getState) => {
       }
     }
   )
-}
+)
 
 export const logInSocial = (provider, code, redirectUri) => (dispatch, getState) => (
   apiRequestDispatcher(
@@ -200,19 +196,10 @@ export const unregisterDiscount = (discountRegistration) => (dispatch, getState)
   )
 )
 
-export const setEmail = (value) => ({
-  type: actionTypes.SET_EMAIL,
-  payload: value
-})
 
 export const setEvent = (value) => ({
   type: actionTypes.SET_EVENT,
   payload: value || null  // Change empty strings from HTML forms to null
-})
-
-export const setPassword = (value) => ({
-  type: actionTypes.SET_PASSWORD,
-  payload: value
 })
 
 export const setStudentSearchString = (value) => ({

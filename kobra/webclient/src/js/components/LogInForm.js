@@ -2,61 +2,86 @@ import React from 'react'
 import {Alert, Button, ControlLabel, FormControl, FormGroup} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
-import {logIn, setEmail, setPassword} from '../actions'
+import {logIn} from '../actions'
 import * as selectors from '../selectors'
 
 const mapStateToProps = (state) => ({
-  email: selectors.getEmail(state),
-  password: selectors.getPassword(state),
   isPending: selectors.logInIsPending(state),
   logInError: selectors.getLogInError(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  handleEmailChange: (domEvent) => {
-    dispatch(setEmail(domEvent.target.value))
-  },
-  handlePasswordChange: (domEvent) => {
-    dispatch(setPassword(domEvent.target.value))
-  },
-  handleSubmit: (domEvent) => {
-    dispatch(logIn())
-    domEvent.preventDefault()
+  dispatchLogIn: (email, password) => {
+    dispatch(logIn(email, password))
   }
 })
 
-const LogInForm = connect(mapStateToProps, mapDispatchToProps)((props) => (
-  <form onSubmit={props.handleSubmit}>
-    <FormGroup bsSize="lg">
-      <ControlLabel>Email address</ControlLabel>
-      <FormControl type="email" placeholder="Email address" value={props.email}
-                   onChange={props.handleEmailChange} />
-      <FormControl.Feedback />
-    </FormGroup>
-    <FormGroup bsSize="lg">
-      <ControlLabel>Password</ControlLabel>
-      <FormControl type="password" placeholder="Password" value={props.password}
-                   onChange={props.handlePasswordChange} />
-      <FormControl.Feedback />
-    </FormGroup>
-    <FormGroup>
-      <Button type="submit" block bsStyle="primary" bsSize="lg"
-              disabled={props.isPending}>
-        {props.isPending ? (
-          <span>Logging in...</span>
+const LogInForm = connect(mapStateToProps, mapDispatchToProps)(class extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      email: '',
+      password: ''
+    }
+
+    this.setEmail = this.setEmail.bind(this)
+    this.setPassword = this.setPassword.bind(this)
+    this.logIn = this.logIn.bind(this)
+  }
+
+  setEmail(domEvent) {
+    this.setState({
+      email: domEvent.target.value
+    })
+  }
+
+  setPassword(domEvent) {
+    this.setState({
+      password: domEvent.target.value
+    })
+  }
+
+  logIn(domEvent) {
+    this.props.dispatchLogIn(this.state.email, this.state.password)
+    domEvent.preventDefault()
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.logIn}>
+        <FormGroup bsSize="lg">
+          <ControlLabel>Email address</ControlLabel>
+          <FormControl type="email" placeholder="Email address" value={this.state.email}
+                       onChange={this.setEmail} />
+          <FormControl.Feedback />
+        </FormGroup>
+        <FormGroup bsSize="lg">
+          <ControlLabel>Password</ControlLabel>
+          <FormControl type="password" placeholder="Password" value={this.state.password}
+                       onChange={this.setPassword} />
+          <FormControl.Feedback />
+        </FormGroup>
+        <FormGroup>
+          <Button type="submit" block bsStyle="primary" bsSize="lg"
+                  disabled={this.props.isPending}>
+            {this.props.isPending ? (
+              <span>Logging in...</span>
+            ) : (
+              <span>Log in</span>
+            )}
+          </Button>
+        </FormGroup>
+        {!this.props.logInError ? (
+          <div />
         ) : (
-          <span>Log in</span>
+          <Alert bsStyle="danger">
+            {this.props.logInError.message}
+          </Alert>
         )}
-      </Button>
-    </FormGroup>
-    {!props.logInError ? (
-      <div />
-    ) : (
-      <Alert bsStyle="danger">
-        {props.logInError.message}
-      </Alert>
-    )}
-  </form>
-))
+      </form>
+    )
+  }
+})
 
 export {LogInForm}

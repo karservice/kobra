@@ -47,8 +47,7 @@ const initialState = Map.of(
   'organizations', initialCollectionMap,
   'sections', initialCollectionMap,
   'students', initialCollectionMap
-    .set('_active', null)
-    .set('_searchString', ''),
+    .set('_active', null),
   'ticketTypes', initialCollectionMap,
   'unions', initialCollectionMap,
   'users', initialCollectionMap
@@ -120,7 +119,6 @@ const reducer = (state = initialState, action) => {
         (state, action, path) => (
           // Success
           state
-            .setIn([path, '_searchString'], '')
             .setIn([path, '_active'], action.payload.url)
             .setIn([path, action.payload.url], Map.of(
               'url', action.payload.url,
@@ -132,10 +130,9 @@ const reducer = (state = initialState, action) => {
             ))
             .set('discountRegistrations',
               initialState.get('discountRegistrations'))
-        ), (state, action, path) => (
-          // Failure
-          state.setIn([path, '_searchString'], '')
-        ), (state, action, path) => (
+        ),
+        undefined,
+        (state, action, path) => (
           // Pending
           state.set(path, initialState.get(path))
         ))
@@ -165,10 +162,6 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.SET_ORGANIZATION_NAME:
       return state.setIn(['organizations', action.payload.organizationUrl, '_changes', 'name'], fromJS(action.payload.value))
-
-    case actionTypes.SET_STUDENT_SEARCH_STRING:
-      return state
-        .setIn(['students', '_searchString'], action.payload)
 
     case actionTypes.UNREGISTER_DISCOUNT:
       return apiRequestReducer(state, action, 'discountRegistrations',

@@ -114,10 +114,6 @@ export const getStudentIsPending = (state) => (
   state.getIn(['students', '_isPending'])
 )
 
-export const getStudentSearchString = (state) => (
-  state.getIn(['students', '_searchString'])
-)
-
 export const getStudentsSection = (state) => (
   getSection(state, getStudent(state).get('section'))
 )

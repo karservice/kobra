@@ -16,7 +16,6 @@ export const actionTypes = {
   LOG_OUT: 'LOG_OUT',
   REGISTER_DISCOUNT: 'REGISTER_DISCOUNT',
   SET_EVENT: 'SET_EVENT',
-  SET_STUDENT_SEARCH_STRING: 'SET_STUDENT_SEARCH_STRING',
   UNREGISTER_DISCOUNT: 'UNREGISTER_DISCOUNT'
 }
 
@@ -70,21 +69,19 @@ export const getSections = () => (dispatch, getState) => apiRequestDispatcher(
   dispatch, getState
 )
 
-export const getStudent = ({successCallback=null, failureCallback=null}={}) => (dispatch, getState) => {
+export const getStudent = (searchString, {successCallback=null, failureCallback=null}={}) => (dispatch, getState) => {
   // This function is a "thunk", i.e. it returns a callback taking dispatch and
   // getState. See the documentation on thunk middleware for more info.
-
-  const apiRequest = apiAdapter(getState())
-    .get('students/'.concat(selectors.getStudentSearchString(getState()), '/'))
-
   return apiRequestDispatcher(
-    actionTypes.GET_STUDENT, apiRequest, dispatch, getState, {
+    actionTypes.GET_STUDENT,
+    apiAdapter(getState()).get('students/'.concat(searchString, '/')),
+    dispatch, getState, {
       successCallback: successCallback, failureCallback: failureCallback
     })
 }
 
-export const getStudentAndDiscountRegistrations = () => (dispatch, getState) => {
-  dispatch(getStudent({successCallback: () => {
+export const getStudentAndDiscountRegistrations = (searchString) => (dispatch, getState) => {
+  dispatch(getStudent(searchString, {successCallback: () => {
     dispatch(getDiscountRegistrations())
   }}))
 }
@@ -200,9 +197,4 @@ export const unregisterDiscount = (discountRegistration) => (dispatch, getState)
 export const setEvent = (value) => ({
   type: actionTypes.SET_EVENT,
   payload: value || null  // Change empty strings from HTML forms to null
-})
-
-export const setStudentSearchString = (value) => ({
-  type: actionTypes.SET_STUDENT_SEARCH_STRING,
-  payload: value
 })

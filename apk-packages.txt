@@ -2,18 +2,19 @@
 
 # Runtime dependencies
 curl
+git
 libpq
 python3
 
 # Build dependencies
 g++
 gcc
-git
 libffi-dev
 make
 musl-dev
 nodejs
 postgresql-dev
+# gyp (used by node-gyp, used by npm/yarn) is stuck on Python 2.
+python2
 python3-dev
-# gyp (used by node-gyp, used by npm) is stuck on Python 2.
-python
+yarn

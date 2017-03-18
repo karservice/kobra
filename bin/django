@@ -1,11 +1,4 @@
 #!/bin/sh
-# Fail on non-zero exit status
-set -e
-
-# Fix for DNS issues as of 2016-08-22.
-echo "130.236.31.51 service.test.integration.it.liu.se" >> /etc/hosts
-echo "130.236.13.67 service.integration.it.liu.se" >> /etc/hosts
-
 # Don't fail on non-zero exit status (we don't care that much about Opbeat)
 set +e
 
@@ -28,4 +21,4 @@ curl https://intake.opbeat.com/api/v1/organizations/${OPBEAT_FRONTEND_ORGANIZATI
 # Fail on non-zero exit status
 set -e
 
-gunicorn kobra.wsgi -c /src/gunicorn-conf.py
+gunicorn kobra.wsgi -c ${GUNICORN_CONFIG}

@@ -8,6 +8,7 @@
     "bootstrap-sass": "^3.3.6",
     "bootswatch": "^3.3.6",
     "browserify": "^13.0.1",
+    "dateformat": "^2.0.0",
     "del": "^2.2.1",
     "envify": "^3.4.1",
     "exorcist": "^0.4.0",

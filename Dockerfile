@@ -1,27 +1,37 @@
-# Alpine is preferred, but Oracle only works with glibc.
-FROM alpine:3.4
+FROM alpine:edge
 
-RUN mkdir /src
-WORKDIR /src
-
-ENV NODE_ENV=production \
-    DJANGO_SETTINGS_MODULE=kobra.settings.production \
-    PYTHONPATH=/src:$PYTHONPATH \
+# Kept separate to be interpreted in next step
+ENV APP_ROOT=/app
+ENV DJANGO_SETTINGS_MODULE=kobra.settings.production \
+    GUNICORN_CONFIG=${APP_ROOT}/gunicorn-conf.py \
+    NODE_ENV=production \
+    PYTHONPATH=${APP_ROOT}:${PYTHONPATH} \
     PYTHONUNBUFFERED=true
 
-ADD ./requirements.alpine /src/requirements.alpine
-RUN apk add --no-cache $(grep -vE "^\s*#" /src/requirements.alpine | tr "\n" " ") && \
-    ln -sf /usr/bin/python3 /usr/bin/python
+# Build-only environment variables
+ARG DJANGO_SECRET_KEY=build
+ARG DJANGO_DATABASE_URL=sqlite:////
 
-ADD ./requirements.pip /src/requirements.pip
-RUN pip3 install -U pip setuptools && pip3 install -r /src/requirements.pip
+RUN mkdir ${APP_ROOT}
+WORKDIR ${APP_ROOT}
 
-ADD ./package.json /src/package.json
-RUN npm install
+COPY ./apk-packages.txt ${APP_ROOT}/
+RUN apk add --no-cache $(grep -vE "^\s*#" ${APP_ROOT}/apk-packages.txt | tr "\n" " ") && \
+    ln -sf /usr/bin/python3 /usr/bin/python && \
+    pip3 install --no-cache-dir -U pip setuptools
 
-ADD . /src
+COPY ./requirements.txt ${APP_ROOT}/
+RUN pip3 install --no-cache-dir -r ${APP_ROOT}/requirements.txt
 
-RUN npm run build && \
-    DJANGO_SECRET_KEY=build DJANGO_DATABASE_URL=sqlite://// django-admin collectstatic --no-input
-CMD ["/src/run-django.sh"]
-EXPOSE 8000
+COPY ./package.json ./yarn.lock ${APP_ROOT}/
+RUN yarn install && \
+    yarn cache clean
+
+COPY . ${APP_ROOT}
+
+RUN yarn run build && \
+    django-admin collectstatic --no-input
+
+ENTRYPOINT ["/app/bin/entrypoint"]
+CMD ["/app/bin/django"]
+EXPOSE 80

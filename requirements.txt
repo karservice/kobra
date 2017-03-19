@@ -17,11 +17,10 @@ git+https://github.com/carltongibson/django-filter.git@26774f9ecba989b4e27120ecd
 
 # Auth
 djangorestframework_jwt==1.8.*
-python-social-auth==0.2.*
-git+https://github.com/ovidner/python-social-auth-liu.git@0f875c0ec48a4c7a6684888068171a5e6cc69d67#egg=python-social-auth-liu
+social-auth-core==1.2.*
+social-auth-app-django==1.1.*
+social-auth-liu==0.0.*
 rest_social_auth==1.1.*
-PyJWT==1.4.*
-cryptography==1.7.*
 
 # Utilities
 django-environ==0.4.*

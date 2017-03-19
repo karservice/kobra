@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Col, Row, Well} from 'react-bootstrap'
 
 import * as selectors from '../selectors'
-import {SectionIndicator, UnionIndicator} from './'
+import {UnionIndicator} from './'
 
 const mapStateToProps = (state) => ({
   student: selectors.getStudent(state),
@@ -16,14 +16,8 @@ export const Student = connect(mapStateToProps)((props) => (
         {props.student.get('name')} <small>{props.student.get('liuId')}</small>
       </h2>
 
-      <Row>
-        <Col sm={6}>
-          <UnionIndicator />
-        </Col>
-        <Col sm={6}>
-          <SectionIndicator />
-        </Col>
-      </Row>
+      <UnionIndicator />
+
       {props.children}
     </Well>
   ) : (

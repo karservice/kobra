@@ -45,7 +45,6 @@ const initialState = Map.of(
     .set('_active', null),
   'eventDiscountRegistrationSummaries', initialCollectionMap,
   'organizations', initialCollectionMap,
-  'sections', initialCollectionMap,
   'students', initialCollectionMap
     .set('_active', null),
   'ticketTypes', initialCollectionMap,
@@ -111,9 +110,6 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_ORGANIZATIONS:
       return apiRequestReducer(state, action, 'organizations')
 
-    case actionTypes.GET_SECTIONS:
-      return apiRequestReducer(state, action, 'sections')
-
     case actionTypes.GET_STUDENT:
       return apiRequestReducer(state, action, 'students',
         (state, action, path) => (
@@ -126,7 +122,6 @@ const reducer = (state = initialState, action) => {
               'name', action.payload.name,
               'liuId', action.payload.liu_id,
               'union', action.payload.union,
-              'section', action.payload.section
             ))
             .set('discountRegistrations',
               initialState.get('discountRegistrations'))

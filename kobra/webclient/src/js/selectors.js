@@ -36,10 +36,6 @@ export const getAllOrganizations = (state) => (
   state.get('organizations').filter(isNotMeta)
 )
 
-export const getAllSections = (state) => (
-  state.get('sections').filter(isNotMeta)
-)
-
 export const getAllTicketTypes = (state) => (
   state.get('ticketTypes').filter(isNotMeta)
 )
@@ -84,16 +80,6 @@ export const getJwt = (state) => (
   state.getIn(['auth', 'jwt'])
 )
 
-export const getSection = (state, ref) => {
-  switch (ref) {
-    case null:
-    case undefined:
-      return ref
-    default:
-      return getAllSections(state).get(ref)
-  }
-}
-
 export const getSelectedEventUrl = (state) => (
   state.getIn(['events', '_active'])
 )
@@ -112,10 +98,6 @@ export const getStudentError = (state) => (
 
 export const getStudentIsPending = (state) => (
   state.getIn(['students', '_isPending'])
-)
-
-export const getStudentsSection = (state) => (
-  getSection(state, getStudent(state).get('section'))
 )
 
 export const getStudentsUnion = (state) => (

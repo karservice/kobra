@@ -8,42 +8,45 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from sesam import SesamError, SesamStudentNotFound
+from sesam import SesamError, SesamStudentNotFound, SesamStudentServiceClient
 from .db_fields import IdField, MoneyField, NameField
 
 
 logger = logging.getLogger(__name__)
 
+sesam_student_service_client = SesamStudentServiceClient(
+    settings.SESAM_USERNAME, settings.SESAM_PASSWORD)
+
 
 def update_or_create_from_sesam(student=None, **kwargs):
-    sesam_student = settings.SESAM_STUDENT_SERVICE_CLIENT.get_student(
-        nor_edu_person_lin=kwargs.pop('id', None),
+    sesam_student = sesam_student_service_client.get_student(
+        iso_id=kwargs.pop('iso_id', None),
         liu_id=kwargs.pop('liu_id', None),
         mifare_id=kwargs.pop('mifare_id', None),
-        national_id=kwargs.pop('national_id', None),
-        iso_id=kwargs.pop('iso_id', None)
+        nor_edu_person_lin=kwargs.pop('id', None),
+        nor_edu_person_nin=kwargs.pop('national_id', None)
     )
 
     if kwargs:
         raise TypeError("Can't search Sesam for the specified parameter(s)")
 
     if not student:
+        student_kwargs = dict(id=sesam_student.nor_edu_person_lin)
         try:
-            student = Student.objects.get(id=sesam_student.nor_edu_person_lin)
+            student = Student.objects.get(**student_kwargs)
         except Student.DoesNotExist:
             # Just instantiate, don't save.
-            student = Student(id=sesam_student.nor_edu_person_lin)
+            student = Student(**student_kwargs)
 
     student.email = sesam_student.email
     student.liu_id = sesam_student.liu_id
     student.liu_lin = sesam_student.liu_lin
-    student.name = sesam_student.name
-    student.section = Section.objects.get_or_create(
-        code=sesam_student.section_code,
-        defaults={'name': sesam_student.section_code}
-    )[0] if sesam_student.section_code else None
+    student.name = sesam_student.full_name
     student.union = Union.objects.get_or_create(
-        name=sesam_student.union)[0] if sesam_student.union else None
+        name=sesam_student.main_union)[0] if sesam_student.main_union else None
+    # The student_union field in Sesam is not a good indicator of section
+    # membership and is therefore deprecated.
+    student.section = None
 
     return student
 

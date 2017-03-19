@@ -7,7 +7,6 @@ export const actionTypes = {
   GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY: 'GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY',
   GET_EVENTS: 'GET_EVENTS',
   GET_ORGANIZATIONS: 'GET_ORGANIZATIONS',
-  GET_SECTIONS: 'GET_SECTIONS',
   GET_STUDENT: 'GET_STUDENT',
   GET_TICKET_TYPES: 'GET_TICKET_TYPES',
   GET_UNIONS: 'GET_UNIONS',
@@ -63,12 +62,6 @@ export const getOrganizations = () => (dispatch, getState) => apiRequestDispatch
   dispatch, getState
 )
 
-export const getSections = () => (dispatch, getState) => apiRequestDispatcher(
-  actionTypes.GET_SECTIONS,
-  apiAdapter(getState()).get('sections/'),
-  dispatch, getState
-)
-
 export const getStudent = (searchString, {successCallback=null, failureCallback=null}={}) => (dispatch, getState) => {
   // This function is a "thunk", i.e. it returns a callback taking dispatch and
   // getState. See the documentation on thunk middleware for more info.
@@ -108,7 +101,6 @@ export const getStaticEntities = () => (dispatch, getState) => {
   dispatch(getDiscounts())
   dispatch(getEvents())
   dispatch(getOrganizations())
-  dispatch(getSections())
   dispatch(getTicketTypes())
   dispatch(getUnions())
   dispatch(getUsers())

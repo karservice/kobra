@@ -39,13 +39,11 @@ INSTALLED_APPS = [
     'kobra'
 ]
 
-# todo: change this to use the new MIDDLEWARE setting when Opbeat is updated to
-# work with it
-MIDDLEWARE_CLASSES = [
-    # OpbeatAPMMiddleware should always be first to give accurate performance
-    # measurements
-    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
+MIDDLEWARE = [
+    # Security first!
     'django.middleware.security.SecurityMiddleware',
+    # First-ish to give accurate performance measurements
+    'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

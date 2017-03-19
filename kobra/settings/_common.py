@@ -46,7 +46,6 @@ MIDDLEWARE_CLASSES = [
     # measurements
     'opbeat.contrib.django.middleware.OpbeatAPMMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'opbeat.contrib.django.middleware.Opbeat404CatchMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

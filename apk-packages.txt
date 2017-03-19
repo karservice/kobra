@@ -4,12 +4,16 @@
 curl
 git
 libpq
+libxml2
+libxslt
 python3
 
 # Build dependencies
 g++
 gcc
 libffi-dev
+libxml2-dev
+libxslt-dev
 make
 musl-dev
 nodejs

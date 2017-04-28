@@ -1,0 +1,15 @@
+{
+  "title": "Kobra Technical Documentation",
+  "author": "Kårservice Östergötland AB",
+  "plugins": [
+    "theme-api"
+  ],
+  "pluginsConfig": {
+    "theme-api": {
+      "languages": [
+        "http"
+      ],
+      "split": true
+    }
+  }
+}

@@ -1,4 +1,7 @@
 collected-static/
+
+docs/_book/
+
 node_modules/
 kobra/webclient/build/*
 !kobra/webclient/build/README.md

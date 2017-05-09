@@ -34,7 +34,7 @@ brotlipy==0.6.*
 rules==1.2.*
 
 # Sesam
-sesam==1.0.*
+sesam==1.0.1
 
 # Opbeat (app monitoring)
 opbeat==3.5.*

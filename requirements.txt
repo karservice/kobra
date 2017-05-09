@@ -4,8 +4,8 @@ pytz
 # Gunicorn WSGI server
 gunicorn==19.6.*
 
-# Newest Django release
-django==1.11b1
+# Django
+django==1.11
 
 # Database and cache
 psycopg2==2.6.*

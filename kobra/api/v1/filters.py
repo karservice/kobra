@@ -15,15 +15,11 @@ class DiscountRegistrationFilter(filters.FilterSet):
     event = django_filters.ModelChoiceFilter(
         name='discount__ticket_type__event',
         queryset=Event.objects.all())
-    ticket_type = django_filters.ModelChoiceFilter(
-        name='discount__ticket_type',
-        queryset=TicketType.objects.all())
 
     class Meta:
         model = DiscountRegistration
         fields = [
             'event',
-            'ticket_type',
             'student'
         ]
 

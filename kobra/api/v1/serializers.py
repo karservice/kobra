@@ -157,13 +157,17 @@ class SectionSerializer(serializers.HyperlinkedModelSerializer):
 
 class StudentSerializer(ExpandableSerializerMixin,
                         serializers.HyperlinkedModelSerializer):
+    name = serializers.CharField(source='full_name')
+
     class Meta:
         model = Student
         fields = [
             'url',
             'id',
             'liu_id',
-            'name',
+            'name',  # Named this way for backward compatibility
+            'first_name',
+            'last_name',
             'union',
             'section',
             'liu_lin',

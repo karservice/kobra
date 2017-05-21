@@ -41,7 +41,9 @@ def update_or_create_from_sesam(student=None, **kwargs):
     student.email = sesam_student.email
     student.liu_id = sesam_student.liu_id
     student.liu_lin = sesam_student.liu_lin
-    student.name = sesam_student.full_name
+    student.full_name = sesam_student.full_name
+    student.first_name = sesam_student.first_name
+    student.last_name = sesam_student.last_name
     student.union = Union.objects.get_or_create(
         name=sesam_student.main_union)[0] if sesam_student.main_union else None
     # The student_union field in Sesam is not a good indicator of section
@@ -220,8 +222,14 @@ class Student(models.Model):
                              "can be used to integrate with other systems also "
                              "utilizing the norEduPersonLIN."))
 
-    name = NameField(
-        max_length=128)
+    full_name = NameField(
+        max_length=128,
+        verbose_name=_('full name'))
+    first_name = NameField(
+        verbose_name=_('first name'))
+    last_name = NameField(
+        verbose_name=_('last name'))
+
     email = models.EmailField(
         verbose_name=_('email address'))
     liu_id = models.CharField(

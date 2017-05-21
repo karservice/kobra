@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.5
 
 # Kept separate to be interpreted in next step
 ENV APP_ROOT=/app
@@ -15,8 +15,13 @@ ARG DJANGO_DATABASE_URL=sqlite:////
 RUN mkdir ${APP_ROOT}
 WORKDIR ${APP_ROOT}
 
+# Installs APK packages. Yarn is not available as an APK package (yet) and is
+# installed manually
 COPY ./apk-packages.txt ${APP_ROOT}/
 RUN apk add --no-cache $(grep -vE "^\s*#" ${APP_ROOT}/apk-packages.txt | tr "\n" " ") && \
+    mkdir -p /opt/yarn && \
+    curl -o- -L https://yarnpkg.com/latest.tar.gz | tar -zxC /opt/yarn && \
+    ln -sf /opt/yarn/dist/bin/yarn /usr/bin/yarn && \
     ln -sf /usr/bin/python3 /usr/bin/python && \
     pip3 install --no-cache-dir -U pip setuptools
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
+import sesam
 from django.conf import settings
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
@@ -8,13 +9,12 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from sesam import SesamError, SesamStudentNotFound, SesamStudentServiceClient
 from .db_fields import IdField, MoneyField, NameField
 
 
 logger = logging.getLogger(__name__)
 
-sesam_student_service_client = SesamStudentServiceClient(
+sesam_student_service_client = sesam.StudentServiceClient(
     settings.SESAM_USERNAME, settings.SESAM_PASSWORD)
 
 
@@ -176,7 +176,7 @@ class StudentQuerySet(models.QuerySet):
                 try:
                     student.update_from_sesam()
                     student_changed = True
-                except SesamError:
+                except sesam.Error:
                     # This is an unwanted state that most likely means that we
                     # encountered some error in Sesam. So we just log this and
                     # ignore that the data may be outdated, to avoid downtime we
@@ -188,7 +188,7 @@ class StudentQuerySet(models.QuerySet):
             try:
                 student = update_or_create_from_sesam(**kwargs)
                 student_changed = True
-            except SesamStudentNotFound:
+            except sesam.StudentNotFound:
                 raise exc
 
         if 'mifare_id' in kwargs and (

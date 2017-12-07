@@ -1,4 +1,9 @@
 .env
+*.egg-info/
+*.pyc
+build/
+collected-static/
 db.sqlite3
+docs/_book/
 node_modules/
-web-build/
+src/index.css

@@ -1,0 +1,5 @@
+#!/bin/sh
+# Fail hard and fast
+set -euf
+
+exec gunicorn kobra.wsgi -c ${GUNICORN_CONFIG}

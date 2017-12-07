@@ -9,8 +9,8 @@ ENV DJANGO_SETTINGS_MODULE=kobra.settings.production \
     PYTHONUNBUFFERED=true
 
 # Build-only environment variables
-ARG DJANGO_SECRET_KEY=build
-ARG DJANGO_DATABASE_URL=sqlite:////
+ARG KOBRA_SECRET_KEY=build
+ARG KOBRA_DATABASE_URL=sqlite:////
 
 RUN mkdir ${APP_ROOT}
 WORKDIR ${APP_ROOT}

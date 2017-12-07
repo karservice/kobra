@@ -153,8 +153,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
 )
 
-SOCIAL_AUTH_LIU_HOST = env.str('ADFS_HOST', 'fs.liu.se')
-SOCIAL_AUTH_LIU_KEY = env.str('ADFS_CLIENT_ID', '')
+SOCIAL_AUTH_LIU_HOST = env.str('KOBRA_ADFS_HOST', 'fs.liu.se')
+SOCIAL_AUTH_LIU_KEY = env.str('KOBRA_ADFS_CLIENT_ID', '')
 SOCIAL_AUTH_LIU_SCOPE = ['https://kobra.karservice.se']
 
 ROOT_URLCONF = 'kobra.urls'
@@ -226,9 +226,9 @@ LOGGING = {
 
 # Backend Opbeat config
 OPBEAT_BACKEND = OPBEAT = {
-    'ORGANIZATION_ID': env.str('OPBEAT_BACKEND_ORGANIZATION_ID', ''),
-    'APP_ID': env.str('OPBEAT_BACKEND_APP_ID', ''),
-    'SECRET_TOKEN': env.str('OPBEAT_BACKEND_SECRET_TOKEN', ''),
+    'ORGANIZATION_ID': env.str('KOBRA_OPBEAT_BACKEND_ORGANIZATION_ID', ''),
+    'APP_ID': env.str('KOBRA_OPBEAT_BACKEND_APP_ID', ''),
+    'SECRET_TOKEN': env.str('KOBRA_OPBEAT_BACKEND_SECRET_TOKEN', ''),
     'TRANSACTIONS_IGNORE_PATTERNS': [
         'views.health_view'
     ],
@@ -237,16 +237,16 @@ OPBEAT_BACKEND = OPBEAT = {
 
 # Frontend Opbeat config
 OPBEAT_FRONTEND = {
-    'ORGANIZATION_ID': env.str('OPBEAT_FRONTEND_ORGANIZATION_ID', ''),
-    'APP_ID': env.str('OPBEAT_FRONTEND_APP_ID', ''),
-    'SECRET_TOKEN': env.str('OPBEAT_FRONTEND_SECRET_TOKEN', ''),
+    'ORGANIZATION_ID': env.str('KOBRA_OPBEAT_FRONTEND_ORGANIZATION_ID', ''),
+    'APP_ID': env.str('KOBRA_OPBEAT_FRONTEND_APP_ID', ''),
+    'SECRET_TOKEN': env.str('KOBRA_OPBEAT_FRONTEND_SECRET_TOKEN', ''),
 }
 
-SESAM_USERNAME = env.str('SESAM_USERNAME', '')
-SESAM_PASSWORD = env.str('SESAM_PASSWORD', '')
+SESAM_USERNAME = env.str('KOBRA_SESAM_USERNAME', '')
+SESAM_PASSWORD = env.str('KOBRA_SESAM_PASSWORD', '')
 # Specifies how old the data from Sesam can be before an update is forced.
 SESAM_DATA_AGE_THRESHOLD = timedelta(
-    seconds=env.int('SESAM_DATA_AGE_THRESHOLD', 6*60*60))
+    seconds=env.int('KOBRA_SESAM_DATA_AGE_THRESHOLD', 6*60*60))
 
 FRONTEND_SETTINGS = {
     # WARNING: These settings are published!

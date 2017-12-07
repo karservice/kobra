@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from . import *
 
-SECRET_KEY = env.str('DJANGO_SECRET_KEY',
+SECRET_KEY = env.str('KOBRA_SECRET_KEY',
                      'Unsafe_development_key._Never_use_in_production.')
-DEBUG = env.bool('DJANGO_DEBUG_MODE', True)
+DEBUG = env.bool('KOBRA_DEBUG_MODE', True)
 
 
 DATABASES = {
-    'default': env.db_url('DJANGO_DATABASE_URL', 'sqlite:///db.sqlite3')
+    'default': env.db_url('KOBRA_DATABASE_URL', 'sqlite:///db.sqlite3')
 }
 
 

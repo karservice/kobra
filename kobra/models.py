@@ -3,14 +3,16 @@ import logging
 
 import sesam
 from django.conf import settings
-from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
-                                        PermissionsMixin)
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin
+)
 from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from .db_fields import IdField, MoneyField, NameField
-
 
 logger = logging.getLogger(__name__)
 

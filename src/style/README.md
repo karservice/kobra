@@ -1,8 +1,8 @@
 # SCSS
-The file `kobra.scss` is the "root" SCSS file. That means that any added file
+The file `index.scss` is the "root" SCSS file. That means that any added file
 must be imported to that one.
 
-The actual CSS is compiled by Sass/Gulp.
+The actual CSS is compiled by Sass.
 
 ## Bootstrap variables
 The Bootstrap variables are defined by `kobra/variables` and

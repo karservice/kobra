@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
 
 import {LogInForm, MainFooter, MainNav, Page} from './'
-import * as constants from '../constants'
+import * as settings from '../settings'
 import {isLoggedIn, logInIsPending} from '../selectors'
 
 const mapStateToProps = (state) => ({
@@ -12,10 +12,8 @@ const mapStateToProps = (state) => ({
   isPending: logInIsPending(state)
 })
 
-
-
 const App = withRouter(connect(mapStateToProps)((props) => {
-  const liuLogInHref = `https://${constants.liuAdfsHost}/adfs/oauth2/authorize?response_type=code&redirect_uri=${encodeURIComponent(window.location.origin)}%2Flog-in%2Fliu%2F%3Fnext%3D${encodeURIComponent(props.location.pathname)}&client_id=${constants.liuAdfsClientId}&resource=https%3A%2F%2Fkobra.karservice.se`
+  const liuLogInHref = `https://${settings.liuAdfsHost}/adfs/oauth2/authorize?response_type=code&redirect_uri=${encodeURIComponent(window.location.origin)}%2Flog-in%2Fliu%2F%3Fnext%3D${encodeURIComponent(props.location.pathname)}&client_id=${settings.liuAdfsClientId}&resource=https%3A%2F%2Fkobra.karservice.se`
   const localLogInPopover = (
     <Popover id="local-log-in-popover">
       <LogInForm/>

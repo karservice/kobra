@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Kobra</title>
+  </head>
+  <body>
+    <div id="root">
+      <div class="container">
+        <div class="text-center">
+          <p class="text-muted">Loading Kobra&hellip;</p>
+        </div>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped active" role="progressbar"
+               style="width: 100%;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      The backend can inject environmental settings to the frontend application
+      through here. We'll do it the way OWASP recommends.
+      https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet#HTML_entity_encoding
+      As the Django template syntax will *not* constitute syntactically valid
+      JSON, the parsing script will stop if no environment has been injected.
+    -->
+    <div id="BACKEND_INJECTED_ENV" style="display: none">{{ FRONTEND_ENV|escape }}</div>
+
+    <!-- The bundle will be injected here. -->
+  </body>
+</html>

@@ -3,7 +3,7 @@
 
 // START BOOTSTRAP
 // Kobra variable overrides
-@import "kobra/variables";
+@import "style/variables";
 
 // Core variables and mixins
 @import "bootstrap/variables";
@@ -58,9 +58,9 @@
 // END BOOTSTRAP
 
 // Font Awesome
-@import "font-awesome";
+@import "~font-awesome/css/font-awesome.css";
 
 // Kobra
-@import "kobra/utils";
-@import "kobra/indicator-block";
-@import "kobra/panels";
+@import "style/utils";
+@import "style/indicator-block";
+@import "style/panels";

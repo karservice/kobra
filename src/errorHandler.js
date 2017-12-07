@@ -1,10 +1,12 @@
 // This should be the only file aware that we use Opbeat for error reporting.
 import 'opbeat-js'
 
+import {opbeatAppId, opbeatOrgId} from './settings'
+
 const init = () => {
   window._opbeat('config', {
-    orgId: window.kobraConstants.opbeatOrgId,
-    appId: window.kobraConstants.opbeatAppId
+    orgId: opbeatOrgId,
+    appId: opbeatAppId
   })
 }
 

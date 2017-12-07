@@ -2,9 +2,8 @@
 from datetime import timedelta
 import warnings
 
+from django.core.urlresolvers import reverse_lazy
 import environ
-
-from sesam import SesamStudentServiceClient
 
 env = environ.Env()
 ROOT_DIR = environ.Path(__file__) - 3
@@ -56,7 +55,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(APPS_DIR.path('webclient').path('build').path('templates'))],
+        'DIRS': [str(ROOT_DIR.path('build'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -170,7 +169,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = str(ROOT_DIR.path('collected-static'))
 STATICFILES_DIRS = (
-    str(APPS_DIR.path('webclient').path('build').path('static')),
+    str(ROOT_DIR.path('build').path('static')),
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -248,3 +247,11 @@ SESAM_PASSWORD = env.str('SESAM_PASSWORD', '')
 # Specifies how old the data from Sesam can be before an update is forced.
 SESAM_DATA_AGE_THRESHOLD = timedelta(
     seconds=env.int('SESAM_DATA_AGE_THRESHOLD', 6*60*60))
+
+FRONTEND_SETTINGS = {
+    # WARNING: These settings are published!
+    'LIU_ADFS_CLIENT_ID': SOCIAL_AUTH_LIU_KEY,
+    'LIU_ADFS_HOST': SOCIAL_AUTH_LIU_HOST,
+    'OPBEAT_APP_ID': OPBEAT_FRONTEND['APP_ID'],
+    'OPBEAT_ORG_ID': OPBEAT_FRONTEND['ORGANIZATION_ID'],
+}

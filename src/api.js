@@ -1,7 +1,7 @@
 import {Map} from 'immutable'
 import request from 'superagent'
 
-import {apiRoot} from './constants'
+import {apiRoot} from './settings'
 import {getJwt} from './selectors'
 
 const apiAdapter = (state) => {

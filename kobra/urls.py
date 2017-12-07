@@ -2,7 +2,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from .views import health_view, web_client_view
+from .views import health_view, frontend_view
 
 
 urlpatterns = [
@@ -14,7 +14,7 @@ urlpatterns = [
     # Matches everything* and therefore must come last.
     # *everything except /static/... since this breaks the static file serving.
     url(r'^(?!static/)', include([
-        url(r'^$', web_client_view, name='home'),
-        url(r'^.*/$', web_client_view)
-    ], namespace='web-client'))
+        url(r'^$', frontend_view, name='home'),
+        url(r'^.*/$', frontend_view),
+    ], namespace='frontend')),
 ]

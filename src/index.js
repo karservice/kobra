@@ -1,9 +1,3 @@
-import 'babel-polyfill'
-
-// Initialize the error handler in an early stage
-import * as errorHandler from './errorHandler'
-errorHandler.init()
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {IndexRoute, Route, Router, browserHistory} from 'react-router'
@@ -13,10 +7,16 @@ import thunkMiddleware from 'redux-thunk'
 
 import {logInUsingJwt} from './actions'
 import * as components from './components'
+import * as errorHandler from './errorHandler'
 import {loggerMiddleware, errorReportingMiddleware} from './middleware'
 import {reducer} from './reducers'
 import {getLocalJwt, syncErrorHandlerUserContext, syncJwtToLocal,
   autoRefreshJwt} from './utils'
+
+import './index.css'
+
+// Initialize the error handler in an early stage
+errorHandler.init()
 
 const middleware = [
   errorReportingMiddleware,
@@ -39,12 +39,6 @@ const router = (
       <Route path="lookup-register/" component={components.LookUpRegister}
              title="Look up and register" />
       <Route path="manage/organizations-events/" component={components.ManageOrganizationsEvents}/>
-      <Route path="events/new/" component={components.EventDetail} />
-      <Route path="events/:eventId/" component={components.EventDetail} />
-      <Route path="organizations/new/"
-             component={components.OrganizationDetail} />
-      <Route path="organizations/:organizationId/"
-             component={components.OrganizationDetail} />
       <Route path="*" component={components.Error404} />
     </Route>
   </Router>
@@ -55,7 +49,7 @@ const render = () => {
     <Provider store={store}>
       {router}
     </Provider>,
-    document.getElementById('app')
+    document.getElementById('root')
   )
 }
 

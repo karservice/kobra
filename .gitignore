@@ -1,10 +1,8 @@
-collected-static/
-
-docs/_book/
-
-node_modules/
-kobra/webclient/build/*
-!kobra/webclient/build/README.md
-db.sqlite3
-*.pyc
 .env
+*.pyc
+build/
+collected-static/
+db.sqlite3
+docs/_book/
+node_modules/
+src/index.css

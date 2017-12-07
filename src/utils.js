@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode'
 
 import {refreshJwt} from './actions'
-import {localJwtKey, jwtRefreshMargin} from './constants'
+import {localJwtKey, jwtRefreshMargin} from './settings'
 import {setUserContext} from './errorHandler'
 import {getJwt, getActiveUser} from './selectors'
 

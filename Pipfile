@@ -1,33 +1,40 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [requires]
+
 python_version = "3.6"
 
+
 [packages]
-pytz = "*"
-gunicorn = "*"
+
+brotlipy = "*"
 django = "==1.11.*"
-"psycopg2" = "*"
-djangorestframework = "*"
-djangorestframework-expandable = "*"
-django-filter = "*"
-djangorestframework-jwt = "*"
-social-auth-core = "*"
-social-auth-app-django = "==1.*"
-social-auth-liu = "*"
-rest_social_auth = "*"
 django-environ = "*"
 django-extensions = "*"
-whitenoise = "*"
-brotlipy = "*"
+django-filter = "*"
+djangorestframework = "*"
+djangorestframework-expandable = "*"
+djangorestframework-jwt = "*"
+factory-boy = "*"
+gunicorn = "*"
+ipython = "*"
+opbeat = "*"
+"psycopg2" = "*"
+pytz = "*"
+rest-social-auth = "*"
 rules = "*"
 sesam = "*"
-opbeat = "*"
-factory_boy = "*"
-ipython = "*"
+social-auth-app-django = "==1.*"
+social-auth-core = "*"
+social-auth-liu = "*"
+whitenoise = "*"
+
 
 [dev-packages]
+
 kobra = {path = ".", editable = true}

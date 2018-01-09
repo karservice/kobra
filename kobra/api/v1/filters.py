@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 import django_filters
+from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework import filters
 
 from ...models import DiscountRegistration, Event, TicketType
 
 
-class DiscountPermissionFilter(filters.BaseFilterBackend):
+class DiscountPermissionFilter(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(
             ticket_type__event__organization__admins=request.user)
 
 
-class DiscountRegistrationFilter(filters.FilterSet):
+class DiscountRegistrationFilter(FilterSet):
     event = django_filters.ModelChoiceFilter(
         name='discount__ticket_type__event',
         queryset=Event.objects.all())
@@ -24,27 +25,27 @@ class DiscountRegistrationFilter(filters.FilterSet):
         ]
 
 
-class DiscountRegistrationPermissionFilter(filters.BaseFilterBackend):
+class DiscountRegistrationPermissionFilter(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(
             discount__ticket_type__event__organization__admins=request.user)
 
 
-class EventPermissionFilter(filters.BaseFilterBackend):
+class EventPermissionFilter(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(organization__admins=request.user)
 
 
-class OrganizationPermissionFilter(filters.BaseFilterBackend):
+class OrganizationPermissionFilter(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(admins=request.user)
 
 
-class TicketTypePermissionFilter(filters.BaseFilterBackend):
+class TicketTypePermissionFilter(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(event__organization__admins=request.user)
 
 
-class UserPermissionFilter(filters.BaseFilterBackend):
+class UserPermissionFilter(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(pk=request.user.pk)

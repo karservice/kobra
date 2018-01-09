@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 
     'opbeat.contrib.django',  # Error reporting
     'django_extensions',
+    'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',

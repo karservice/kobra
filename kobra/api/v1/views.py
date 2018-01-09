@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db.models import ProtectedError
 from django.utils.translation import ugettext_lazy as _
-
-import rest_framework.filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import list_route
 from rest_framework.generics import get_object_or_404
@@ -42,8 +41,10 @@ class DiscountViewSet(RegistrationsDeleteProtectedMixin, viewsets.ModelViewSet):
 class DiscountRegistrationViewSet(NoUpdateModelViewSet):
     queryset = models.DiscountRegistration.objects.all()
     serializer_class = serializers.DiscountRegistrationSerializer
-    filter_backends = [filters.DiscountRegistrationPermissionFilter,
-                       rest_framework.filters.DjangoFilterBackend]
+    filter_backends = [
+        filters.DiscountRegistrationPermissionFilter,
+        DjangoFilterBackend,
+    ]
     filter_class = filters.DiscountRegistrationFilter
 
     @list_route(methods=['get'])

@@ -20,7 +20,6 @@ django-filter = "*"
 djangorestframework = "*"
 djangorestframework-expandable = "*"
 djangorestframework-jwt = "*"
-factory-boy = "*"
 gunicorn = "*"
 ipython = "*"
 opbeat = "*"
@@ -37,4 +36,5 @@ whitenoise = "*"
 
 [dev-packages]
 
+factory-boy = "*"
 kobra = {path = ".", editable = true}

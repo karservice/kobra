@@ -472,10 +472,10 @@
         },
         "sesam": {
             "hashes": [
-                "sha256:c2dcc4b1937edb0da2095c2939c457d4ef667c6932d8c8131ac8d1c7aef9b92c",
-                "sha256:923aa5323202fb18037d559ee5ad69931ec4cd788edd104a41e830a83b346e3e"
+                "sha256:411cfa27f8a3b1ad0e59130c4eea46e798c9f5b98a2c7a7adfd8b79760a5d185",
+                "sha256:873a05cf75c909205903863a1f0c5cf91dab40e93b00e8e05f693cf05a81ddb6"
             ],
-            "version": "==2.1.0"
+            "version": "==2.1.1"
         },
         "simplegeneric": {
             "hashes": [
@@ -551,10 +551,10 @@
         },
         "zeep": {
             "hashes": [
-                "sha256:2b81499ff7d953322ab6ffeb6c3d7a077044533fe4bae4237a74372a7e873c33",
-                "sha256:8631e2735c5f2219eb18ca4f0615ae482455628518508f69c3690dbfb8238aee"
+                "sha256:654e37c40153133026434059bfb89dec44961b49ac629055fc27dcc759999042",
+                "sha256:4f9db52c7d269813fc6251da4cb050869158858aeea75a055b4550f19e52ac84"
             ],
-            "version": "==2.4.0"
+            "version": "==2.5.0"
         }
     },
     "develop": {

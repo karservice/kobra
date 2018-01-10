@@ -13,6 +13,7 @@ python_version = "3.6"
 [packages]
 
 brotlipy = "*"
+coreapi = "*"
 django = "==1.11.*"
 django-environ = "*"
 django-extensions = "*"

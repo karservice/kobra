@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import coreapi
 from django.db.models import ProtectedError
 from django.utils.translation import ugettext_lazy as _
 from django_filters.rest_framework import DjangoFilterBackend
@@ -7,12 +8,20 @@ from rest_framework.decorators import list_route
 from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
+from rest_framework.schemas import AutoSchema
 from rest_framework_expandable import ExpandableViewMixin
 from rest_social_auth.views import BaseSocialAuthView, JWTAuthMixin
 
 from ... import models
 from . import serializers, filters
 from .exceptions import ProtectedFromDeletion
+
+expand_schema_field = coreapi.Field(
+    'expand',
+    location='query',
+    required=False,
+    description='Fields to expand to full objects, separated by commas.',
+)
 
 
 class NoUpdateModelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
@@ -70,8 +79,17 @@ class OrganizationViewSet(viewsets.ModelViewSet):
 
 class StudentViewSet(ExpandableViewMixin, RetrieveModelMixin,
                      viewsets.GenericViewSet):
+    """
+    retrieve: Get a student by canonical ID (norEduPersonLIN).
+    """
     queryset = models.Student.objects.all()
     serializer_class = serializers.StudentSerializer
+
+    schema = AutoSchema(
+        manual_fields=[
+            expand_schema_field,
+        ]
+    )
 
     def get_object(self):
         # From rest_framework.generics.GenericAPIView.get_object with the
@@ -86,6 +104,9 @@ class StudentViewSet(ExpandableViewMixin, RetrieveModelMixin,
 
 
 class StudentByLiuIdViewSet(StudentViewSet):
+    """
+    retrieve: Get a student by LiU ID.
+    """
     lookup_field = 'liu_id'
     # No person in database as of 2016-07-05 with just two letters in LiU ID,
     # but you never know... Please note that upper/mixed case LiU IDs are
@@ -94,6 +115,9 @@ class StudentByLiuIdViewSet(StudentViewSet):
 
 
 class StudentByMifareIdViewSet(StudentViewSet):
+    """
+    retrieve: Get a student by Mifare ID (LiU card number).
+    """
     lookup_field = 'mifare_id'
     # The Mifare cards used by LiU have 4 or 7 bytes UIDs. The maximum number is
     # therefore 72057594037927940, giving 17 characters.

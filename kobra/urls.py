@@ -15,6 +15,7 @@ urlpatterns = [
 
     # Matches everything* and therefore must come last.
     # *everything except /static/... since this breaks the static file serving.
+    # All other URLs are handled by the frontend app router.
     url(r'^(?!static/)', include([
         url(r'^$', frontend_view, name='home'),
         url(r'^.*/$', frontend_view),

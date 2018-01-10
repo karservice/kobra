@@ -1,91 +1,85 @@
 Kobra
 =====
+[API Documentation (Version 1)](kobra/api/v1/README.md)
+
 [Docker Image](https://hub.docker.com/r/karservice/kobra/)
+
+Setting up a development environment
+------------------------------------
+This project uses [Pipenv](https://docs.pipenv.org) and Yarn/NPM to manage its
+dependencies and development environments. Read up on their basic usage, install
+them and run the following commands:
+
+```sh
+cp example.env .env
+pipenv install -d
+yarn
+```
+
+You may want to adapt the `.env` file to your preferences. To make student
+lookups, you will need *Sesam* credentials.
+
+To build and run a development server, run
+
+```sh
+yarn build
+pipenv run django-admin migrate
+pipenv run django-admin runserver
+```
+
+Alternatively, you can use Docker:
+```sh
+docker-compose up
+```
+
+Using either method, the development server should be available at
+http://localhost:8000.
+
+### ADFS
+The application must be available at http://dev.kobra.karservice.se (on port 80)
+as seen from your local machine for the ADFS integration to work in a
+development environment. Adjust your `/etc/hosts` (or equivalent) file to
+accomodate this.
+
+Project structure
+-----------------
+* `bin`: utility scripts
+* `build`: frontend build artefacts
+* `kobra`: backend source code
+* `node_modules`: frontend build dependencies
+* `public`: frontend template
+* `src`: frontend source code
 
 Architecture
 ------------
 Kobra roughly consists of an HTTP API that tries to be more or less RESTful, and
 a web client that uses that API. This means that all functionality available in
-the web client is also available through the API.
+the web client is also available through the API. The API backend is a
+[Django](https://www.djangoproject.com) application using
+[Django REST Framework](http://www.django-rest-framework.org). The web frontend
+is a single-page JavaScript application, bootstrapped using
+[create-react-app](https://github.com/facebookincubator/create-react-app). It
+uses [Redux](https://redux.js.org) to manage its state.
 
-API authentication
-------------------
-### Short term token
-The web client uses JWTs (JSON Web Tokens), i.e. short term tokens, to
-authenticate against the API. These tokens have a short lifespan (in the order
-of minutes) and must be renewed regularly. They are therefore not suitable for
-services.
+The complete application (including its Docker environment) is developed with
+[The Twelve-Factor App](https://www.12factor.net) in mind. Read it.
 
-These tokens are used by setting the `Authorization` HTTP header for each request
-to `JWT <token>`.
+### Data sources and integrations
+The Kobra application is dependent on three backing services:
 
-### Long term token (for services)
-Long term tokens, suitable for service consumers, can be issued on request.
+1. A PostgreSQL database for storing cached student data, events, organizations,
+discount registrations and all other application data. This is a SQLite database
+in the default development settings.
+2. The *Sesam* student service, a SOAP service provided by LiU to make lookups
+of student data. The client implementation is provided by the
+[python-sesam](https://github.com/ovidner/python-sesam) package.
+3. The ADFS single sign-on service provided by LiU. The integration is provided
+by the [python-social-auth-liu](https://github.com/ovidner/python-social-auth-liu)
+package.
 
-These tokens are used by setting the `Authorization` HTTP header for each request
-to `Token <token>`.
-
-API use cases
--------------
-### Get a student's union membership
-One student can be fetched at a time, by making an authenticated and authorized(*) GET request to
-`https://kobra.karservice.se/api/v1/students/<id>/`, where `<id>` can be one of
-the following:
-
-* LiU ID
-* LiU card number in decimal form (Mifare UID, readable with a card reader and
-also printed on the backside of the card)
-* norEduPersonLIN (an immutable, unique identifier primarily used to integrate
-with other services such as ADFS)
-
-Only exact matches are returned. The JSON response will basically look like the
-following:
-
-```json
-{
-  "url": "https://kobra.karservice.se/api/v1/students/25faeebb-5810-4484-a69c-960d1b77a261/",
-  "id": "25faeebb-5810-4484-a69c-960d1b77a261",
-  "liu_id": "oller120",
-  "name": "Olle Vidner",
-  "union": "https://kobra.karservice.se/api/v1/unions/601ec16c-efa4-4605-9651-c0de8fedb718/",
-  "section": "https://kobra.karservice.se/api/v1/sections/83666930-90b1-463f-a211-d97247a7f9a6/",
-  "liu_lin": "bcbb39b7-5508-43a3-8c85-f835b1e5f9af",
-  "email": "oller120@student.liu.se",
-  "last_updated": "2017-01-14T22:19:32.132092Z"
-}
-```
-
-By using the `?expand=union,section` GET parameter (i.e.
-`https://kobra.karservice.se/api/v1/students/<id>/?expand=union,section`), the
-union and section data will be included in the response, like this:
-
-```json
-{
-  "url": "https://kobra.karservice.se/api/v1/students/25faeebb-5810-4484-a69c-960d1b77a261/",
-  "id": "25faeebb-5810-4484-a69c-960d1b77a261",
-  "liu_id": "oller120",
-  "name": "Olle Vidner",
-  "union": {
-    "url": "https://kobra.karservice.se/api/v1/unions/601ec16c-efa4-4605-9651-c0de8fedb718/",
-    "id": "601ec16c-efa4-4605-9651-c0de8fedb718",
-    "name": "LinTek"
-  },
-  "section": {
-    "url": "https://kobra.karservice.se/api/v1/sections/83666930-90b1-463f-a211-d97247a7f9a6/",
-    "id": "83666930-90b1-463f-a211-d97247a7f9a6",
-    "name": "M"
-  },
-  "liu_lin": "bcbb39b7-5508-43a3-8c85-f835b1e5f9af",
-  "email": "oller120@student.liu.se",
-  "last_updated": "2017-01-14T22:19:32.132092Z"
-}
-```
-
-Please note that LiU card numbers will never be returned from the API, due to
-privacy decisions made by LiU.
-
-(*) See _API authentication_ above. Your account must also be allowed to use the
-API. If not, you will receive a 403 status code.
+### Docker
+Docker is used to build and run the application in a production environment. You
+can also use it to run in a development setting
 
 Third-party API clients
 -----------------------
@@ -96,18 +90,3 @@ make one in your language:
 * Ruby: https://github.com/studentorkesterfestivalen/kobra_client
 
 *Made a client and want it listed here? Submit a pull request!*
-
-Setting up a development environment
-------------------------------------
-These instructions assume you have Python >= 3.5 and Node.js installed. A
-virtualenv setup is strongly recommended.
-
-    pip install -r requirements.pip
-    npm install
-    npm run watch
-    ./manage.py runserver
-
-Design assumptions
-------------------
-* Ticket sales are not interesting per se, but utilized union member discounts
-are.

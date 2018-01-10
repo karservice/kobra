@@ -1,33 +1,33 @@
 import {fromJS, Map} from 'immutable'
 
 import {actionTypes} from './actions'
-import {
-  apiRequestIsFailure, apiRequestIsPending, apiRequestIsSuccess
-} from './api'
+import {actionErrorValues} from './api'
 
 const apiRequestStatusReducer = (state, action, path) => {
   return state
-    .setIn([path, '_isPending'], apiRequestIsPending(action))
+    .setIn([path, '_isPending'], action.error === actionErrorValues.PENDING)
     .setIn([path, '_error'],
-      apiRequestIsFailure(action) ? action.payload : null)
+      (action.error === actionErrorValues.FAILED) ? action.payload : null)
 }
 
 const apiRequestReducer = (state, action, path,
                            successReducer=(state, action, path) => (
                              action.payload.reduce((state, item) => (
-                               state.setIn([path, item.url], fromJS(item).set('_changes', Map()))
+                               state.setIn([path, item.url], fromJS(item))
                              ), state)
                            ),
                            failureReducer=(state, action, path) => (state),
                            pendingReducer=(state, action, path) => (state)) => {
   state = apiRequestStatusReducer(state, action, path)
 
-  if (apiRequestIsSuccess(action)) {
-    return successReducer(state, action, path)
-  } else if (apiRequestIsFailure(action)) {
-    return failureReducer(state, action, path)
-  } else {
-    return pendingReducer(state, action, path)
+  // We use the action.error property to indicate request status. See the API adapter.
+  switch (action.error) {
+    case actionErrorValues.SUCCESSFUL:
+      return successReducer(state, action, path)
+    case actionErrorValues.FAILED:
+      return failureReducer(state, action, path)
+    default:
+      return pendingReducer(state, action, path)
   }
 }
 
@@ -94,7 +94,7 @@ const reducer = (state = initialState, action) => {
       return apiRequestReducer(state, action, 'discountRegistrations')
 
     case actionTypes.GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY:
-      if (apiRequestIsSuccess(action)) {
+      if (action.error === actionErrorValues.SUCCESSFUL) {
         return state.setIn(['eventDiscountRegistrationSummaries', action.meta.event], fromJS(action.payload.map((item) => ({
           timespan: item.timespan,
           discountRegistrations: item.discount_registrations
@@ -102,7 +102,6 @@ const reducer = (state = initialState, action) => {
       } else {
         return state
       }
-
 
     case actionTypes.GET_EVENTS:
       return apiRequestReducer(state, action, 'events')
@@ -152,16 +151,10 @@ const reducer = (state = initialState, action) => {
       return state
         .setIn(['events', '_active'], action.payload)
 
-    case actionTypes.SET_ORGANIZATION_ADMINS:
-      return state.setIn(['organizations', action.payload.organizationUrl, '_changes', 'admins'], fromJS(action.payload.adminUrls))
-
-    case actionTypes.SET_ORGANIZATION_NAME:
-      return state.setIn(['organizations', action.payload.organizationUrl, '_changes', 'name'], fromJS(action.payload.value))
-
     case actionTypes.UNREGISTER_DISCOUNT:
       return apiRequestReducer(state, action, 'discountRegistrations',
         (state, action, path) => (
-          state.deleteIn([path, action.payload])
+          state.deleteIn([path, action.meta.discountRegistrationUrl])
         )
       )
 

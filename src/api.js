@@ -1,124 +1,103 @@
 import {Map} from 'immutable'
-import request from 'superagent'
 
 import {apiRoot} from './settings'
 import {getJwt} from './selectors'
 
-const apiAdapter = (state) => {
-  const requestObjectFactory = (method, path) => {
-    const requestObject = request(method, apiRoot.concat(path))
-      .accept('application/json')
+import { capture } from './errorHandler'
+import { getAuthToken } from './selectors'
 
-    const token = getJwt(state)
-    if (token) {
-      return requestObject.set('Authorization', 'JWT '.concat(token))
-    }
-
-    return requestObject
-  }
-
-  return {
-    delete: (path) => requestObjectFactory('DELETE', path),
-    get: (path) => requestObjectFactory('GET', path),
-    head: (path) => requestObjectFactory('HEAD', path),
-    post: (path) => requestObjectFactory('POST', path),
-    put: (path) => requestObjectFactory('PUT', path),
-    patch: (path) => requestObjectFactory('PATCH', path)
-  }
+const actionErrorValues = {
+  PENDING: null,
+  SUCCESSFUL: false,
+  FAILED: true
 }
 
-const apiRequestDispatcher = (actionType, apiRequest, dispatch, getState,
-  {successCallback, failureCallback, extraMeta={}}={}) => {
-  // A function used to dispatch the various actions used in API requests.
-  // todo: clean up the signature
+function ApiError(message, payload, extra) {
+  this.message = message
+  this.stack = (new Error()).stack
+  this.payload = payload
+  this.extra = extra
+}
+ApiError.prototype = new Error()
+ApiError.prototype.name = 'ApiError'
 
-  // This is reused, so make sure it is never mutated!
-  const action = {
+const fetchAction = ({actionType, url, options={}, extraMeta={}, extraSuccessCallback, useAuth=false}) => (dispatch, getState) => {
+  const baseAction = {
     type: actionType,
-    meta: Object.assign({}, {
-      _request: apiRequest
-    }, extraMeta)
+    meta: {
+      url,
+      ...extraMeta
+    }
   }
 
-  // Dispatch the request status action
-  dispatch(action)
-
-  // Perform the request and hook up callbacks
-  apiRequest
-    .then(
-      (resolvedResult) => {
-        // On DELETE requests, we need some kind of reference to the deleted
-        // object.
-        const payload = (resolvedResult.req.method === 'DELETE') ?
-          resolvedResult.xhr.responseURL : resolvedResult.body
-
-        dispatch(Object.assign({}, action, {
-          payload: payload,
-          meta: Object.assign({}, action.meta, {
-            _requestResult: resolvedResult
-          })
-        }))
-        if (successCallback) {
-          successCallback(resolvedResult)
-        }
-        return resolvedResult
-      },
-      (rejectedResult) => {
-        let error = new Error()
-
-        if (rejectedResult.response && rejectedResult.response.body) {
-          const responseBody = Object.assign({}, rejectedResult.response.body)
-
-          // The API is not terribly consistent. Some generic errors are in the
-          // detail property, some in non_field_errors.
-          if (responseBody.detail) {
-            error.message = responseBody.detail
-            delete responseBody.detail
-          } else if (responseBody.non_field_errors) {
-            error.message = responseBody.non_field_errors
-            delete responseBody.non_field_errors
-          }
-
-          // Set the rest of the properties of the response body to the fields
-          // attribute.
-          error.fields = responseBody
-        } else if (rejectedResult.status === undefined) {
-          error.message = "Couldn't communicate with the server. Check your " +
-            "connection and try again in a few moments."
-        } else if (rejectedResult.status === 500) {
-          error.message = "A server error occured. The issue has been " +
-            "reported and will hopefully be fixed soon. Please try again in " +
-            "a few moments."
-        } else {
-          error.message = rejectedResult.message
-        }
-
-        dispatch(Object.assign({}, action, {
-          error: true,
-          payload: error,
-          meta: Object.assign({}, action.meta, {
-            _requestResult: rejectedResult
-          })
-        }))
-
-        if (failureCallback) {
-          failureCallback(rejectedResult)
-        }
-        return rejectedResult
-      }
+  const dispatchSuccessful = (payload) => {
+    dispatch(
+      Object.assign({}, baseAction, {
+        error: actionErrorValues.SUCCESSFUL,
+        payload: payload
+      })
     )
-}
+    if (extraSuccessCallback) extraSuccessCallback(payload)
+  }
 
-const apiRequestIsFailure = (action) => (action.error === true)
-const apiRequestIsPending = (action) => (action.payload === undefined)
-const apiRequestIsSuccess = (action) => (
-  !apiRequestIsPending(action) && !apiRequestIsFailure(action)
-)
+  const dispatchFailed = (error) => dispatch(
+    Object.assign({}, baseAction, {
+      error: actionErrorValues.FAILED,
+      payload: error
+    })
+  )
+
+  let defaultOptions = {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }
+  const authToken = getJwt(getState())
+  if (useAuth && authToken) {
+    defaultOptions.headers['Authorization'] = `JWT ${authToken}`
+  }
+
+  dispatch(Object.assign({}, baseAction, {
+    error: actionErrorValues.PENDING
+  }))
+
+  return fetch(url, Object.assign({}, defaultOptions, options))
+    .then((response) => {
+      // Note that fetch resolves on any successful HTTP request, i.e. 4xx and
+      // 5xx as well.
+
+      // Empty response (in case of DELETE requests)
+      if (response.status === 204) return dispatchSuccessful(null)
+
+      return response.json().then((payload) => {
+        // Is the status code 200-299?
+        if (response.ok) {
+          return dispatchSuccessful(payload)
+        } else {
+          const err = new ApiError(payload.detail ? payload.detail : response.statusText, payload, {url, options})
+          capture(err)
+          return dispatchFailed(err)
+        }
+      }, (error) => {
+        // We've got something other than a JSON body. Just use the generic
+        // statusText in dispatch. error.message is probably more interesting
+        // technically, though.
+        const apiError = new ApiError(response.statusText, error, {url, options})
+        capture(apiError)
+        return dispatchFailed(apiError)
+      })
+    }, (error) => {
+      // We have a communication problem. response is a TypeError.
+      const apiError = new ApiError(error.message, error, {url, options})
+      // Opbeat really don't want a TypeError
+      capture(apiError)
+      return dispatchFailed(apiError)
+    })
+}
 
 export {
-  apiAdapter,
-  apiRequestDispatcher,
-  apiRequestIsFailure,
-  apiRequestIsPending,
-  apiRequestIsSuccess
+  actionErrorValues,
+  ApiError,
+  fetchAction
 }

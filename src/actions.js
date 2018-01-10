@@ -1,4 +1,5 @@
-import {apiAdapter, apiRequestDispatcher} from './api'
+import {fetchAction} from './api'
+import {apiRoot} from './settings'
 import * as selectors from './selectors'
 
 export const actionTypes = {
@@ -18,84 +19,75 @@ export const actionTypes = {
   UNREGISTER_DISCOUNT: 'UNREGISTER_DISCOUNT'
 }
 
-export const getDiscounts = () => (dispatch, getState) => apiRequestDispatcher(
-  actionTypes.GET_DISCOUNTS,
-  apiAdapter(getState()).get('discounts/'),
-  dispatch, getState
-)
+export const getDiscounts = () => fetchAction({
+  actionType: actionTypes.GET_DISCOUNTS,
+  url: `${apiRoot}discounts/`,
+  useAuth: true
+})
 
 export const getDiscountRegistrations = () => (dispatch, getState) => {
-  const state = getState()
-  const studentId = selectors.getStudent(state).get('id')
+  const studentId = selectors.getStudent(getState()).get('id')
 
-  const apiRequest = apiAdapter(state)
-    .get('discount-registrations/')
-    .query({
-      'student': studentId
-    })
-
-  return apiRequestDispatcher(
-    actionTypes.GET_DISCOUNT_REGISTRATIONS, apiRequest, dispatch, getState
-  )
+  return fetchAction({
+    actionType: actionTypes.GET_DISCOUNT_REGISTRATIONS,
+    url: `${apiRoot}discount-registrations/?student=${studentId}`,
+    useAuth: true
+  })(dispatch, getState)
 }
 
-export const getEvents = () => (dispatch, getState) => apiRequestDispatcher(
-  actionTypes.GET_EVENTS,
-  apiAdapter(getState()).get('events/'),
-  dispatch, getState
-)
+export const getEvents = () => fetchAction({
+  actionType: actionTypes.GET_EVENTS,
+  url: `${apiRoot}events/`,
+  useAuth: true
+})
 
-export const getEventDiscountRegistrationSummary = (eventUrl) => (dispatch, getState) => apiRequestDispatcher(
-  actionTypes.GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY,
-  apiAdapter(getState())
-    .get('discount-registrations/summary/')
-    .query({
-      'event': selectors.getAllEvents(getState()).get(eventUrl).get('id')
-    }),
-  dispatch, getState,
-  {extraMeta: {event: eventUrl}}
-)
+export const getEventDiscountRegistrationSummary = (eventUrl) => (dispatch, getState) => {
+  const eventId = selectors.getAllEvents(getState()).get(eventUrl).get('id')
 
-export const getOrganizations = () => (dispatch, getState) => apiRequestDispatcher(
-  actionTypes.GET_ORGANIZATIONS,
-  apiAdapter(getState()).get('organizations/'),
-  dispatch, getState
-)
-
-export const getStudent = (searchString, {successCallback=null, failureCallback=null}={}) => (dispatch, getState) => {
-  // This function is a "thunk", i.e. it returns a callback taking dispatch and
-  // getState. See the documentation on thunk middleware for more info.
-  return apiRequestDispatcher(
-    actionTypes.GET_STUDENT,
-    apiAdapter(getState()).get('students/'.concat(searchString, '/')),
-    dispatch, getState, {
-      successCallback: successCallback, failureCallback: failureCallback
-    })
+  return fetchAction({
+    actionType: actionTypes.GET_EVENT_DISCOUNT_REGISTRATION_SUMMARY,
+    url: `${apiRoot}discount-registrations/summary/?event=${eventId}`,
+    extraMeta: {event: eventUrl},
+    useAuth: true,
+  })(dispatch, getState)
 }
+
+export const getOrganizations = () => fetchAction({
+  actionType: actionTypes.GET_ORGANIZATIONS,
+  url: `${apiRoot}organizations/`,
+  useAuth: true,
+})
+
+export const getStudent = (searchString, successCallback) => fetchAction({
+  actionType: actionTypes.GET_STUDENT,
+  url: `${apiRoot}students/${searchString}/`,
+  useAuth: true,
+  extraSuccessCallback: successCallback,
+})
 
 export const getStudentAndDiscountRegistrations = (searchString) => (dispatch, getState) => {
-  dispatch(getStudent(searchString, {successCallback: () => {
+  dispatch(getStudent(searchString, () => {
     dispatch(getDiscountRegistrations())
-  }}))
+  }))
 }
 
-export const getTicketTypes = () => (dispatch, getState) => apiRequestDispatcher(
-  actionTypes.GET_TICKET_TYPES,
-  apiAdapter(getState()).get('ticket-types/'),
-  dispatch, getState
-)
+export const getTicketTypes = () => fetchAction({
+  actionType: actionTypes.GET_TICKET_TYPES,
+  url: `${apiRoot}ticket-types/`,
+  useAuth: true,
+})
 
-export const getUnions = () => (dispatch, getState) => apiRequestDispatcher(
-  actionTypes.GET_UNIONS,
-  apiAdapter(getState()).get('unions/'),
-  dispatch, getState
-)
+export const getUnions = () => fetchAction({
+  actionType: actionTypes.GET_UNIONS,
+  url: `${apiRoot}unions/`,
+  useAuth: true,
+})
 
-export const getUsers = () => (dispatch, getState) => apiRequestDispatcher(
-  actionTypes.GET_USERS,
-  apiAdapter(getState()).get('users/'),
-  dispatch, getState
-)
+export const getUsers = () => fetchAction({
+  actionType: actionTypes.GET_USERS,
+  url: `${apiRoot}users/`,
+  useAuth: true,
+})
 
 export const getStaticEntities = () => (dispatch, getState) => {
   dispatch(getDiscounts())
@@ -106,56 +98,52 @@ export const getStaticEntities = () => (dispatch, getState) => {
   dispatch(getUsers())
 }
 
-export const logIn = (email, password) => (dispatch, getState) => (
-  apiRequestDispatcher(
-    actionTypes.LOG_IN,
-    apiAdapter(getState())
-      .post('auth/jwt/')
-      .send({
-        email: email,
-        password: password
-      }),
-    dispatch, getState, {
-      successCallback: (result) => {
-        dispatch(getStaticEntities())
-      }
-    }
-  )
-)
+export const logIn = (email, password) => (dispatch, getState) => fetchAction({
+  actionType: actionTypes.LOG_IN,
+  url: `${apiRoot}auth/jwt/`,
+  options: {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password
+    })
+  },
+  extraSuccessCallback: (payload) => {
+    dispatch(getStaticEntities())
+  }
+})(dispatch, getState)
 
-export const logInSocial = (provider, code, redirectUri) => (dispatch, getState) => (
-  apiRequestDispatcher(
-    actionTypes.LOG_IN,
-    apiAdapter(getState())
-      .post('auth/social/jwt/')
-      .send({
-        provider,
-        code,
-        redirect_uri: redirectUri
-      }),
-    dispatch, getState, {
-      successCallback: (result) => {
-        dispatch(getStaticEntities())
-      }
-    }
-  )
-)
+export const logInSocial = (provider, code, redirectUri) => (dispatch, getState) => fetchAction({
+  actionType: actionTypes.LOG_IN,
+  url: `${apiRoot}auth/social/jwt/`,
+  options: {
+    method: 'POST',
+    body: JSON.stringify({
+      provider,
+      code,
+      redirect_uri: redirectUri
+    })
+  },
+  extraSuccessCallback: (payload) => {
+    dispatch(getStaticEntities())
+  }
+})(dispatch, getState)
 
 export const logOut = () => ({
   type: actionTypes.LOG_OUT
 })
 
-export const refreshJwt = (jwt, successCallback) => (dispatch, getState) => (
-  apiRequestDispatcher(
-    actionTypes.LOG_IN,
-    apiAdapter(getState())
-      .post('auth/jwt/refresh/')
-      .send({
-        token: jwt || selectors.getJwt(getState())
-      }),
-    dispatch, getState, {successCallback}
-  )
-)
+export const refreshJwt = (jwt, successCallback) => (dispatch, getState) => fetchAction({
+  actionType: actionTypes.LOG_IN,
+  url: `${apiRoot}auth/jwt/refresh/`,
+  options: {
+    method: 'POST',
+    body: JSON.stringify({
+      token: jwt || selectors.getJwt(getState())
+    })
+  },
+  extraSuccessCallback: successCallback
+})(dispatch, getState)
 
 export const logInUsingJwt = (jwt) => (dispatch, getState) => (
   refreshJwt(jwt, (result) => {
@@ -166,24 +154,32 @@ export const logInUsingJwt = (jwt) => (dispatch, getState) => (
 export const registerDiscount = (discountUrl) => (dispatch, getState) => {
   const studentUrl = selectors.getStudent(getState()).get('url')
 
-  apiRequestDispatcher(
-    actionTypes.REGISTER_DISCOUNT,
-    apiAdapter(getState())
-      .post('discount-registrations/')
-      .send({ student: studentUrl, discount: discountUrl }),
-    dispatch, getState
-  )
+  return fetchAction({
+    actionType: actionTypes.REGISTER_DISCOUNT,
+    url: `${apiRoot}discount-registrations/`,
+    options: {
+      method: 'POST',
+      body: JSON.stringify({
+        student: studentUrl,
+        discount: discountUrl,
+      }),
+    },
+    useAuth: true,
+  })(dispatch, getState)
 }
 
-export const unregisterDiscount = (discountRegistration) => (dispatch, getState) => (
-  apiRequestDispatcher(
-    actionTypes.UNREGISTER_DISCOUNT,
-    apiAdapter(getState())
-      .delete('discount-registrations/'.concat(
-        discountRegistration.get('id'), '/')),
-    dispatch, getState
-  )
-)
+export const unregisterDiscount = (discountRegistration) => fetchAction({
+  actionType: actionTypes.UNREGISTER_DISCOUNT,
+  url: `${apiRoot}discount-registrations/${discountRegistration.get('id')}/`,
+  options: {
+    method: 'DELETE',
+  },
+  extraMeta: {
+    discountRegistrationUrl: discountRegistration.get('url'),
+  },
+  useAuth: true,
+})
+
 
 
 export const setEvent = (value) => ({

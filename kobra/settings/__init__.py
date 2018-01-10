@@ -179,6 +179,17 @@ STATICFILES_DIRS = (
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Only sets SECURE_PROXY_SSL_HEADER if explicitly defined. The format of
+# KOBRA_SECURE_PROXY_HEADER is <header>=<value>, where <value> is the value of
+# the HTTP header <header> set by the proxy on secure (i.e. HTTPS) requests.
+# Example value: HTTP_X_FORWARDED_PROTO=https
+# Read https://docs.djangoproject.com/en/1.11/ref/settings/#secure-proxy-ssl-header
+_SECURE_PROXY_SSL_HEADER = env.str('KOBRA_SECURE_PROXY_HEADER', default=None)
+SECURE_PROXY_SSL_HEADER = (
+    tuple(_SECURE_PROXY_SSL_HEADER.split('=', 1))
+    if _SECURE_PROXY_SSL_HEADER else None
+)
+
 LOGGING = {
     'version': 1,
     # This is THE log config. This makes sense since we use a root logger.

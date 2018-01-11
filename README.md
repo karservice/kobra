@@ -6,9 +6,10 @@ Kobra
 
 Setting up a development environment
 ------------------------------------
-This project uses [Pipenv](https://docs.pipenv.org) and Yarn/NPM to manage its
-dependencies and development environments. Read up on their basic usage, install
-them and run the following commands:
+This project uses [Pipenv](https://docs.pipenv.org) and
+[Yarn](https://yarnpkg.com/en/) to manage its dependencies and development
+environments. Read up on their basic usage, install them and run the following
+commands:
 
 ```sh
 cp example.env .env
@@ -27,8 +28,10 @@ pipenv run django-admin migrate
 pipenv run django-admin runserver
 ```
 
-Alternatively, you can use Docker:
+Alternatively, you can use Docker Compose:
 ```sh
+docker-compose build
+docker-compose run --rm app django-admin migrate
 docker-compose up
 ```
 
@@ -77,9 +80,13 @@ of student data. The client implementation is provided by the
 by the [python-social-auth-liu](https://github.com/ovidner/python-social-auth-liu)
 package.
 
-### Docker
-Docker is used to build and run the application in a production environment. You
-can also use it to run in a development setting
+### Build and runtime environments
+Docker is used to build and run the application in a production environment (see
+the dedicated, private repo for this). You can also use it to run in a
+development setting, preferably using Docker Compose (see the instructions
+above). The `Dockerfile` as well as the Docker Compose definitions (in this repo
+and the production dito) are *by themselves* considered the documentation for
+how to get the application to build and run.
 
 Third-party API clients
 -----------------------

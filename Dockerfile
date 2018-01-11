@@ -6,6 +6,7 @@ ENV APP_ROOT=/app
 # PIP_NO_CACHE_DIR=false actually means *no cache*. Wat.
 ENV DJANGO_SETTINGS_MODULE=kobra.settings.production \
     GUNICORN_CONFIG=${APP_ROOT}/gunicorn-conf.py \
+    PATH=${APP_ROOT}/bin:${PATH} \
     PIP_NO_CACHE_DIR=false \
     PIPENV_DONT_LOAD_ENV=true \
     PYTHONUNBUFFERED=true

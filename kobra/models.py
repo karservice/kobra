@@ -318,6 +318,11 @@ class TicketType(models.Model):
     def __str__(self):
         return '{} / {}'.format(self.event, self.name)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        for union in Union.objects.all():
+            Discount.objects.get_or_create(ticket_type=self, union=union)
+
 
 class Union(models.Model):
     id = IdField()

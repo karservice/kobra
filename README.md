@@ -80,6 +80,15 @@ of student data. The client implementation is provided by the
 by the [python-social-auth-liu](https://github.com/ovidner/python-social-auth-liu)
 package.
 
+### Permissions
+The default permissions model is deliberately kept simple. Any user with a LiU
+ID may log in with their LiU ID credentials. However, the user must be added as
+an organization administrator before any meaningful queries can be carried out.
+When added as an admin for *any* organization, the user may query for student
+data and perform discount registrations for all of the organization's events.
+Existing administrators may also add and remove other administrators for the
+organization.
+
 ### Build and runtime environments
 Docker is used to build and run the application in a production environment (see
 the dedicated, private repo for this). You can also use it to run in a

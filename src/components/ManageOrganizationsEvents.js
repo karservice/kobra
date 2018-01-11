@@ -76,7 +76,7 @@ const ManageOrganizationsEvents = connect(mapStateToProps)(class extends React.C
             </div>
           )
         })}
-        <EventDiscountSummaryModal show={this.state.action === 'viewEventDiscountSummary'} eventUrl={this.state.entityUrl} onHide={() => this.setState({action: null, entityUrl: null})}/>
+        <EventDiscountSummaryModal show={this.state.action === 'viewEventDiscountSummary'} eventUrl={this.state.entityUrl} onHide={this.close()}/>
         <OrganizationModal show={this.state.action === 'editOrganization'} organizationUrl={this.state.entityUrl} onHide={this.close()}/>
       </Page>
     )

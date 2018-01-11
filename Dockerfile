@@ -25,7 +25,7 @@ COPY package.json yarn.lock ${APP_ROOT}/
 RUN yarn install && \
     yarn cache clean
 
-COPY . ${APP_ROOT}
+COPY . ${APP_ROOT}/
 
 RUN pip3 install -e ${APP_ROOT} && \
     yarn build && \

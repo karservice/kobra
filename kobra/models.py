@@ -241,14 +241,12 @@ class Student(models.Model):
         verbose_name=_('LiU LIN'))
 
     # Mifare cards can have 7 byte UIDs, so we need the 8 bytes available in a
-    # bigint
+    # bigint. This field *must not* be used for anything else than caching. It
+    # is never guaranteed to be up-to-date and must not be disclosed publicly.
     mifare_id = models.BigIntegerField(
         null=True,
         blank=True,
-        verbose_name=_('Mifare ID'),
-        help_text=_('This field *must not* be used for anything else than '
-                    'caching. It is never guaranteed to be up-to-date and must '
-                    'not be disclosed publicly.'))
+        verbose_name=_('Mifare ID'))
 
     union = models.ForeignKey(
         'Union',

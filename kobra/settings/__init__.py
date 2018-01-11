@@ -237,20 +237,18 @@ LOGGING = {
 
 # Backend Opbeat config
 OPBEAT_BACKEND = OPBEAT = {
-    'ORGANIZATION_ID': env.str('KOBRA_OPBEAT_BACKEND_ORGANIZATION_ID', ''),
+    'ORGANIZATION_ID': env.str('KOBRA_OPBEAT_BACKEND_ORG_ID', ''),
     'APP_ID': env.str('KOBRA_OPBEAT_BACKEND_APP_ID', ''),
     'SECRET_TOKEN': env.str('KOBRA_OPBEAT_BACKEND_SECRET_TOKEN', ''),
     'TRANSACTIONS_IGNORE_PATTERNS': [
-        'views.health_view'
+        'views.health_view',
     ],
-    'DEBUG': True
 }
 
 # Frontend Opbeat config
 OPBEAT_FRONTEND = {
-    'ORGANIZATION_ID': env.str('KOBRA_OPBEAT_FRONTEND_ORGANIZATION_ID', ''),
+    'ORGANIZATION_ID': env.str('KOBRA_OPBEAT_FRONTEND_ORG_ID', ''),
     'APP_ID': env.str('KOBRA_OPBEAT_FRONTEND_APP_ID', ''),
-    'SECRET_TOKEN': env.str('KOBRA_OPBEAT_FRONTEND_SECRET_TOKEN', ''),
 }
 
 SESAM_USERNAME = env.str('KOBRA_SESAM_USERNAME', '')

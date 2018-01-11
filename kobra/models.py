@@ -64,7 +64,8 @@ class Discount(models.Model):
     union = models.ForeignKey(
         'Union',
         related_name='discounts')
-    amount = MoneyField()
+    amount = MoneyField(
+        default=0)
 
     class Meta:
         unique_together = [['ticket_type', 'union']]

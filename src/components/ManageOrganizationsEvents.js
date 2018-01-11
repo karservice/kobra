@@ -2,7 +2,7 @@ import React from 'react'
 import {Button, ButtonToolbar, Media} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
-import {EventDiscountSummaryModal, Page} from './'
+import {EventDiscountSummaryModal, OrganizationModal, Page} from './'
 import * as selectors from '../selectors'
 
 const mapStateToProps = (state) => ({
@@ -81,9 +81,9 @@ const ManageOrganizationsEvents = connect(mapStateToProps)(class extends React.C
               <h1>
                 {organization.get('name')}
               </h1>
-              {/*<ButtonToolbar>
+              <ButtonToolbar>
                 <Button bsStyle="primary" onClick={this.editOrganization(organization.get('url'))}>Edit organization</Button>
-              </ButtonToolbar>*/}
+              </ButtonToolbar>
               {organizationEvents.map((event) => (
                 <Media>
                   <Media.Body>
@@ -100,7 +100,7 @@ const ManageOrganizationsEvents = connect(mapStateToProps)(class extends React.C
         })}
         {/*<EventModal show={this.state.action === 'editEvent'} onHide={() => this.setState({action: null})}/>*/}
         <EventDiscountSummaryModal show={this.state.action === 'viewEventDiscountSummary'} eventUrl={this.state.entityUrl} onHide={() => this.setState({action: null, entityUrl: null})}/>
-        {/*<OrganizationModal show={this.state.action === 'editOrganization'} onHide={() => this.setState({action: null})}/>*/}
+        <OrganizationModal show={this.state.action === 'editOrganization'} organizationUrl={this.state.entityUrl} onHide={this.close()}/>
       </Page>
     )
   }

@@ -44,8 +44,3 @@ class OrganizationPermissionFilter(DjangoFilterBackend):
 class TicketTypePermissionFilter(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         return queryset.filter(event__organization__admins=request.user)
-
-
-class UserPermissionFilter(DjangoFilterBackend):
-    def filter_queryset(self, request, queryset, view):
-        return queryset.filter(pk=request.user.pk)

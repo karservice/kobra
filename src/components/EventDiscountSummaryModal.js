@@ -32,7 +32,7 @@ const EventDiscountSummaryModal = connect(mapStateToProps, mapDispatchToProps)(c
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.eventUrl && newProps.eventUrl !== this.props.eventUrl) {
+    if (newProps.show && newProps.eventUrl && newProps.eventUrl !== this.props.eventUrl) {
       this.props.getEventDiscountRegistrationSummary(newProps.eventUrl)
     }
   }

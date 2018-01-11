@@ -56,5 +56,5 @@ rules.add_perm('kobra.delete_tickettype',
 
 rules.add_perm('kobra.view_union', rules.is_authenticated)
 
-rules.add_perm('kobra.view_user',
-               (is_authenticated_model_level | predicates.is_user_admin))
+rules.add_perm('kobra.view_user', (rules.is_authenticated &
+                                   predicates.is_any_organization_admin))

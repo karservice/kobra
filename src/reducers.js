@@ -51,10 +51,6 @@ const initialState = Map.of(
   'unions', initialCollectionMap,
   'users', initialCollectionMap
     .set('_active', null)
-    .set('_new', Map.of(
-      'email', '',
-      'name', ''
-    ))
 )
 
 const reducer = (state = initialState, action) => {

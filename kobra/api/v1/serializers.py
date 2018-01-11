@@ -141,7 +141,8 @@ class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
         fields = [
             'url',
             'id',
-            'name'
+            'name',
+            'admins',
         ]
 
 

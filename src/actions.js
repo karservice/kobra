@@ -15,6 +15,7 @@ export const actionTypes = {
   LOG_IN: 'LOG_IN',
   LOG_OUT: 'LOG_OUT',
   REGISTER_DISCOUNT: 'REGISTER_DISCOUNT',
+  SAVE_ORGANIZATION: 'SAVE_ORGANIZATION',
   SET_EVENT: 'SET_EVENT',
   UNREGISTER_DISCOUNT: 'UNREGISTER_DISCOUNT'
 }
@@ -180,9 +181,23 @@ export const unregisterDiscount = (discountRegistration) => fetchAction({
   useAuth: true,
 })
 
-
-
 export const setEvent = (value) => ({
   type: actionTypes.SET_EVENT,
   payload: value || null  // Change empty strings from HTML forms to null
 })
+
+export const saveOrganization = (organizationId, name, adminUrls) => (dispatch, getState) => fetchAction({
+  actionType: actionTypes.SAVE_ORGANIZATION,
+  url: `${apiRoot}organizations/${organizationId}/`,
+  options: {
+    method: 'PATCH',
+    body: JSON.stringify({
+      name,
+      admins: adminUrls,
+    })
+  },
+  useAuth: true,
+  extraSuccessCallback: () => {
+    dispatch(getStaticEntities())
+  }
+})(dispatch, getState)

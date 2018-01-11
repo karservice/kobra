@@ -140,10 +140,9 @@ class UnionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.UnionSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
-    filter_backends = [filters.UserPermissionFilter]
 
 
 class UserTokenView(JWTAuthMixin, BaseSocialAuthView):

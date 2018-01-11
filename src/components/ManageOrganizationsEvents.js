@@ -19,8 +19,6 @@ const ManageOrganizationsEvents = connect(mapStateToProps)(class extends React.C
     }
 
     this.close = this.close.bind(this)
-    this.createEvent = this.createEvent.bind(this)
-    this.editEvent = this.editEvent.bind(this)
     this.editOrganization = this.editOrganization.bind(this)
     this.viewEventDiscountSummary = this.viewEventDiscountSummary.bind(this)
   }
@@ -30,24 +28,6 @@ const ManageOrganizationsEvents = connect(mapStateToProps)(class extends React.C
       this.setState({
         action: null,
         entityUrl: null
-      })
-    }
-  }
-
-  createEvent() {
-    return (domEvent) => {
-      this.setState({
-        action: 'createEvent',
-        entityUrl: null
-      })
-    }
-  }
-
-  editEvent(eventUrl) {
-    return (domEvent) => {
-      this.setState({
-        action: 'editEvent',
-        entityUrl: eventUrl
       })
     }
   }
@@ -73,7 +53,6 @@ const ManageOrganizationsEvents = connect(mapStateToProps)(class extends React.C
   render() {
     return (
       <Page title="Manage organizations and events">
-        {/*<Button bsStyle="success">Create event</Button>*/}
         {this.props.organizations.map((organization) => {
           const organizationEvents = this.props.events.filter((event) => (event.get('organization') === organization.get('url')))
           return (
@@ -90,7 +69,6 @@ const ManageOrganizationsEvents = connect(mapStateToProps)(class extends React.C
                     <Media.Heading>{event.get('name')}</Media.Heading>
                     <ButtonToolbar>
                       <Button bsStyle="info" onClick={this.viewEventDiscountSummary(event.get('url'))}>View discount summary</Button>
-                      {/*<Button bsStyle="primary" onClick={this.editEvent(event.get('url'))}>Edit event</Button>*/}
                     </ButtonToolbar>
                   </Media.Body>
                 </Media>
@@ -98,7 +76,6 @@ const ManageOrganizationsEvents = connect(mapStateToProps)(class extends React.C
             </div>
           )
         })}
-        {/*<EventModal show={this.state.action === 'editEvent'} onHide={() => this.setState({action: null})}/>*/}
         <EventDiscountSummaryModal show={this.state.action === 'viewEventDiscountSummary'} eventUrl={this.state.entityUrl} onHide={() => this.setState({action: null, entityUrl: null})}/>
         <OrganizationModal show={this.state.action === 'editOrganization'} organizationUrl={this.state.entityUrl} onHide={this.close()}/>
       </Page>

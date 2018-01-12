@@ -1,10 +1,6 @@
-import {Map} from 'immutable'
-
-import {apiRoot} from './settings'
 import {getJwt} from './selectors'
 
 import { capture } from './errorHandler'
-import { getAuthToken } from './selectors'
 
 const actionErrorValues = {
   PENDING: null,

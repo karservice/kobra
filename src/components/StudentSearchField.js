@@ -7,8 +7,15 @@ const keys = /^[a-z0-9]$/
 // Unicode IDs for numbers and uppercase letters.
 const keyIdentifiers = /^U\+00(3[0-9]|4[1-9A-F]|5[0-9A])$/
 
-const StudentSearchField = React.createClass({
-  handleKeyDown: function (event) {
+const StudentSearchField = class extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.createRefToInputField = this.createRefToInputField.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
+  }
+
+  handleKeyDown(event) {
     if (
       (
         // If this field is active already, we ignore this event.
@@ -26,21 +33,21 @@ const StudentSearchField = React.createClass({
     ) {
       this.inputField.focus()
     }
-  },
+  }
 
-  createRefToInputField: function (ref) {
+  createRefToInputField(ref) {
     this.inputField = findDOMNode(ref)
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown)
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown)
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <FormGroup>
         <ControlLabel>Student identifier</ControlLabel>
@@ -54,12 +61,6 @@ const StudentSearchField = React.createClass({
       </FormGroup>
     )
   }
-})
-
-StudentSearchField.propTypes = {
-  changeHandler: React.PropTypes.func.isRequired,
-  disabled: React.PropTypes.bool,
-  value: React.PropTypes.string.isRequired
 }
 
 export {StudentSearchField}

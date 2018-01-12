@@ -7,8 +7,7 @@ const MainFooter = (props) => (
     <Row>
       <Col sm={4}>
         <p className="text-muted">
-          Provided by <a href="http://www.karservice.se/"
-                         target="_blank">Kårservice Östergötland AB</a>
+          Provided by <a href="http://www.karservice.se/">Kårservice Östergötland AB</a>
         </p>
       </Col>
       <Col sm={8} />

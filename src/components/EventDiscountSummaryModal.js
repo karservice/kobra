@@ -27,10 +27,6 @@ const mapDispatchToProps = (dispatch, props) => ({
 })
 
 const EventDiscountSummaryModal = connect(mapStateToProps, mapDispatchToProps)(class extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentWillReceiveProps(newProps) {
     if (newProps.show && newProps.eventUrl && newProps.eventUrl !== this.props.eventUrl) {
       this.props.getEventDiscountRegistrationSummary(newProps.eventUrl)

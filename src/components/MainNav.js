@@ -1,9 +1,8 @@
 import React from 'react'
 import {MenuItem, Nav, NavDropdown, NavItem, Navbar} from 'react-bootstrap'
-import FontAwesome from 'react-fontawesome'
 import {connect} from 'react-redux'
 import {IndexLink} from 'react-router'
-import {IndexLinkContainer, LinkContainer} from 'react-router-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
 
 import * as actions from '../actions'
 import * as selectors from '../selectors'

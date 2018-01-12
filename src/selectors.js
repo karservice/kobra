@@ -1,5 +1,3 @@
-import {List} from 'immutable'
-
 import {intersection} from './utils'
 
 const isNotMeta = (value, key) => !key.startsWith('_')

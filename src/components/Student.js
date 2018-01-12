@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Col, Row, Well} from 'react-bootstrap'
+import {Well} from 'react-bootstrap'
 
 import * as selectors from '../selectors'
 import {UnionIndicator} from './'

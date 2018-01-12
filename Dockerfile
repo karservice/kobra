@@ -29,7 +29,7 @@ COPY . ${APP_ROOT}/
 
 RUN pip3 install -e ${APP_ROOT} && \
     yarn build && \
-    KOBRA_DATABASE_URL=sqlite://// KOBRA_SECRET_KEY=build django-admin collectstatic --no-input
+    KOBRA_DATABASE_URL=sqlite://:memory: KOBRA_SECRET_KEY=build KOBRA_NO_DATABASE=true django-admin collectstatic --no-input
 
 EXPOSE 80
 CMD ["kobra-interface-server"]

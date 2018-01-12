@@ -33,6 +33,10 @@ INSTALLED_APPS = [
     'kobra',
 ]
 
+# Used to disable certain features when running without database, such as during
+# build
+NO_DATABASE = env.bool('KOBRA_NO_DATABASE', default=False)
+
 MIDDLEWARE = [
     # Security first!
     'django.middleware.security.SecurityMiddleware',

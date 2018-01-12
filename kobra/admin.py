@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.models import Group
@@ -24,7 +25,9 @@ class DiscountRegistrationAdmin(admin.ModelAdmin):
 
 class TicketTypeInline(admin.TabularInline):
     model = models.TicketType
-    form = ticket_type_form_factory()
+    # Django checks fail without database due to the dynamic nature of the
+    # ticket type form
+    form = ticket_type_form_factory() if not settings.NO_DATABASE else forms.ModelForm
     extra = 0
     min_num = 1
 

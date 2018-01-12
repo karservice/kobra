@@ -17,15 +17,17 @@ pipenv install -d
 yarn
 ```
 
-You may want to adapt the `.env` file to your preferences. To make student
-lookups, you will need *Sesam* credentials.
+You may want to adapt the `.env` file to your preferences. Always using
+`pipenv shell` or `pipenv run <command>` will make sure that the environment is
+always set correctly. To make student lookups, you will need *Sesam*
+credentials.
 
-To build and run a development server, run
+To start a development server, run
 
 ```sh
-yarn build
-pipenv run django-admin migrate
-pipenv run django-admin runserver
+pipenv shell
+django-admin migrate
+yarn dev
 ```
 
 This will start a development server listening on port 3000 and launch your

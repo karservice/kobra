@@ -28,12 +28,14 @@
     "react-scripts": "^1.0.17"
   },
   "scripts": {
+    "django-start": "django-admin runserver 8000",
     "react-build": "react-scripts build",
     "react-start": "react-scripts start",
     "sass-build": "node-sass src/index.scss --include-path node_modules/bootstrap-sass/assets/stylesheets --output src",
     "sass-watch": "run-s 'sass-build' 'sass-build --watch'",
     "build": "run-s 'sass-build' 'react-build'",
     "start": "run-p 'sass-watch' 'react-start'",
+    "dev": "run-p 'start' 'django-start'",
     "eject": "react-scripts eject",
     "test": "react-scripts test --env=jsdom"
   },

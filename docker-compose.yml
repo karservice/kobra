@@ -7,18 +7,30 @@ services:
     depends_on:
       - postgres
     environment:
-      KOBRA_DATABASE_URL: postgres://kobra:kobra-pass@postgres/kobra
-      KOBRA_SECRET_KEY: very-secret-key
+      # Key-only variables will be inferred from the calling environment
+      - DJANGO_SETTINGS_MODULE
+      - KOBRA_ADFS_CLIENT_ID
+      - KOBRA_ADFS_HOST
+      - KOBRA_OPBEAT_BACKEND_APP_ID
+      - KOBRA_OPBEAT_BACKEND_ORG_ID
+      - KOBRA_OPBEAT_BACKEND_SECRET_TOKEN
+      - KOBRA_OPBEAT_FRONTEND_APP_ID
+      - KOBRA_OPBEAT_FRONTEND_ORG_ID
+      - KOBRA_SECRET_KEY
+      - KOBRA_SESAM_DATA_AGE_THRESHOLD
+      - KOBRA_SESAM_PASSWORD
+      - KOBRA_SESAM_USERNAME
+      - KOBRA_DATABASE_URL=postgres://kobra:kobra-pass@postgres/kobra
     ports:
-      - 8000:80
+      - 80:80
 
   postgres:
     image: sameersbn/postgresql:9.6
     environment:
-      DB_USER: kobra
-      DB_PASS: kobra-pass
-      DB_NAME: kobra
-      REPLICATION_MODE: master
-      REPLICATION_USER: kobra-replication
-      REPLICATION_PASS: kobra-replication-pass
-      REPLICATION_SSLMODE: prefer
+      - DB_USER=kobra
+      - DB_PASS=kobra-pass
+      - DB_NAME=kobra
+      - REPLICATION_MODE=master
+      - REPLICATION_USER=kobra-replication
+      - REPLICATION_PASS=kobra-replication-pass
+      - REPLICATION_SSLMODE=prefer

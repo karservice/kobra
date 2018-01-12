@@ -28,15 +28,19 @@ pipenv run django-admin migrate
 pipenv run django-admin runserver
 ```
 
-Alternatively, you can use Docker Compose:
+This will start a development server listening on port 3000 and launch your
+browser with hot-reloading on frontend changes.
+
+Alternatively, you can use Docker Compose to more closely mimic a production
+scenario:
 ```sh
+pipenv shell
 docker-compose build
 docker-compose run --rm app django-admin migrate
 docker-compose up
 ```
 
-Using either method, the development server should be available at
-http://localhost:8000.
+This will start the web server on port 80.
 
 ### ADFS
 The application must be available at http://dev.kobra.karservice.se (on port 80)

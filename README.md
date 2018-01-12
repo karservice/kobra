@@ -27,6 +27,7 @@ To start a development server, run
 ```sh
 pipenv shell
 django-admin migrate
+django-admin createsuperuser
 yarn dev
 ```
 
@@ -39,6 +40,7 @@ scenario:
 pipenv shell
 docker-compose build
 docker-compose run --rm app django-admin migrate
+docker-compose run --rm app django-admin createsuperuser
 docker-compose up
 ```
 

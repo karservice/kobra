@@ -69,18 +69,15 @@ def ticket_type_form_factory():
                 }
             super().__init__(*args, **kwargs)
 
-        def save(self, commit=True):
-            instance = super().save(commit=commit)
-            if commit:
-                for (union_alias, union) in unions.items():
-                    models.Discount.objects.update_or_create(
-                        ticket_type=instance,
-                        union=union,
-                        defaults=dict(
-                            amount=self.cleaned_data[f'{field_name_prefix}{union_alias}'] or 0,
-                        ),
-                    )
-
-            return instance
+        def _save_m2m(self):
+            super()._save_m2m()
+            for (union_alias, union) in unions.items():
+                models.Discount.objects.update_or_create(
+                    ticket_type=self.instance,
+                    union=union,
+                    defaults=dict(
+                        amount=self.cleaned_data[f'{field_name_prefix}{union_alias}'] or 0,
+                    ),
+                )
 
     return TicketTypeForm
